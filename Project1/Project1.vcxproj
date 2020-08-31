@@ -36,7 +36,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FC92C1E4-E18F-4444-8325-7B5BF30BB8C1}</ProjectGuid>
     <RootNamespace>Project1</RootNamespace>
-    <ProjectName>crypto++</ProjectName>
+    <ProjectName>crypto--</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
