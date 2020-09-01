@@ -63,6 +63,7 @@ int main(int argc, char* argv[])
 	cout << "3.ECDSA签名及STS密钥协商协议" << endl;
 	cout << "4.ElGamal数字签名" << endl;
 	cout << "5.SHA256哈希散列算法" << endl;
+	cout << "6.RC4流式加解密算法" << endl;
 	cin >> index;
 	cout << "请输入要计算文件的位置" << endl;
 	cin >> szFullPath;
@@ -576,6 +577,21 @@ int main(int argc, char* argv[])
 		printf("%s\n", tempT);
 	}break;
 	case 5: {
+		string path;
+		mp_int s;
+		size_t written;
+		mp_init(&s);
+		cout << "请输入要计算散列值文件的位置：";
+		cin >> path;
+		string a = sha256.ShaFile(path);
+		mp_read_radix(&s, a.c_str(), 10);
+		char tempSHA[800] = { 0 };
+		printf("SHA是:\n");
+		mp_to_radix(&s, tempSHA, SIZE_MAX, &written, 0x10);
+		printf("%s\n", tempSHA);
+
+	}break;
+	case 6: {
 		string path;
 		mp_int s;
 		size_t written;
