@@ -1,13 +1,32 @@
+#define _CRT_RAND_S  
+#include <stdlib.h>  
+#include<iostream>
+#include <fstream>
 #include"aes.h"
 #include"ecc.h"
 #include"tools.h"
 #include "sts.h"
 #include "sha256.h"
-#include<iostream>
-#include <fstream>
 
 using namespace std;
 
+
+string GetRandList(int len)
+{
+	unsigned int number;
+	int err;
+	char strRandomList[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '!', '@', '#', '$', '%', '&', '*', '_' };
+	string pwd = "";
+	for (int i = 0; i < len; i++)
+	{
+		err = rand_s(&number);
+		if (err != 0) {
+			printf_s("The rand_s function failed!\n");
+		}
+		pwd += strRandomList[number%70];//随机取strRandomList 的项值
+	}
+	return pwd;
+}
 
 void ex_Eulid(mp_int* a, mp_int* b, mp_int* a1, mp_int* b1, mp_int* temp3) {
 	if (mp_cmp_d(b, 0) == 0) {
@@ -31,64 +50,99 @@ void ex_Eulid(mp_int* a, mp_int* b, mp_int* a1, mp_int* b1, mp_int* temp3) {
 }
 
 
-int main()
+int main(int argc, char* argv[])
 {
 
 	SHA256 sha256;
-	int i = 0;
+	int index, ret;
+	char szFullPath[_MAX_PATH], szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFileName[_MAX_FNAME], szExt[_MAX_EXT];
+	std::string fullPath;
 	cout << "crypto++" << endl;
 	cout << "1.AES加解密" << endl;
 	cout << "2.ECC加解密" << endl;
 	cout << "3.ECDSA签名及STS密钥协商协议" << endl;
 	cout << "4.ElGamal数字签名" << endl;
 	cout << "5.SHA256哈希散列算法" << endl;
-	cin >> i;
-	switch (i)
+	cin >> index;
+	cout << "请输入要计算文件的位置" << endl;
+	cin >> szFullPath;
+	ret = _splitpath_s(szFullPath, szDrive, szDrive ? _MAX_DRIVE : 0, szDir, szDir ? _MAX_DIR : 0, szFileName, szFileName ? _MAX_FNAME : 0, szExt, szExt ? _MAX_EXT : 0);
+	if (ret)return ret;
+	fullPath += szDrive ? szDrive : "";
+	fullPath += szDir ? szDir : "";
+	switch (index)
 	{
 	case 1: {
 		AES a;
-		string keyStr = "abcdefghijklmnop";
+		string keyStr;
 		byte key[16];
-		charToByte(key, keyStr);
 		// 密钥扩展
 		word w[4 * (Nr + 1)];
-		a.KeyExpansion(key, w);
-
 		bitset<128> data;
 		byte plain[16];
-		// 将文件 flower.jpg 加密到 cipher.txt 中
 		ifstream in;
 		ofstream out;
-		in.open("Tardis.png", ios::binary);
-		out.open("cipher.txt", ios::binary);
-		while (in.read((char*)&data, sizeof(data)))
+		cout << "1.加密" << endl;
+		cout << "2.解密" << endl;
+		cin >> index;
+		switch (index)
 		{
-			divideToByte(plain, data);
-			a.encrypt(plain, w);
-			data = mergeByte(plain);
-			out.write((char*)&data, sizeof(data));
-			data.reset();  // 置0
+		case 1:
+			fullPath += szFileName?szFileName:"";
+			fullPath += "cipher.txt";
+			keyStr = GetRandList(16);
+			cout <<"密钥为："<< keyStr;
+			charToByte(key, keyStr);
+			a.KeyExpansion(key, w);
+			in.open(szFullPath, ios::binary);
+			out.open(fullPath, ios::binary);
+			while (in.read((char*)&data, sizeof(data)))
+			{
+				divideToByte(plain, data);
+				a.encrypt(plain, w);
+				data = mergeByte(plain);
+				out.write((char*)&data, sizeof(data));
+				data.reset();  // 置0
+			}
+			in.close();
+			out.close();
+			break;
+		case 2:
+			std::string outFName;
+			cout << "2.解密" << endl;
+			cout << "输入解密后的文件名（形似hello.cpp）" << endl;
+			cin >> outFName;
+			fullPath += outFName;
+			cout << "请输入密钥：";
+			cin >> keyStr;
+			if (keyStr.size() == 16) {
+				charToByte(key, keyStr);
+				a.KeyExpansion(key, w);
+				// 解密 cipher.txt，并写入图片 flower1.jpg
+				in.open(szFullPath, ios::binary);
+				out.open(fullPath, ios::binary);
+				while (in.read((char*)&data, sizeof(data)))
+				{
+					divideToByte(plain, data);
+					a.decrypt(plain, w);
+					data = mergeByte(plain);
+					out.write((char*)&data, sizeof(data));
+					data.reset();  // 置0
+				}
+				in.close();
+				out.close();
+			}
+			else
+				cout << "密钥长度有误";
+			break;
 		}
-		in.close();
-		out.close();
 
-		// 解密 cipher.txt，并写入图片 flower1.jpg
-		in.open("D://cipher.txt", ios::binary);
-		out.open("D://Tardis1.jpg", ios::binary);
-		while (in.read((char*)&data, sizeof(data)))
-		{
-			divideToByte(plain, data);
-			a.decrypt(plain, w);
-			data = mergeByte(plain);
-			out.write((char*)&data, sizeof(data));
-			data.reset();  // 置0
-		}
-		in.close();
-		out.close();
+
+
 
 		return 0;
-			}
-			break;
+	}
+		  break;
 	case 2: {
 		ECC e;
 		size_t written;
@@ -191,7 +245,7 @@ int main()
 		mp_clear(&QX);
 		mp_clear(&QY);
 		mp_clear(&P);//Fp中的p(有限域P)
-			}break;
+	}break;
 	case 3: {
 		ECC ecc;
 		STS sts;
@@ -319,7 +373,7 @@ int main()
 		mp_to_radix(&d, tempD, SIZE_MAX, &written, 10);
 		printf("%s\n", tempD);
 
-L:
+	L:
 		mp_rand(&k, 10);
 		while (mp_cmp(&k, &n) == 1)
 			mp_div_2(&k, &k);
@@ -444,7 +498,7 @@ L:
 		mp_clear(&temp);
 		mp_clear(&u1);
 		mp_clear(&u2);
-			}break;
+	}break;
 	case 4: {
 		ECC ecc;
 		STS sts;
@@ -519,7 +573,7 @@ L:
 		printf("k*k**-1 mod p是:\n");
 		mp_to_radix(&a1, tempT, SIZE_MAX, &written, 10);
 		printf("%s\n", tempT);
-			}break;
+	}break;
 	case 5: {
 		string path;
 		mp_int s;
@@ -534,7 +588,7 @@ L:
 		mp_to_radix(&s, tempSHA, SIZE_MAX, &written, 0x10);
 		printf("%s\n", tempSHA);
 
-			}break;
+	}break;
 	default:
 		break;
 	}
