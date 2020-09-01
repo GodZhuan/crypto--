@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 {
 
 	SHA256 sha256;
-	int index, ret;
+	int index,enDoIndex, ret;
 	char szFullPath[_MAX_PATH], szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFileName[_MAX_FNAME], szExt[_MAX_EXT];
 	std::string fullPath;
 	cout << "crypto++" << endl;
@@ -68,8 +68,24 @@ int main(int argc, char* argv[])
 	cin >> szFullPath;
 	ret = _splitpath_s(szFullPath, szDrive, szDrive ? _MAX_DRIVE : 0, szDir, szDir ? _MAX_DIR : 0, szFileName, szFileName ? _MAX_FNAME : 0, szExt, szExt ? _MAX_EXT : 0);
 	if (ret)return ret;
+	cout << "1.加密" << endl;
+	cout << "2.解密" << endl;
+	cin >> enDoIndex;
 	fullPath += szDrive ? szDrive : "";
 	fullPath += szDir ? szDir : "";
+	switch (enDoIndex)
+	{
+	case 1:
+		fullPath += szFileName ? szFileName : "";
+		fullPath += "cipher.txt";
+		break;
+	case 2:
+		std::string outFName;
+		cout << "输入解密后的文件名（形似hello.cpp）" << endl;
+		cin >> outFName;
+		fullPath += outFName;
+		break;
+	}
 	switch (index)
 	{
 	case 1: {
@@ -82,14 +98,9 @@ int main(int argc, char* argv[])
 		byte plain[16];
 		ifstream in;
 		ofstream out;
-		cout << "1.加密" << endl;
-		cout << "2.解密" << endl;
-		cin >> index;
-		switch (index)
+		switch (enDoIndex)
 		{
 		case 1:
-			fullPath += szFileName?szFileName:"";
-			fullPath += "cipher.txt";
 			keyStr = GetRandList(16);
 			cout <<"密钥为："<< keyStr;
 			charToByte(key, keyStr);
@@ -108,11 +119,6 @@ int main(int argc, char* argv[])
 			out.close();
 			break;
 		case 2:
-			std::string outFName;
-			cout << "2.解密" << endl;
-			cout << "输入解密后的文件名（形似hello.cpp）" << endl;
-			cin >> outFName;
-			fullPath += outFName;
 			cout << "请输入密钥：";
 			cin >> keyStr;
 			if (keyStr.size() == 16) {
@@ -136,11 +142,6 @@ int main(int argc, char* argv[])
 				cout << "密钥长度有误";
 			break;
 		}
-
-
-
-
-		return 0;
 	}
 		  break;
 	case 2: {
@@ -225,7 +226,7 @@ int main(int argc, char* argv[])
 
 		printf("\n------------------------------------------------------------------------\n");
 
-		e.Ecc_encipher(&QX, &QY, &GX, &GY, &A, &P);//加密
+		e.Ecc_encipher(&QX, &QY, &GX, &GY, &A, &P,szFullPath);//加密
 
 		printf("\n------------------------------------------------------------------------\n");
 

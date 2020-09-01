@@ -413,10 +413,8 @@ int ECC::putin(mp_int* a, char* ch, int chlong)
 	return MP_OKAY;
 }
 
-
-void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a, mp_int* p) {  //公钥X、Y坐标，曲线G点X、Y坐标，曲线参数A，有限域P
-
-
+void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a, mp_int* p, char* inPath, string outPath)
+{
 	mp_int mx, my;
 	mp_int c1x, c1y;
 	mp_int c2x, c2y;
@@ -442,17 +440,17 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 
 	GetPrime(&r, 100);
 
-	char filehead[60], filefoot[20], filename[85] = { 0 };
-	cout << "请输入您要加密文件的存放路径和文件名(如:  c:\\000\\大整数运算  ):" << endl;
-	cin >> filehead;
-	cout << "请输入您要加密文件的扩展名(如:  .doc  ):" << endl;
-	cin >> filefoot;
-	strcpy_s(filename, filehead);
-	strcat_s(filename, filefoot);
+	//char filehead[60], filefoot[20], filename[85] = { 0 };
+	//cout << "请输入您要加密文件的存放路径和文件名(如:  c:\\000\\大整数运算  ):" << endl;
+	//cin >> filehead;
+	//cout << "请输入您要加密文件的扩展名(如:  .doc  ):" << endl;
+	//cin >> filefoot;
+	//strcpy_s(filename, filehead);
+	//strcat_s(filename, filefoot);
 
 
 	//打开要加密文件
-	if (fopen_s(&fp, filename, "rb"))
+	if (fopen_s(&fp, inPath, "rb"))
 	{
 		printf("can not open the file!");
 		exit(1);
@@ -478,14 +476,14 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 	//printf("%d\n",Frequency);  
 	//printf("%d\n",Residue);  
 
-	char filemi[85];
-	strcpy_s(filemi, filehead);
-	strcat_s(filemi, "密文");
-	strcat_s(filemi, filefoot);
+	//char filemi[85];
+	//strcpy_s(filemi, filehead);
+	//strcat_s(filemi, "密文");
+	//strcat_s(filemi, filefoot);
 
 
 	//打开保存密文文件
-	if (fopen_s(&fq, filemi, "wb"))
+	if (fopen_s(&fq, outPath.c_str(), "wb"))
 	{
 		printf("can not open the file!\n");
 		exit(1);
@@ -567,7 +565,7 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 
 	cout << "\nok!加密完毕!" << endl;
 	cout << "密文以二进制保存" << endl;
-	cout << "密文存放路径为  " << filemi << endl;
+	cout << "密文存放路径为  " << outPath << endl;
 
 
 	fclose(fq);
@@ -584,6 +582,7 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 
 
 }
+
 
 //取密文
 
@@ -657,7 +656,7 @@ int ECC::chdraw(mp_int* a, char* ch)
 
 }
 
-void ECC::Ecc_decipher(mp_int* k, mp_int* a, mp_int* p) {
+void ECC::Ecc_decipher(mp_int* k, mp_int* a, mp_int* p,char* inPath, string outPath) {
 
 	mp_int c1x, c1y;
 	mp_int c2x, c2y;

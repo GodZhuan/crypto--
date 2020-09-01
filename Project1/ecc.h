@@ -59,9 +59,9 @@ public:
 	//把读取的字符存入mp_int型数
 	int putin(mp_int* a, char* ch, int chlong);
 	//ECC加密
-	void Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a, mp_int* p);
+	void Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a, mp_int* p, char* inPath,string outPath);
 	//ECC解密
-	void Ecc_decipher(mp_int* k, mp_int* a, mp_int* p);
+	void Ecc_decipher(mp_int* k, mp_int* a, mp_int* p,char* inPath, string outPath);
 	//实现将mp_int数a中的比特串还原为字符串并赋给字符串ch：
 	int chdraw(mp_int* a, char* ch);
 	//取密文
