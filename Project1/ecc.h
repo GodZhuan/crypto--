@@ -27,6 +27,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <iostream>
+#include <fstream>
 #include "tommath.h"
 #include <time.h>
 using namespace std;
@@ -61,7 +62,7 @@ public:
 	//ECCº”√‹
 	void Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a, mp_int* p, char* inPath,string outPath);
 	//ECC√‹‘ø±£¥Ê
-	void Ecc_saveKey(mp_int* k, mp_int* a, mp_int* p, string outPath);
+	void Ecc_saveKey(char* tempK, char* tempA, char* temp, string outPath);
 	//ECC√‹‘ø∂¡»°
 	void Ecc_loadKey(mp_int* k, mp_int* a, mp_int* p, string inPath);
 	//ECCΩ‚√‹

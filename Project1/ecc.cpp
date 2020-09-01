@@ -567,21 +567,18 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 
 }
 
-void ECC::Ecc_saveKey(mp_int* k, mp_int* a, mp_int* p, string outPath)
+void ECC::Ecc_saveKey(char* tempK, char* tempA, char* temp, string outPath)
 {
 	FILE* fq;
 	outPath+="privateKey.txt";
-	if (fopen_s(&fq, outPath.c_str(), "wb"))
+	ofstream out(outPath, ios::in);
+	if (out.is_open())
 	{
-		printf("can not open the file!\n");
-		exit(1);
-	}
-	fprintf(fq, "\nk:");
-	mp_fwrite(k, 10, fq);
-	fprintf(fq, "\na:");
-	mp_fwrite(a, 10, fq);
-	fprintf(fq, "\np:");
-	mp_fwrite(p, 10, fq);
+		out << tempK<<"\n";
+		out << tempA << "\n";
+		out << temp << "\n";
+		out.close();
+	}	
 }
 
 void ECC::Ecc_loadKey(mp_int* k, mp_int* a, mp_int* p, string inPath)

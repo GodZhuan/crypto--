@@ -177,6 +177,7 @@ int main(int argc, char* argv[])
 		char tempB[800] = { 0 };
 		char tempGX[800] = { 0 };
 		char tempGY[800] = { 0 };
+		char tempK[800] = { 0 };
 		char tempQX[800] = { 0 };
 		char tempQY[800] = { 0 };
 
@@ -216,7 +217,6 @@ int main(int argc, char* argv[])
 			mp_to_radix(&GY, tempGY, SIZE_MAX, &written, 10);
 			printf("%s\n", tempGY);
 			if (!e.GetPrime(&K, KEY_LONG)) {
-				char tempK[800] = { 0 };
 				printf("私钥 K 是:\n");
 				mp_to_radix(&K, tempK, SIZE_MAX, &written, 10);
 				printf("%s\n", tempK);
@@ -233,7 +233,7 @@ int main(int argc, char* argv[])
 			printf("%s\n", tempQY);
 
 			//传入密钥和密钥文件所在文件夹
-			e.Ecc_saveKey(&K, &A, &P, dirPath);
+			e.Ecc_saveKey(tempK, tempA, temp, dirPath);
 
 			printf("\n------------------------------------------------------------------------\n");
 			e.Ecc_encipher(&QX, &QY, &GX, &GY, &A, &P, szFullPath, fullPath);//加密
