@@ -60,6 +60,10 @@ public:
 	int putin(mp_int* a, char* ch, int chlong);
 	//ECC加密
 	void Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a, mp_int* p, char* inPath,string outPath);
+	//ECC密钥保存
+	void Ecc_saveKey(mp_int* k, mp_int* a, mp_int* p, string outPath);
+	//ECC密钥读取
+	void Ecc_loadKey(mp_int* k, mp_int* a, mp_int* p, string inPath);
 	//ECC解密
 	void Ecc_decipher(mp_int* k, mp_int* a, mp_int* p,char* inPath, string outPath);
 	//实现将mp_int数a中的比特串还原为字符串并赋给字符串ch：

@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
 	SHA256 sha256;
 	int index,enDoIndex, ret;
 	char szFullPath[_MAX_PATH], szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFileName[_MAX_FNAME], szExt[_MAX_EXT];
-	std::string fullPath;
+	std::string fullPath,dirPath;
 	cout << "crypto++" << endl;
 	cout << "1.AES加解密" << endl;
 	cout << "2.ECC加解密" << endl;
@@ -72,11 +72,12 @@ int main(int argc, char* argv[])
 	cout << "1.加密" << endl;
 	cout << "2.解密" << endl;
 	cin >> enDoIndex;
-	fullPath += szDrive ? szDrive : "";
-	fullPath += szDir ? szDir : "";
+	dirPath += szDrive ? szDrive : "";
+	dirPath += szDir ? szDir : "";
 	switch (enDoIndex)
 	{
 	case 1:
+		fullPath = dirPath;
 		fullPath += szFileName ? szFileName : "";
 		fullPath += "cipher.txt";
 		break;
@@ -171,74 +172,79 @@ int main(int argc, char* argv[])
 		mp_init(&QX);
 		mp_init(&QY);
 		mp_init(&P);
-
-
-		time_t t;
-		srand((unsigned)time(&t));
-
-		printf("椭圆曲线的参数如下(以十进制显示):\n");
-
-		e.GetPrime(&P, P_LONG);
-		printf("有限域 P 是:\n");
 		char temp[800] = { 0 };
-		mp_to_radix(&P, temp, SIZE_MAX, &written, 10);
-		printf("%s\n", temp);
-
-		e.GetPrime(&A, 30);
 		char tempA[800] = { 0 };
-		printf("曲线参数 A 是:\n");
-		mp_to_radix(&A, tempA, SIZE_MAX, &written, 10);
-		printf("%s\n", tempA);
-
-		e.Get_B_X_Y(&GX, &GY, &B, &A, &P);
-
 		char tempB[800] = { 0 };
-		printf("曲线参数 B 是:\n");
-		mp_to_radix(&B, tempB, SIZE_MAX, &written, 10);
-		printf("%s\n", tempB);
-
 		char tempGX[800] = { 0 };
-		printf("曲线G点X坐标是:\n");
-		mp_to_radix(&GX, tempGX, SIZE_MAX, &written, 10);
-		printf("%s\n", tempGX);
-
 		char tempGY[800] = { 0 };
-		printf("曲线G点Y坐标是:\n");
-		mp_to_radix(&GY, tempGY, SIZE_MAX, &written, 10);
-		printf("%s\n", tempGY);
-		if (!e.GetPrime(&K, KEY_LONG)) {
-			char tempK[800] = { 0 };
-			printf("私钥 K 是:\n");
-			mp_to_radix(&K, tempK, SIZE_MAX, &written, 10);
-			printf("%s\n", tempK);
-		};
-		e.Ecc_points_mul(&QX, &QY, &GX, &GY, &K, &A, &P);
-
 		char tempQX[800] = { 0 };
-		printf("公钥X坐标是:\n");
-		mp_to_radix(&QX, tempQX, SIZE_MAX, &written, 10);
-		printf("%s\n", tempQX);
-
 		char tempQY[800] = { 0 };
-		printf("公钥Y坐标是:\n");
-		mp_to_radix(&QY, tempQY, SIZE_MAX, &written, 10);
-		printf("%s\n", tempQY);
 
 
-		printf("\n------------------------------------------------------------------------\n");
+		switch (enDoIndex)
+		{
+		case 1:
+			time_t t;
+			srand((unsigned)time(&t));
 
-		e.Ecc_encipher(&QX, &QY, &GX, &GY, &A, &P,szFullPath,fullPath);//加密
+			printf("椭圆曲线的参数如下(以十进制显示):\n");
 
-		printf("\n------------------------------------------------------------------------\n");
+			e.GetPrime(&P, P_LONG);
+			printf("有限域 P 是:\n");
+			
+			mp_to_radix(&P, temp, SIZE_MAX, &written, 10);
+			printf("%s\n", temp);
 
-		e.Ecc_decipher(&K, &A, &P, szFullPath, fullPath);//解密
+			e.GetPrime(&A, 30);
 
-		printf("\n------------------------------------------------------------------------\n");
+			printf("曲线参数 A 是:\n");
+			mp_to_radix(&A, tempA, SIZE_MAX, &written, 10);
+			printf("%s\n", tempA);
 
-		char cc;
-		cout << "\n\n请击一键退出!\n";
-		cin >> cc;
+			e.Get_B_X_Y(&GX, &GY, &B, &A, &P);
 
+			
+			printf("曲线参数 B 是:\n");
+			mp_to_radix(&B, tempB, SIZE_MAX, &written, 10);
+			printf("%s\n", tempB);
+			
+			printf("曲线G点X坐标是:\n");
+			mp_to_radix(&GX, tempGX, SIZE_MAX, &written, 10);
+			printf("%s\n", tempGX);
+			
+			printf("曲线G点Y坐标是:\n");
+			mp_to_radix(&GY, tempGY, SIZE_MAX, &written, 10);
+			printf("%s\n", tempGY);
+			if (!e.GetPrime(&K, KEY_LONG)) {
+				char tempK[800] = { 0 };
+				printf("私钥 K 是:\n");
+				mp_to_radix(&K, tempK, SIZE_MAX, &written, 10);
+				printf("%s\n", tempK);
+			};
+
+			e.Ecc_points_mul(&QX, &QY, &GX, &GY, &K, &A, &P);
+			
+			printf("公钥X坐标是:\n");
+			mp_to_radix(&QX, tempQX, SIZE_MAX, &written, 10);
+			printf("%s\n", tempQX);
+			
+			printf("公钥Y坐标是:\n");
+			mp_to_radix(&QY, tempQY, SIZE_MAX, &written, 10);
+			printf("%s\n", tempQY);
+
+			//传入密钥和密钥文件所在文件夹
+			e.Ecc_saveKey(&K, &A, &P, dirPath);
+
+			printf("\n------------------------------------------------------------------------\n");
+			e.Ecc_encipher(&QX, &QY, &GX, &GY, &A, &P, szFullPath, fullPath);//加密
+			
+			break;
+		case 2:
+			printf("\n------------------------------------------------------------------------\n");
+			e.Ecc_decipher(&K, &A, &P, szFullPath, fullPath);//解密
+
+			break;
+		}
 		mp_clear(&GX);
 		mp_clear(&GY);
 		mp_clear(&K);//私有密钥

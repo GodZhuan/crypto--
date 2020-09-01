@@ -567,6 +567,27 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 
 }
 
+void ECC::Ecc_saveKey(mp_int* k, mp_int* a, mp_int* p, string outPath)
+{
+	FILE* fq;
+	outPath+="privateKey.txt";
+	if (fopen_s(&fq, outPath.c_str(), "wb"))
+	{
+		printf("can not open the file!\n");
+		exit(1);
+	}
+	fprintf(fq, "\nk:");
+	mp_fwrite(k, 10, fq);
+	fprintf(fq, "\na:");
+	mp_fwrite(a, 10, fq);
+	fprintf(fq, "\np:");
+	mp_fwrite(p, 10, fq);
+}
+
+void ECC::Ecc_loadKey(mp_int* k, mp_int* a, mp_int* p, string inPath)
+{
+}
+
 
 //»°√‹Œƒ
 
