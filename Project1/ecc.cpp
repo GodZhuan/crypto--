@@ -569,7 +569,6 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 
 void ECC::Ecc_saveKey(char* tempK, char* tempA, char* temp, string outPath)
 {
-	FILE* fq;
 	outPath+="privateKey.txt";
 	ofstream out(outPath, ios::in);
 	if (out.is_open())
@@ -583,6 +582,22 @@ void ECC::Ecc_saveKey(char* tempK, char* tempA, char* temp, string outPath)
 
 void ECC::Ecc_loadKey(mp_int* k, mp_int* a, mp_int* p, string inPath)
 {
+	char tempK[800] = { 0 };
+	char tempA[800] = { 0 };
+	char temp[800] = { 0 };
+	inPath += "privateKey.txt";
+	ifstream ifile(inPath, ios::out);
+	if (ifile.fail())
+		cout << "The file does not exist";
+	else{
+		ifile.getline(tempK, 800);
+		ifile.getline(tempA, 800);
+		ifile.getline(temp, 800);
+		ifile.close();
+	}
+	mp_read_radix(k, tempK, 10);
+	mp_read_radix(a, tempA, 10);
+	mp_read_radix(p, temp, 10);
 }
 
 
