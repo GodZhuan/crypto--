@@ -226,11 +226,11 @@ int main(int argc, char* argv[])
 
 		printf("\n------------------------------------------------------------------------\n");
 
-		e.Ecc_encipher(&QX, &QY, &GX, &GY, &A, &P,szFullPath);//加密
+		e.Ecc_encipher(&QX, &QY, &GX, &GY, &A, &P,szFullPath,fullPath);//加密
 
 		printf("\n------------------------------------------------------------------------\n");
 
-		e.Ecc_decipher(&K, &A, &P);//解密
+		e.Ecc_decipher(&K, &A, &P, szFullPath, fullPath);//解密
 
 		printf("\n------------------------------------------------------------------------\n");
 

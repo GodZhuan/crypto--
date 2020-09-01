@@ -440,15 +440,6 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 
 	GetPrime(&r, 100);
 
-	//char filehead[60], filefoot[20], filename[85] = { 0 };
-	//cout << "请输入您要加密文件的存放路径和文件名(如:  c:\\000\\大整数运算  ):" << endl;
-	//cin >> filehead;
-	//cout << "请输入您要加密文件的扩展名(如:  .doc  ):" << endl;
-	//cin >> filefoot;
-	//strcpy_s(filename, filehead);
-	//strcat_s(filename, filefoot);
-
-
 	//打开要加密文件
 	if (fopen_s(&fp, inPath, "rb"))
 	{
@@ -458,8 +449,8 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 
 	unsigned int FileLong = 0;//文件字符长度
 	char ChTem;//临时字符变
-	int Frequency = 0;
-	int Residue = 0;
+	int Frequency = 0;//取明文字节数的次数
+	int Residue = 0;//取明文字节后的剩余部分
 
 	while (!feof(fp))//找文件字符长度
 	{
@@ -473,13 +464,6 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 	Residue = FileLong % EN_LONG;
 
 	int enlongtemp = EN_LONG / 2;
-	//printf("%d\n",Frequency);  
-	//printf("%d\n",Residue);  
-
-	//char filemi[85];
-	//strcpy_s(filemi, filehead);
-	//strcat_s(filemi, "密文");
-	//strcat_s(filemi, filefoot);
 
 
 	//打开保存密文文件
@@ -496,10 +480,10 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 	for (i = 0; i < Frequency; i++)
 	{
 
-		fread(miwenx, 1, enlongtemp, fp);//读入字符串
+		fread(miwenx, 1, enlongtemp, fp);//读入字符串，EN_LONG的一半
 		miwenx[enlongtemp] = char(255);
 
-		fread(miweny, 1, enlongtemp, fp);//读入字符串
+		fread(miweny, 1, enlongtemp, fp);//读入字符串，EN_LONG的一半
 		miweny[enlongtemp] = char(255);
 
 		putin(&mx, miwenx, enlongtemp + 1);//文件存入         
@@ -683,29 +667,29 @@ void ECC::Ecc_decipher(mp_int* k, mp_int* a, mp_int* p,char* inPath, string outP
 	bool zero = false;
 
 
-	char filehead[60], filefoot[20], filename[85] = { 0 };
-	cout << "请输入您要解密的文件的存放路径和文件名(如:  c:\\000\\大整数运算  ):" << endl;
-	cin >> filehead;
-	cout << "请输入您要解密的文件的扩展名(如:  .doc  ):" << endl;
-	cin >> filefoot;
-	strcpy_s(filename, filehead);
-	strcat_s(filename, filefoot);
+	//char filehead[60], filefoot[20], filename[85] = { 0 };
+	//cout << "请输入您要解密的文件的存放路径和文件名(如:  c:\\000\\大整数运算  ):" << endl;
+	//cin >> filehead;
+	//cout << "请输入您要解密的文件的扩展名(如:  .doc  ):" << endl;
+	//cin >> filefoot;
+	//strcpy_s(filename, filehead);
+	//strcat_s(filename, filefoot);
 
-	printf("\n开始解密\n");
+	//printf("\n开始解密\n");
 
-	if (fopen_s(&fp, filename, "rb"))
+	if (fopen_s(&fp, inPath, "rb"))
 	{
 		printf("can not open the file!");
 		exit(1);
 	}
 
-	//打开保存解密结果文件
-	char filemi[80];
-	strcpy_s(filemi, filehead);
-	strcat_s(filemi, "解密");
-	strcat_s(filemi, filefoot);
+	////打开保存解密结果文件
+	//char filemi[80];
+	//strcpy_s(filemi, filehead);
+	//strcat_s(filemi, "解密");
+	//strcat_s(filemi, filefoot);
 
-	if ((fopen_s(&fq,filemi, "wb")))
+	if ((fopen_s(&fq,outPath.c_str(), "wb")))
 	{
 		printf("can not open the file!");
 		exit(1);
@@ -798,7 +782,7 @@ void ECC::Ecc_decipher(mp_int* k, mp_int* a, mp_int* p,char* inPath, string outP
 	}
 
 	cout << "\nok!解密完毕!" << endl;
-	cout << "解密后的文字存放路径为  " << filemi << endl;
+	cout << "解密后的文字存放路径为  " << outPath << endl;
 
 	fclose(fq);
 	fclose(fp);
