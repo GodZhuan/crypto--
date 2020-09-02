@@ -62,8 +62,9 @@ int main(int argc, char* argv[])
 	cout << "2.ECC加解密" << endl;
 	cout << "3.ECDSA签名及STS密钥协商协议" << endl;
 	cout << "4.ElGamal数字签名" << endl;
-	cout << "5.SHA256哈希散列算法" << endl;
-	cout << "6.RC4流式加解密算法" << endl;
+	cout << "5.SHA256哈希散列" << endl;
+	cout << "6.RC4流式加解密" << endl;
+	cout << "6.DES加解密" << endl;
 	cin >> index;
 	cout << "请输入要计算文件的位置" << endl;
 	cin >> szFullPath;
@@ -730,9 +731,9 @@ int main(int argc, char* argv[])
 		printf("a**k mod p是:\n");
 		mp_to_radix(&r, tempR, SIZE_MAX, &written, 10);
 		printf("%s\n", tempR);
-		cout << "请输入要计算散列值的文件的位置：";
-		cin >> path;
-		string str = sha256.ShaFile(path);
+		//cout << "请输入要计算散列值的文件的位置：";
+		//cin >> path;
+		string str = sha256.ShaFile(szFullPath);
 		mp_read_radix(&sha, str.c_str(), 10);
 		char tempSHA[800] = { 0 };
 		printf("SHA是:\n");
