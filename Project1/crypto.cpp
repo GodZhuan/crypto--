@@ -258,6 +258,7 @@ int main(int argc, char* argv[])
 		ECC ecc;
 		STS sts;
 		int lon;
+		mp_err err;
 		size_t written;
 
 		mp_int p;//p为安全素数
@@ -272,10 +273,6 @@ int main(int argc, char* argv[])
 
 		mp_int K;//sA**rB mod p
 
-		const char* rP = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F";
-		const char* rGX = "79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798";
-		const char* rGY = "483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8";
-		const char* rn = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141";
 		mp_int GX;//基点G的x坐标
 		mp_int GY;//基点G的y坐标
 		mp_int n;//基点G的阶
@@ -311,49 +308,215 @@ int main(int argc, char* argv[])
 		mp_int u2;//rs**(-1)mod n
 
 		string path;
+		const char* rP = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F";
+		const char* rGX = "79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798";
+		const char* rGY = "483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8";
+		const char* rn = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141";
 
-		mp_init(&Hm);
-		mp_init(&s);
-		mp_init(&p);
-		mp_init(&a);
-		mp_init(&rA);
-		mp_init(&sA);
-		mp_init(&rB);
-		mp_init(&sB);
-		mp_init(&K);
-		mp_init(&GX);
-		mp_init(&GY);
-		mp_init_set(&n, 1);
-		mp_init_set(&h, 1);
-		mp_init(&d);
-		mp_init(&k);
-		mp_init_set(&A, 0);
-		mp_init_set(&B, 7);
-		mp_init(&PX);
-		mp_init(&PY);
-		mp_init(&X1);
-		mp_init(&Y1);
-		mp_init(&u1X);
-		mp_init(&u1Y);
-		mp_init(&u2X);
-		mp_init(&u2Y);
-		mp_init(&X2);
-		mp_init(&Y2);
-		mp_init(&v);
-		mp_init(&r);
-		mp_init(&P);
-		mp_init(&k1);
-		mp_init(&s1);
-		mp_init(&n1);
-		mp_init(&temp);
-		mp_init(&u1);
-		mp_init(&u2);
-		int err;
+
+		if ((err = mp_init(&Hm)) != MP_OKAY) {
+			printf("Error initializing the Hm. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&s)) != MP_OKAY) {
+			printf("Error initializing the s. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&p)) != MP_OKAY) {
+			printf("Error initializing the p. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&a)) != MP_OKAY) {
+			printf("Error initializing the a. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&rA)) != MP_OKAY) {
+			printf("Error initializing the rA. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&sA)) != MP_OKAY) {
+			printf("Error initializing the sA. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&rB)) != MP_OKAY) {
+			printf("Error initializing the rB. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&sB)) != MP_OKAY) {
+			printf("Error initializing the sB. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&K)) != MP_OKAY) {
+			printf("Error initializing the K. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&GX)) != MP_OKAY) {
+			printf("Error initializing the GX. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&GY)) != MP_OKAY) {
+			printf("Error initializing the GY. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init_set(&n, 1)) != MP_OKAY) {
+			printf("Error initializing the n. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init_set(&h, 1)) != MP_OKAY) {
+			printf("Error initializing the h. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&d)) != MP_OKAY) {
+			printf("Error initializing the d. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&k)) != MP_OKAY) {
+			printf("Error initializing the k. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init_set(&A, 0)) != MP_OKAY) {
+			printf("Error initializing the A. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init_set(&B, 7)) != MP_OKAY) {
+			printf("Error initializing the B. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&PX)) != MP_OKAY) {
+			printf("Error initializing the PX. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&PY)) != MP_OKAY) {
+			printf("Error initializing the PY. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&X1)) != MP_OKAY) {
+			printf("Error initializing the X1. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&Y1)) != MP_OKAY) {
+			printf("Error initializing the Y1. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&u1X)) != MP_OKAY) {
+			printf("Error initializing the u1X. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&u1Y)) != MP_OKAY) {
+			printf("Error initializing the u1Y. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&u2X)) != MP_OKAY) {
+			printf("Error initializing the u2X. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&u2Y)) != MP_OKAY) {
+			printf("Error initializing the u2Y. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&X2)) != MP_OKAY) {
+			printf("Error initializing the X2. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&Y2)) != MP_OKAY) {
+			printf("Error initializing the Y2. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&v)) != MP_OKAY) {
+			printf("Error initializing the v. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&r)) != MP_OKAY) {
+			printf("Error initializing the r. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&P)) != MP_OKAY) {
+			printf("Error initializing the P. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&k1)) != MP_OKAY) {
+			printf("Error initializing the k1. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&s1)) != MP_OKAY) {
+			printf("Error initializing the s1. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&n1)) != MP_OKAY) {
+			printf("Error initializing the n1. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&temp)) != MP_OKAY) {
+			printf("Error initializing the temp. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&u1)) != MP_OKAY) {
+			printf("Error initializing the u1. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&u2)) != MP_OKAY) {
+			printf("Error initializing the u2. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
 		n.alloc = 512;
-		err = mp_read_radix(&P, rP, 0x10);
-		err = mp_read_radix(&GX, rGX, 0x10);
-		err = mp_read_radix(&GY, rGY, 0x10);
-		err = mp_read_radix(&n, rn, 0x10);
+		if ((err = mp_read_radix(&P, rP, 0x10)) != MP_OKAY) {
+			printf("mp_read_radix failed: \"%s\"\n",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_read_radix(&GX, rGX, 0x10)) != MP_OKAY) {
+			printf("mp_read_radix failed: \"%s\"\n",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_read_radix(&GY, rGY, 0x10)) != MP_OKAY) {
+			printf("mp_read_radix failed: \"%s\"\n",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_read_radix(&n, rn, 0x10)) != MP_OKAY) {
+			printf("mp_read_radix failed: \"%s\"\n",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+
+		
 
 		cout << "请输入大素数的位数：";
 		cin >> lon;
