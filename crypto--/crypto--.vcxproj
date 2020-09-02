@@ -12,7 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="aes.cpp" />
-    <ClCompile Include="crypto.cpp" />
+    <ClCompile Include="crypto--.cpp" />
     <ClCompile Include="des.cpp" />
     <ClCompile Include="ecc.cpp" />
     <ClCompile Include="rc4.cpp" />
