@@ -17,13 +17,13 @@ using namespace std;
 //Ch(x, y, z) = (x∧y)⊕(¬x∧z)
 uint32_t inline Ch(uint32_t x, uint32_t y, uint32_t z)
 {
-	return z ^ (x & (y ^ z));
+	return (x & y) ^ ((~x) & z);
 }
 
 //Maj(x, y, z) = (x∧y)⊕(x∧z)⊕(y∧z)Ma(x, y, z)
 uint32_t inline Maj(uint32_t x, uint32_t y, uint32_t z)
 {
-	return (x & y) | (z & (x | y));
+	return (x & y) ^ (x & z) ^ (y & z);
 }
 
 //Σ0(x) = S^2(x)⊕S^13(x)⊕S^22(x)

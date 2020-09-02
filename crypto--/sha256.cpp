@@ -37,18 +37,19 @@ void SHA256::Round(uint32_t a, uint32_t b, uint32_t c, uint32_t& d, uint32_t e, 
 std::string SHA256::ShaFile(string path)
 {
 	/**SHA256函数所使用的8个32bit初始化哈希值
-		自然数前八个质数的平方根的小数部分取前32bit
-		*/
+	自然数前八个质数的平方根的小数部分取前32bit
+	*/
 	static const uint32_t init[8] = { 0x6a09e667ul, 0xbb67ae85ul, 0x3c6ef372ul, 0xa54ff53aul, 0x510e527ful, 0x9b05688cul, 0x1f83d9abul, 0x5be0cd19ul };
 	uint32_t buf[8];
 	memcpy(buf, init, sizeof(buf));
+
 	ifstream in;
 	in.open(path);
 	in.seekg(0, ios::end);
 	unsigned int length = in.tellg();
 	in.seekg(0, ios::beg);
 	int l = length + ((length % 64 >= 56) ? (128 - length % 64) : (64 - length % 64));
-	std::unique_ptr<char[]> input(new char[length]());
+	std::unique_ptr<char[]> input(new char[l]());
 	char ch;
 	int i = 0;
 	while (!in.eof())
@@ -56,7 +57,7 @@ std::string SHA256::ShaFile(string path)
 		in.get(ch);
 		input.get()[i++] = ch;
 	}
-	input[i] = 0x80;
+	input.get()[i] = 0x80;
 	i = l - 1;
 	while ((length & 0xff) != 0) {
 		int b = length & 0xff;//低八位
@@ -64,6 +65,7 @@ std::string SHA256::ShaFile(string path)
 		length = length >> 8;
 	}
 	Transform(buf, (const unsigned char*)input.get(), l / 64);
+
 	string shaStr;
 	for (int i = 0; i < 8; i++)
 		shaStr += to_string(buf[i]);
@@ -77,27 +79,26 @@ string SHA256::ShaStr(string Str)
 		*/
 	static const uint32_t init[8] = { 0x6a09e667ul, 0xbb67ae85ul, 0x3c6ef372ul, 0xa54ff53aul, 0x510e527ful, 0x9b05688cul, 0x1f83d9abul, 0x5be0cd19ul };
 	uint32_t buf[8];
+	int i = 0;
 	memcpy(buf, init, sizeof(buf));
 	int length = Str.length();
 	int l = length + ((length % 64 >= 56) ? (128 - length % 64) : (64 - length % 64));
-	char* input = new char[l];
-	memset(input, 0, l);
-	for (int i = 0; i < length; i++) {
-		input[i] = Str.at(i);
+	std::unique_ptr<char[]> input(new char[l]());
+	for (; i < length; i++) {
+		input.get()[i] = Str.at(i);
 	}
-	input[length] = 0x80;
-	int i = l - 1;
+	input.get()[i] = 0x80;
+	i = l - 1;
 	while ((length & 0xff) != 0) {
 		int b = length & 0xff;//低八位
 		input[i--] = (char)b;
 		length = length >> 8;
 	}
-	const unsigned char* it = (const unsigned char*)input;
+	const unsigned char* it = (const unsigned char*)input.get();
 	Transform(buf, it, l / 64);
 	string shaStr;
 	for (int i = 0; i < 8; i++)
 		shaStr += to_string(buf[i]);
-	//cout << shaStr << endl;
 	return shaStr;
 }
 // SHA-256所需要做的64次轮函数 
