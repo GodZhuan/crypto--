@@ -74,10 +74,10 @@ int main(int argc, char* argv[])
 	cin >> enDoIndex;
 	dirPath += szDrive ? szDrive : "";
 	dirPath += szDir ? szDir : "";
+	fullPath = dirPath;
 	switch (enDoIndex)
 	{
 	case 1:
-		fullPath = dirPath;
 		fullPath += szFileName ? szFileName : "";
 		fullPath += "cipher.txt";
 		break;
@@ -104,7 +104,7 @@ int main(int argc, char* argv[])
 		{
 		case 1:
 			keyStr = GetRandList(16);
-			cout <<"密钥为："<< keyStr;
+			cout <<"密钥为："<< keyStr<<"(请注意复制保存)"<<endl;
 			charToByte(key, keyStr);
 			a.KeyExpansion(key, w);
 			in.open(szFullPath, ios::binary);
@@ -119,6 +119,8 @@ int main(int argc, char* argv[])
 			}
 			in.close();
 			out.close();
+			cout << "press any key to shutdown" << endl;
+			std::cin.get();
 			break;
 		case 2:
 			cout << "请输入密钥：";
@@ -139,9 +141,14 @@ int main(int argc, char* argv[])
 				}
 				in.close();
 				out.close();
+				cout << "press any key to shutdown" << endl;
+				std::cin.get();
 			}
-			else
+			else {
 				cout << "密钥长度有误";
+				cout << "press any key to shutdown" << endl;
+				std::cin.get();
+			}	
 			break;
 		}
 	}
@@ -241,6 +248,7 @@ int main(int argc, char* argv[])
 			break;
 		case 2:
 			printf("\n------------------------------------------------------------------------\n");
+			e.Ecc_loadKey(&K, &A, &P, dirPath);
 			e.Ecc_decipher(&K, &A, &P, szFullPath, fullPath);//解密
 
 			break;
@@ -258,7 +266,7 @@ int main(int argc, char* argv[])
 		ECC ecc;
 		STS sts;
 		int lon;
-		mp_err err;
+		mp_err(err);
 		size_t written;
 
 		mp_int p;//p为安全素数

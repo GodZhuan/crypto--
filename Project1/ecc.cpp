@@ -570,7 +570,7 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 void ECC::Ecc_saveKey(char* tempK, char* tempA, char* temp, string outPath)
 {
 	outPath+="privateKey.txt";
-	ofstream out(outPath, ios::in);
+	ofstream out(outPath, ios::out);
 	if (out.is_open())
 	{
 		out << tempK<<"\n";
