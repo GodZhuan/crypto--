@@ -169,6 +169,14 @@ int main(int argc, char* argv[])
 		mp_int QX;//公钥Q的x坐标
 		mp_int QY;//公钥Q的y坐标
 		mp_int P;//Fp中的p(有限域P)
+		std::unique_ptr<char[]> temp(new char[800]());
+		std::unique_ptr<char[]> tempA(new char[800]());
+		std::unique_ptr<char[]> tempB(new char[800]());
+		std::unique_ptr<char[]> tempGX(new char[800]());
+		std::unique_ptr<char[]> tempGY(new char[800]());
+		std::unique_ptr<char[]> tempK(new char[800]());
+		std::unique_ptr<char[]> tempQX(new char[800]());
+		std::unique_ptr<char[]> tempQY(new char[800]());
 
 		if ((err = mp_init(&GX)) != MP_OKAY) {
 			printf("Error initializing the GX. %s",
@@ -209,16 +217,7 @@ int main(int argc, char* argv[])
 			printf("Error initializing the P. %s",
 				mp_error_to_string(err));
 			return EXIT_FAILURE;
-		}
-
-		std::unique_ptr<char[]> temp(new char[800]());
-		std::unique_ptr<char[]> tempA(new char[800]());
-		std::unique_ptr<char[]> tempB(new char[800]());
-		std::unique_ptr<char[]> tempGX(new char[800]());
-		std::unique_ptr<char[]> tempGY(new char[800]());
-		std::unique_ptr<char[]> tempK(new char[800]());
-		std::unique_ptr<char[]> tempQX(new char[800]());
-		std::unique_ptr<char[]> tempQY(new char[800]());
+		}	
 
 		switch (enDoIndex)
 		{
@@ -713,7 +712,6 @@ int main(int argc, char* argv[])
 		ECC ecc;
 		STS sts;
 
-
 		int lon;
 		string path;//消息m的路径	
 		size_t written;
@@ -729,60 +727,116 @@ int main(int argc, char* argv[])
 		mp_int a1;//k的逆元
 		mp_int b1;//p-1的逆元
 		mp_int temp3;
-		mp_init(&p);
-		mp_init(&a);
-		mp_init(&p_1);
-		mp_init(&x);
-		mp_init(&y);
-		mp_init(&a);
-		mp_init(&k);
-		mp_init(&r);
-		mp_init(&s);
-		mp_init(&sha);
-		mp_init(&a1);
-		mp_init(&b1);
-		mp_init(&temp3);
+		mp_err(err);
+
+		std::unique_ptr<char[]> tempY(new char[800]());
+		std::unique_ptr<char[]> tempR(new char[800]());
+		std::unique_ptr<char[]> tempSHA(new char[800]());
+		std::unique_ptr<char[]> tempA1(new char[800]());
+		std::unique_ptr<char[]> tempT(new char[800]());
+
+
+		if ((err = mp_init(&p)) != MP_OKAY) {
+			printf("Error initializing the p. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&a)) != MP_OKAY) {
+			printf("Error initializing the a. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&p_1)) != MP_OKAY) {
+			printf("Error initializing the p_1. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&x)) != MP_OKAY) {
+			printf("Error initializing the x. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&y)) != MP_OKAY) {
+			printf("Error initializing the y. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&a)) != MP_OKAY) {
+			printf("Error initializing the a. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&k)) != MP_OKAY) {
+			printf("Error initializing the k. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&r)) != MP_OKAY) {
+			printf("Error initializing the r. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&s)) != MP_OKAY) {
+			printf("Error initializing the s. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&sha)) != MP_OKAY) {
+			printf("Error initializing the sha. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&a1)) != MP_OKAY) {
+			printf("Error initializing the a1. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&b1)) != MP_OKAY) {
+			printf("Error initializing the b1. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&temp3)) != MP_OKAY) {
+			printf("Error initializing the temp3. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+
+		
 		cout << "请输入大素数的位数：";
 		cin >> lon;
 		sts.GetPrime(&p, &a, lon);
 		mp_sub_d(&p, 1, &p_1);
 		do { mp_rand(&x, lon); } while (mp_cmp(&x, &p_1) != -1 && mp_cmp_d(&x, 1) != 1);//1<=x<p-1
 		mp_exptmod(&a, &x, &p, &y);
-		char tempY[800] = { 0 };
 		printf("y是:\n");
-		mp_to_radix(&y, tempY, SIZE_MAX, &written, 10);
-		printf("%s\n", tempY);
+		mp_to_radix(&y, tempY.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempY.get());
 		do {
 			mp_rand(&k, lon / 26);
 			mp_gcd(&k, &p_1, &r);//互素
 		} while (mp_cmp(&k, &p_1) != -1 || mp_cmp_d(&k, 1) != 1 || mp_cmp_d(&r, 1) != 0);//1<=k<p-1且k与p-1互素
 		mp_exptmod(&a, &k, &p, &r);
-		char tempR[800] = { 0 };
 		printf("a**k mod p是:\n");
-		mp_to_radix(&r, tempR, SIZE_MAX, &written, 10);
-		printf("%s\n", tempR);
-		//cout << "请输入要计算散列值的文件的位置：";
-		//cin >> path;
+		mp_to_radix(&r, tempR.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempR.get());
 		string str = sha256.ShaFile(szFullPath);
 		mp_read_radix(&sha, str.c_str(), 10);
-		char tempSHA[800] = { 0 };
 		printf("SHA是:\n");
-		mp_to_radix(&sha, tempSHA, SIZE_MAX, &written, 0x10);
-		printf("%s\n", tempSHA);
+		mp_to_radix(&sha, tempSHA.get(), SIZE_MAX, &written, 0x10);
+		printf("%s\n", tempSHA.get());
 		mp_mul(&x, &r, &s);
 		mp_sub(&sha, &s, &s);
 		ex_Eulid(&k, &p_1, &a1, &b1, &temp3);
 		while (mp_cmp_d(&a1, 0) != 1)
 			mp_add(&a1, &p_1, &a1);
-		char tempA1[800] = { 0 };
 		printf("k**-1是:\n");
-		mp_to_radix(&a1, tempA1, SIZE_MAX, &written, 10);
-		printf("%s\n", tempA1);
+		mp_to_radix(&a1, tempA1.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempA1.get());
 		mp_mulmod(&k, &a1, &p_1, &temp3);
-		char tempT[800] = { 0 };
 		printf("k*k**-1 mod p是:\n");
-		mp_to_radix(&a1, tempT, SIZE_MAX, &written, 10);
-		printf("%s\n", tempT);
+		mp_to_radix(&a1, tempT.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempT.get());
 	}break;
 	case 5: {
 		string path;
