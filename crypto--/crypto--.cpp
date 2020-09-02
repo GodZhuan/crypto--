@@ -1,5 +1,5 @@
 #define _CRT_RAND_S  
-#include <stdlib.h>  
+#include <stdlib.h> 
 #include<iostream>
 #include <fstream>
 #include"aes.h"
@@ -11,45 +11,6 @@
 using namespace std;
 
 
-string GetRandList(int len)
-{
-	unsigned int number;
-	int err;
-	char strRandomList[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '!', '@', '#', '$', '%', '&', '*', '_' };
-	string pwd = "";
-	for (int i = 0; i < len; i++)
-	{
-		err = rand_s(&number);
-		if (err != 0) {
-			printf_s("The rand_s function failed!\n");
-		}
-		pwd += strRandomList[number%70];//随机取strRandomList 的项值
-	}
-	return pwd;
-}
-
-void ex_Eulid(mp_int* a, mp_int* b, mp_int* a1, mp_int* b1, mp_int* temp3) {
-	if (mp_cmp_d(b, 0) == 0) {
-		mp_set(a1, 1);
-		mp_set(b1, 0);
-		mp_copy(temp3, a);
-	}
-	else {
-		mp_int temp1;
-		mp_int temp2;
-		mp_init(&temp1);
-		mp_init(&temp2);
-		mp_mod(a, b, &temp1);
-		ex_Eulid(b, &temp1, a1, b1, temp3);
-		mp_copy(a1, &temp1);
-		mp_copy(b1, a1);
-		mp_div(a, b, temp3, &temp2);
-		mp_mul(temp3, b1, temp3);
-		mp_sub(&temp1, temp3, b1);
-	}
-}
-
-
 int main(int argc, char* argv[])
 {
 
@@ -57,37 +18,40 @@ int main(int argc, char* argv[])
 	int index,enDoIndex, ret;
 	char szFullPath[_MAX_PATH], szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFileName[_MAX_FNAME], szExt[_MAX_EXT];
 	std::string fullPath,dirPath;
-	cout << "crypto++" << endl;
+	mp_err(err);
+	cout << "crypto--" << endl;
 	cout << "1.AES加解密" << endl;
 	cout << "2.ECC加解密" << endl;
 	cout << "3.ECDSA签名及STS密钥协商协议" << endl;
 	cout << "4.ElGamal数字签名" << endl;
 	cout << "5.SHA256哈希散列" << endl;
 	cout << "6.RC4流式加解密" << endl;
-	cout << "6.DES加解密" << endl;
+	cout << "7.DES加解密" << endl;
 	cin >> index;
 	cout << "请输入要计算文件的位置" << endl;
 	cin >> szFullPath;
 	ret = _splitpath_s(szFullPath, szDrive, szDrive ? _MAX_DRIVE : 0, szDir, szDir ? _MAX_DIR : 0, szFileName, szFileName ? _MAX_FNAME : 0, szExt, szExt ? _MAX_EXT : 0);
 	if (ret)return ret;
-	cout << "1.加密" << endl;
-	cout << "2.解密" << endl;
-	cin >> enDoIndex;
-	dirPath += szDrive ? szDrive : "";
-	dirPath += szDir ? szDir : "";
-	fullPath = dirPath;
-	switch (enDoIndex)
-	{
-	case 1:
-		fullPath += szFileName ? szFileName : "";
-		fullPath += "cipher.txt";
-		break;
-	case 2:
-		std::string outFName;
-		cout << "输入解密后的文件名（形似hello.cpp）" << endl;
-		cin >> outFName;
-		fullPath += outFName;
-		break;
+	if (index != 5) {
+		cout << "1.加密" << endl;
+		cout << "2.解密" << endl;
+		cin >> enDoIndex;
+		dirPath += szDrive ? szDrive : "";
+		dirPath += szDir ? szDir : "";
+		fullPath = dirPath;
+		switch (enDoIndex)
+		{
+		case 1:
+			fullPath += szFileName ? szFileName : "";
+			fullPath += "cipher.txt";
+			break;
+		case 2:
+			std::string outFName;
+			cout << "输入解密后的文件名（形似hello.cpp）" << endl;
+			cin >> outFName;
+			fullPath += outFName;
+			break;
+		}
 	}
 	switch (index)
 	{
@@ -157,7 +121,6 @@ int main(int argc, char* argv[])
 	case 2: {
 		ECC e;
 		size_t written;
-		mp_err(err);
 		cout << "\n          本程序实现椭圆曲线的加密解密" << endl;
 		cout << "\n------------------------------------------------------------------------\n" << endl;
 
@@ -296,7 +259,6 @@ int main(int argc, char* argv[])
 		ECC ecc;
 		STS sts;
 		int lon;
-		mp_err(err);
 		size_t written;
 
 		mp_int p;//p为安全素数
@@ -727,7 +689,6 @@ int main(int argc, char* argv[])
 		mp_int a1;//k的逆元
 		mp_int b1;//p-1的逆元
 		mp_int temp3;
-		mp_err(err);
 
 		std::unique_ptr<char[]> tempY(new char[800]());
 		std::unique_ptr<char[]> tempR(new char[800]());
@@ -839,13 +800,10 @@ int main(int argc, char* argv[])
 		printf("%s\n", tempT.get());
 	}break;
 	case 5: {
-		string path;
 		mp_int s;
 		size_t written;
 		mp_init(&s);
-		cout << "请输入要计算散列值文件的位置：";
-		cin >> path;
-		string a = sha256.ShaFile(path);
+		string a = sha256.ShaFile(szFullPath);
 		mp_read_radix(&s, a.c_str(), 10);
 		char tempSHA[800] = { 0 };
 		printf("SHA是:\n");
@@ -854,13 +812,13 @@ int main(int argc, char* argv[])
 
 	}break;
 	case 6: {
-		string path;
+		std::string path;
 		mp_int s;
 		size_t written;
 		mp_init(&s);
 		cout << "请输入要计算散列值文件的位置：";
 		cin >> path;
-		string a = sha256.ShaFile(path);
+		std::string a = sha256.ShaFile(path);
 		mp_read_radix(&s, a.c_str(), 10);
 		char tempSHA[800] = { 0 };
 		printf("SHA是:\n");

@@ -34,7 +34,7 @@ void SHA256::Round(uint32_t a, uint32_t b, uint32_t c, uint32_t& d, uint32_t e, 
 	h = t1 + t2;
 }
 
-string SHA256::ShaFile(string path)
+std::string SHA256::ShaFile(string path)
 {
 	/**SHA256函数所使用的8个32bit初始化哈希值
 		自然数前八个质数的平方根的小数部分取前32bit
@@ -48,28 +48,25 @@ string SHA256::ShaFile(string path)
 	unsigned int length = in.tellg();
 	in.seekg(0, ios::beg);
 	int l = length + ((length % 64 >= 56) ? (128 - length % 64) : (64 - length % 64));
-	char* input = new char[l];
-	memset(input, 0, l);
+	std::unique_ptr<char[]> input(new char[length]());
 	char ch;
 	int i = 0;
 	while (!in.eof())
 	{
 		in.get(ch);
-		input[i++] = ch;
+		input.get()[i++] = ch;
 	}
 	input[i] = 0x80;
 	i = l - 1;
 	while ((length & 0xff) != 0) {
 		int b = length & 0xff;//低八位
-		input[i--] = (char)b;
+		input.get()[i--] = (char)b;
 		length = length >> 8;
 	}
-	const unsigned char* it = (const unsigned char*)input;
-	Transform(buf, it, l / 64);
+	Transform(buf, (const unsigned char*)input.get(), l / 64);
 	string shaStr;
 	for (int i = 0; i < 8; i++)
 		shaStr += to_string(buf[i]);
-	//cout << shaStr << endl;
 	return shaStr;
 }
 
