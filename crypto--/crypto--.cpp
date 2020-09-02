@@ -157,38 +157,68 @@ int main(int argc, char* argv[])
 	case 2: {
 		ECC e;
 		size_t written;
-
+		mp_err(err);
 		cout << "\n          本程序实现椭圆曲线的加密解密" << endl;
-
 		cout << "\n------------------------------------------------------------------------\n" << endl;
 
-		mp_int GX;
-		mp_int GY;
+		mp_int GX;//基点G的x坐标
+		mp_int GY;//基点G的y坐标
 		mp_int K;//私有密钥
-		mp_int A;
-		mp_int B;
-		mp_int QX;
-		mp_int QY;
+		mp_int A;//曲线参数A
+		mp_int B;//曲线参数B
+		mp_int QX;//公钥Q的x坐标
+		mp_int QY;//公钥Q的y坐标
 		mp_int P;//Fp中的p(有限域P)
 
+		if ((err = mp_init(&GX)) != MP_OKAY) {
+			printf("Error initializing the GX. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&GY)) != MP_OKAY) {
+			printf("Error initializing the GY. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&K)) != MP_OKAY) {
+			printf("Error initializing the K. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&A)) != MP_OKAY) {
+			printf("Error initializing the A. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&B)) != MP_OKAY) {
+			printf("Error initializing the B. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&QX)) != MP_OKAY) {
+			printf("Error initializing the QX. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&QY)) != MP_OKAY) {
+			printf("Error initializing the QY. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
+		if ((err = mp_init(&P)) != MP_OKAY) {
+			printf("Error initializing the P. %s",
+				mp_error_to_string(err));
+			return EXIT_FAILURE;
+		}
 
-		mp_init(&GX);
-		mp_init(&GY);
-		mp_init(&K);
-		mp_init(&A);
-		mp_init(&B);
-		mp_init(&QX);
-		mp_init(&QY);
-		mp_init(&P);
-		char temp[800] = { 0 };
-		char tempA[800] = { 0 };
-		char tempB[800] = { 0 };
-		char tempGX[800] = { 0 };
-		char tempGY[800] = { 0 };
-		char tempK[800] = { 0 };
-		char tempQX[800] = { 0 };
-		char tempQY[800] = { 0 };
-
+		std::unique_ptr<char[]> temp(new char[800]());
+		std::unique_ptr<char[]> tempA(new char[800]());
+		std::unique_ptr<char[]> tempB(new char[800]());
+		std::unique_ptr<char[]> tempGX(new char[800]());
+		std::unique_ptr<char[]> tempGY(new char[800]());
+		std::unique_ptr<char[]> tempK(new char[800]());
+		std::unique_ptr<char[]> tempQX(new char[800]());
+		std::unique_ptr<char[]> tempQY(new char[800]());
 
 		switch (enDoIndex)
 		{
@@ -201,47 +231,47 @@ int main(int argc, char* argv[])
 			e.GetPrime(&P, P_LONG);
 			printf("有限域 P 是:\n");
 			
-			mp_to_radix(&P, temp, SIZE_MAX, &written, 10);
-			printf("%s\n", temp);
+			mp_to_radix(&P, temp.get(), SIZE_MAX, &written, 10);
+			printf("%s\n", temp.get());
 
 			e.GetPrime(&A, 30);
 
 			printf("曲线参数 A 是:\n");
-			mp_to_radix(&A, tempA, SIZE_MAX, &written, 10);
-			printf("%s\n", tempA);
+			mp_to_radix(&A, tempA.get(), SIZE_MAX, &written, 10);
+			printf("%s\n", tempA.get());
 
 			e.Get_B_X_Y(&GX, &GY, &B, &A, &P);
 
 			
 			printf("曲线参数 B 是:\n");
-			mp_to_radix(&B, tempB, SIZE_MAX, &written, 10);
-			printf("%s\n", tempB);
+			mp_to_radix(&B, tempB.get(), SIZE_MAX, &written, 10);
+			printf("%s\n", tempB.get());
 			
 			printf("曲线G点X坐标是:\n");
-			mp_to_radix(&GX, tempGX, SIZE_MAX, &written, 10);
-			printf("%s\n", tempGX);
+			mp_to_radix(&GX, tempGX.get(), SIZE_MAX, &written, 10);
+			printf("%s\n", tempGX.get());
 			
 			printf("曲线G点Y坐标是:\n");
-			mp_to_radix(&GY, tempGY, SIZE_MAX, &written, 10);
-			printf("%s\n", tempGY);
+			mp_to_radix(&GY, tempGY.get(), SIZE_MAX, &written, 10);
+			printf("%s\n", tempGY.get());
 			if (!e.GetPrime(&K, KEY_LONG)) {
 				printf("私钥 K 是:\n");
-				mp_to_radix(&K, tempK, SIZE_MAX, &written, 10);
-				printf("%s\n", tempK);
+				mp_to_radix(&K, tempK.get(), SIZE_MAX, &written, 10);
+				printf("%s\n", tempK.get());
 			};
 
 			e.Ecc_points_mul(&QX, &QY, &GX, &GY, &K, &A, &P);
 			
 			printf("公钥X坐标是:\n");
-			mp_to_radix(&QX, tempQX, SIZE_MAX, &written, 10);
-			printf("%s\n", tempQX);
+			mp_to_radix(&QX, tempQX.get(), SIZE_MAX, &written, 10);
+			printf("%s\n", tempQX.get());
 			
 			printf("公钥Y坐标是:\n");
-			mp_to_radix(&QY, tempQY, SIZE_MAX, &written, 10);
-			printf("%s\n", tempQY);
+			mp_to_radix(&QY, tempQY.get(), SIZE_MAX, &written, 10);
+			printf("%s\n", tempQY.get());
 
 			//传入密钥和密钥文件所在文件夹
-			e.Ecc_saveKey(tempK, tempA, temp, dirPath);
+			e.Ecc_saveKey(tempK.get(), tempA.get(), temp.get(), dirPath);
 
 			printf("\n------------------------------------------------------------------------\n");
 			e.Ecc_encipher(&QX, &QY, &GX, &GY, &A, &P, szFullPath, fullPath);//加密
@@ -317,6 +347,20 @@ int main(int argc, char* argv[])
 		mp_int u2;//rs**(-1)mod n
 
 		string path;
+
+		std::unique_ptr<char[]> tempN(new char[800]());
+		std::unique_ptr<char[]> tempD(new char[800]());
+		std::unique_ptr<char[]> tempK(new char[800]());
+		std::unique_ptr<char[]> tempPX(new char[800]());
+		std::unique_ptr<char[]> tempPY(new char[800]());
+		std::unique_ptr<char[]> tempR(new char[800]());
+		std::unique_ptr<char[]> tempK1(new char[800]());
+		std::unique_ptr<char[]> tempT(new char[800]());
+		std::unique_ptr<char[]> tempSHA(new char[800]());
+		std::unique_ptr<char[]> tempS(new char[800]());
+		std::unique_ptr<char[]> tempS1(new char[800]());
+		std::unique_ptr<char[]> tempV(new char[800]());
+
 		const char* rP = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFC2F";
 		const char* rGX = "79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798";
 		const char* rGY = "483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8";
@@ -525,7 +569,7 @@ int main(int argc, char* argv[])
 			return EXIT_FAILURE;
 		}
 
-		
+
 
 		cout << "请输入大素数的位数：";
 		cin >> lon;
@@ -539,89 +583,77 @@ int main(int argc, char* argv[])
 		mp_exptmod(&a, &rB, &p, &sB);
 		mp_exptmod(&sA, &rB, &p, &K);
 
-		char tempN[800] = { 0 };
+		
 		printf("基点G的阶 是:\n");
-		mp_to_radix(&n, tempN, SIZE_MAX, &written, 10);
-		printf("%s\n", tempN);
-
+		mp_to_radix(&n, tempN.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempN.get());
 		do {
 			ecc.GetPrime(&d, KEY_LONG);
 		} while (mp_cmp(&d, &n) != -1);
 
-		char tempD[800] = { 0 };
+		
 		printf("私钥 d 是:\n");
-		mp_to_radix(&d, tempD, SIZE_MAX, &written, 10);
-		printf("%s\n", tempD);
+		mp_to_radix(&d, tempD.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempD.get());
 
 	L:
 		mp_rand(&k, 10);
 		while (mp_cmp(&k, &n) == 1)
 			mp_div_2(&k, &k);
 
-		char tempK[800] = { 0 };
 		printf("随机数k是:\n");
-		mp_to_radix(&k, tempK, SIZE_MAX, &written, 10);
-		printf("%s\n", tempK);
+		mp_to_radix(&k, tempK.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempK.get());
 
 		ecc.Ecc_points_mul(&PX, &PY, &GX, &GY, &d, &A, &P);
 		ecc.Ecc_points_mul(&X1, &Y1, &GX, &GY, &k, &A, &P);
-		char tempPX[800] = { 0 };
 		printf("公钥X坐标是:\n");
-		mp_to_radix(&PX, tempPX, SIZE_MAX, &written, 10);
-		printf("%s\n", tempPX);
+		mp_to_radix(&PX, tempPX.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempPX.get());
 
-		char tempPY[800] = { 0 };
 		printf("公钥Y坐标是:\n");
-		mp_to_radix(&PY, tempPY, SIZE_MAX, &written, 10);
-		printf("%s\n", tempPY);
+		mp_to_radix(&PY, tempPY.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempPY.get());
 
 		mp_mod(&X1, &n, &r);
 		if (mp_cmp_d(&r, 0) == 0)goto L;
-		char tempR[800] = { 0 };
 		printf("x1 mod n是:\n");
-		mp_to_radix(&r, tempR, SIZE_MAX, &written, 10);
-		printf("%s\n", tempR);
+		mp_to_radix(&r, tempR.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempR.get());
 
 		ex_Eulid(&k, &n, &k1, &n1, &temp);
 
-		char tempK1[800] = { 0 };
 		printf("k**-1是:\n");
 		while (mp_cmp_d(&k1, 0) != 1)
 			mp_add(&k1, &n, &k1);
-		mp_to_radix(&k1, tempK1, SIZE_MAX, &written, 10);
-		printf("%s\n", tempK1);
+		mp_to_radix(&k1, tempK1.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempK1.get());
 
 		mp_mulmod(&k, &k1, &n, &temp);
-		char tempT[800] = { 0 };
 		printf("k*k**-1 mod n是:\n");
-		mp_to_radix(&temp, tempT, SIZE_MAX, &written, 10);
-		printf("%s\n", tempT);
+		mp_to_radix(&temp, tempT.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempT.get());
 
-		cout << "请输入要计算散列值文件的位置：";
-		cin >> path;
-		string sh = sha256.ShaFile(path);
+		string sh = sha256.ShaFile(szFullPath);
 		mp_read_radix(&Hm, sh.c_str(), 10);
-		char tempSHA[800] = { 0 };
 		printf("SHA是:\n");
-		mp_to_radix(&Hm, tempSHA, SIZE_MAX, &written, 0x10);
-		printf("%s\n", tempSHA);
+		mp_to_radix(&Hm, tempSHA.get(), SIZE_MAX, &written, 0x10);
+		printf("%s\n", tempSHA.get());
 
 		mp_mul(&d, &r, &temp);
 		mp_add(&Hm, &temp, &temp);
 		mp_mulmod(&k1, &temp, &n, &s);
-		char tempS[800] = { 0 };
 		printf("s 是:\n");
-		mp_to_radix(&s, tempS, SIZE_MAX, &written, 10);
-		printf("%s\n", tempS);
+		mp_to_radix(&s, tempS.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempS.get());
 
 		if (mp_cmp_d(&s, 0) == 0)goto L;
 		ex_Eulid(&s, &n, &s1, &n1, &temp);
 
 		mp_mulmod(&s, &s1, &n, &temp);
-		char tempS1[800] = { 0 };
 		printf("s*s**-1 mod n是:\n");
-		mp_to_radix(&temp, tempS1, SIZE_MAX, &written, 10);
-		printf("%s\n", tempS1);
+		mp_to_radix(&temp, tempS1.get(), SIZE_MAX, &written, 10);
+		printf("%s\n", tempS1.get());
 
 		if (mp_cmp(&r, &n) == -1 && mp_cmp_d(&r, 0) == 1) {
 			if (mp_cmp(&s, &n) == -1 && mp_cmp_d(&s, 0) == 1) {
@@ -631,14 +663,12 @@ int main(int argc, char* argv[])
 				ecc.Ecc_points_mul(&u2X, &u2Y, &PX, &PY, &u2, &A, &P);
 				ecc.Two_points_add(&u1X, &u1Y, &u2X, &u2Y, &X2, &Y2, &A, zero, &P);
 				mp_mod(&X2, &n, &v);
-				char tempV[800] = { 0 };
 				printf("v 是:\n");
-				mp_to_radix(&v, tempV, SIZE_MAX, &written, 10);
-				printf("%s\n", tempV);
-				char tempR[800] = { 0 };
+				mp_to_radix(&v, tempV.get(), SIZE_MAX, &written, 10);
+				printf("%s\n", tempV.get());
 				printf("r 是:\n");
-				mp_to_radix(&r, tempR, SIZE_MAX, &written, 10);
-				printf("%s\n", tempR);
+				mp_to_radix(&r, tempR.get(), SIZE_MAX, &written, 10);
+				printf("%s\n", tempR.get());
 				if (mp_cmp(&v, &r) == 0)cout << "接受签名";
 			}
 		}
