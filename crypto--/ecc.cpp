@@ -8,6 +8,16 @@ ECC::~ECC()
 {
 }
 
+std::string ECC::Encrypt(const std::string& plain, const std::string& key)
+{
+	return std::string();
+}
+
+std::string ECC::Decrypt(const std::string& cipher, const std::string& key)
+{
+	return std::string();
+}
+
 int ECC::GetPrime(mp_int* m, int lon) {
 	mp_prime_rand(m, 10, lon,
 		(rand() & 1) ? 0 : MP_PRIME_2MSB_ON);
