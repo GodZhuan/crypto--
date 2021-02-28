@@ -1,5 +1,13 @@
 #include"ecc.h"
 
+ECC::ECC()
+{
+}
+
+ECC::~ECC()
+{
+}
+
 int ECC::GetPrime(mp_int* m, int lon) {
 	mp_prime_rand(m, 10, lon,
 		(rand() & 1) ? 0 : MP_PRIME_2MSB_ON);
