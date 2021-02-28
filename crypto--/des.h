@@ -12,11 +12,11 @@
 #define PC_1_SIZE  56
 #define BIT_STR_SIZE  64
 
-class ECC
+class DES
 {
 public:
-	ECC();
-	~ECC();
+	DES();
+	~DES();
 
 	std::string Encrypt(const std::string& plain, const std::string& key);
 	std::string Decrypt(const std::string& cipher, const std::string& key);
