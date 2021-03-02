@@ -40,10 +40,32 @@ using namespace std;
 
 class ECC
 {
+private:
+	mp_int GX;//基点G的x坐标
+	mp_int GY;//基点G的y坐标
+	mp_int K;//私有密钥
+	mp_int A;//曲线参数A
+	mp_int B;//曲线参数B
+	mp_int QX;//公钥Q的x坐标
+	mp_int QY;//公钥Q的y坐标
+	mp_int P;//Fp中的p(有限域P)
+	mp_err(err);
+
+	string temp;
+	string tempA;
+	string tempB;
+	string tempGX;
+	string tempGY;
+	string tempK;
+	string tempQX;
+	string tempQY;
 public:
 	ECC();
 	~ECC();
-
+	//创建椭圆生成参数
+	void BuildParameters(void);
+	//打印椭圆曲线参数并保存到文件夹
+	void PrintParameters(void);
 	std::string Encrypt(const std::string& plain, const std::string& key);
 	std::string Decrypt(const std::string& cipher, const std::string& key);
 

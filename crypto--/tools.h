@@ -1,6 +1,7 @@
 #ifndef _TOOLS_H_
 #define _TOOLS_H_ 
 #include "aes.h"
+#include <stdlib.h>
 /**
  *  将一个char字符数组转化为二进制
  *  存到一个 byte 数组中
@@ -89,5 +90,7 @@ void ex_Eulid(mp_int* a, mp_int* b, mp_int* a1, mp_int* b1, mp_int* temp3) {
 		mp_sub(&temp1, temp3, b1);
 	}
 }
-
+mp_err constmp_to_radix(const mp_int* a, const char* str, size_t maxlen, size_t* written, int radix) {
+	return mp_to_radix(a, const_cast<char*>(str), maxlen, written, radix);
+}
 #endif

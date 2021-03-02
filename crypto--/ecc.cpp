@@ -2,10 +2,115 @@
 
 ECC::ECC()
 {
+	if ((err = mp_init(&GX)) != MP_OKAY) {
+		printf("Error initializing the GX. %s",
+			mp_error_to_string(err));
+		return ;
+	}
+	if ((err = mp_init(&GY)) != MP_OKAY) {
+		printf("Error initializing the GY. %s",
+			mp_error_to_string(err));
+		return ;
+	}
+	if ((err = mp_init(&K)) != MP_OKAY) {
+		printf("Error initializing the K. %s",
+			mp_error_to_string(err));
+		return ;
+	}
+	if ((err = mp_init(&A)) != MP_OKAY) {
+		printf("Error initializing the A. %s",
+			mp_error_to_string(err));
+		return ;
+	}
+	if ((err = mp_init(&B)) != MP_OKAY) {
+		printf("Error initializing the B. %s",
+			mp_error_to_string(err));
+		return ;
+	}
+	if ((err = mp_init(&QX)) != MP_OKAY) {
+		printf("Error initializing the QX. %s",
+			mp_error_to_string(err));
+		return ;
+	}
+	if ((err = mp_init(&QY)) != MP_OKAY) {
+		printf("Error initializing the QY. %s",
+			mp_error_to_string(err));
+		return ;
+	}
+	if ((err = mp_init(&P)) != MP_OKAY) {
+		printf("Error initializing the P. %s",
+			mp_error_to_string(err));
+		return ;
+	}
 }
 
 ECC::~ECC()
 {
+	mp_clear(&GX);
+	mp_clear(&GY);
+	mp_clear(&K);//私有密钥
+	mp_clear(&A);
+	mp_clear(&B);
+	mp_clear(&QX);
+	mp_clear(&QY);
+	mp_clear(&P);//Fp中的p(有限域P)
+}
+
+void ECC::BuildParameters(void)
+{
+	printf("是否生成新的椭圆曲线参数?\n");
+
+	GetPrime(&P, P_LONG);
+	GetPrime(&A, 30);
+	Get_B_X_Y(&GX, &GY, &B, &A, &P);
+	GetPrime(&K, KEY_LONG);
+	Ecc_points_mul(&QX, &QY, &GX, &GY, &K, &A, &P);
+}
+
+void ECC::PrintParameters(void)
+{
+	char*t= new char[800]();
+	size_t written;
+	printf("椭圆曲线的参数如下(以十进制显示):\n");
+	printf("有限域 P 是:\n");
+	
+	mp_to_radix(&P, const_cast<char*>(temp.c_str()), SIZE_MAX, &written, 10);
+	printf("%s\n", temp.c_str());
+
+	printf("曲线参数 A 是:\n");
+	mp_to_radix(&A, const_cast<char*>(tempA.c_str()), SIZE_MAX, &written, 10);
+	printf("%s\n", tempA.c_str());
+
+	printf("曲线参数 B 是:\n");
+	mp_to_radix(&B, const_cast<char*>(tempB.c_str()), SIZE_MAX, &written, 10);
+	printf("%s\n", tempB.c_str());
+	
+	printf("曲线G点X坐标是:\n");
+	mp_to_radix(&GX, const_cast<char*>(tempGX.c_str()), SIZE_MAX, &written, 10);
+	printf("%s\n", tempGX.c_str());
+	
+	printf("曲线G点Y坐标是:\n");
+	mp_to_radix(&GY, const_cast<char*>(tempGY.c_str()), SIZE_MAX, &written, 10);
+	printf("%s\n", tempGY.c_str());
+
+	printf("私钥 K 是:\n");
+	mp_to_radix(&K, const_cast<char*>(tempK.c_str()), SIZE_MAX, &written, 10);
+	printf("%s\n", tempK.c_str());
+		
+	
+	printf("公钥X坐标是:\n");
+	mp_to_radix(&QX, const_cast<char*>(tempQX.c_str()), SIZE_MAX, &written, 10);
+	printf("%s\n", tempQX.c_str());
+	
+	printf("公钥Y坐标是:\n");
+	mp_to_radix(&QY, const_cast<char*>(tempQY.c_str()), SIZE_MAX, &written, 10);
+	printf("%s\n", tempQY.c_str());
+
+	////传入密钥和密钥文件所在文件夹
+	//e.Ecc_saveKey(tempK, tempA, temp, dirPath);
+
+	//printf("\n------------------------------------------------------------------------\n");
+	//e.Ecc_encipher(&QX, &QY, &GX, &GY, &A, &P, szFullPath, fullPath);//加密
 }
 
 std::string ECC::Encrypt(const std::string& plain, const std::string& key)

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-
+mp_err(err);
 int main(int argc, char* argv[])
 {
 
@@ -18,7 +18,6 @@ int main(int argc, char* argv[])
 	int index,enDoIndex, ret;
 	char szFullPath[_MAX_PATH], szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFileName[_MAX_FNAME], szExt[_MAX_EXT];
 	std::string fullPath,dirPath;
-	mp_err(err);
 	cout << "crypto--" << endl;
 	cout << "1.AES加解密" << endl;
 	cout << "2.ECC加解密" << endl;
@@ -120,140 +119,26 @@ int main(int argc, char* argv[])
 		  break;
 	case 2: {
 		ECC e;
-		size_t written;
+		
 		cout << "\n          本程序实现椭圆曲线的加密解密" << endl;
 		cout << "\n------------------------------------------------------------------------\n" << endl;
-
-		mp_int GX;//基点G的x坐标
-		mp_int GY;//基点G的y坐标
-		mp_int K;//私有密钥
-		mp_int A;//曲线参数A
-		mp_int B;//曲线参数B
-		mp_int QX;//公钥Q的x坐标
-		mp_int QY;//公钥Q的y坐标
-		mp_int P;//Fp中的p(有限域P)
-		std::unique_ptr<char[]> temp(new char[800]());
-		std::unique_ptr<char[]> tempA(new char[800]());
-		std::unique_ptr<char[]> tempB(new char[800]());
-		std::unique_ptr<char[]> tempGX(new char[800]());
-		std::unique_ptr<char[]> tempGY(new char[800]());
-		std::unique_ptr<char[]> tempK(new char[800]());
-		std::unique_ptr<char[]> tempQX(new char[800]());
-		std::unique_ptr<char[]> tempQY(new char[800]());
-
-		if ((err = mp_init(&GX)) != MP_OKAY) {
-			printf("Error initializing the GX. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&GY)) != MP_OKAY) {
-			printf("Error initializing the GY. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&K)) != MP_OKAY) {
-			printf("Error initializing the K. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&A)) != MP_OKAY) {
-			printf("Error initializing the A. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&B)) != MP_OKAY) {
-			printf("Error initializing the B. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&QX)) != MP_OKAY) {
-			printf("Error initializing the QX. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&QY)) != MP_OKAY) {
-			printf("Error initializing the QY. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&P)) != MP_OKAY) {
-			printf("Error initializing the P. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}	
-
 		switch (enDoIndex)
 		{
 		case 1:
 			time_t t;
 			srand((unsigned)time(&t));
-
-			printf("椭圆曲线的参数如下(以十进制显示):\n");
-
-			e.GetPrime(&P, P_LONG);
-			printf("有限域 P 是:\n");
-			
-			mp_to_radix(&P, temp.get(), SIZE_MAX, &written, 10);
-			printf("%s\n", temp.get());
-
-			e.GetPrime(&A, 30);
-
-			printf("曲线参数 A 是:\n");
-			mp_to_radix(&A, tempA.get(), SIZE_MAX, &written, 10);
-			printf("%s\n", tempA.get());
-
-			e.Get_B_X_Y(&GX, &GY, &B, &A, &P);
-
-			
-			printf("曲线参数 B 是:\n");
-			mp_to_radix(&B, tempB.get(), SIZE_MAX, &written, 10);
-			printf("%s\n", tempB.get());
-			
-			printf("曲线G点X坐标是:\n");
-			mp_to_radix(&GX, tempGX.get(), SIZE_MAX, &written, 10);
-			printf("%s\n", tempGX.get());
-			
-			printf("曲线G点Y坐标是:\n");
-			mp_to_radix(&GY, tempGY.get(), SIZE_MAX, &written, 10);
-			printf("%s\n", tempGY.get());
-			if (!e.GetPrime(&K, KEY_LONG)) {
-				printf("私钥 K 是:\n");
-				mp_to_radix(&K, tempK.get(), SIZE_MAX, &written, 10);
-				printf("%s\n", tempK.get());
-			};
-
-			e.Ecc_points_mul(&QX, &QY, &GX, &GY, &K, &A, &P);
-			
-			printf("公钥X坐标是:\n");
-			mp_to_radix(&QX, tempQX.get(), SIZE_MAX, &written, 10);
-			printf("%s\n", tempQX.get());
-			
-			printf("公钥Y坐标是:\n");
-			mp_to_radix(&QY, tempQY.get(), SIZE_MAX, &written, 10);
-			printf("%s\n", tempQY.get());
-
-			//传入密钥和密钥文件所在文件夹
-			e.Ecc_saveKey(tempK.get(), tempA.get(), temp.get(), dirPath);
-
-			printf("\n------------------------------------------------------------------------\n");
-			e.Ecc_encipher(&QX, &QY, &GX, &GY, &A, &P, szFullPath, fullPath);//加密
+			e.BuildParameters();
+			e.PrintParameters();
 			
 			break;
 		case 2:
-			printf("\n------------------------------------------------------------------------\n");
-			e.Ecc_loadKey(&K, &A, &P, dirPath);
-			e.Ecc_decipher(&K, &A, &P, szFullPath, fullPath);//解密
+			//printf("\n------------------------------------------------------------------------\n");
+			//e.Ecc_loadKey(&K, &A, &P, dirPath);
+			//e.Ecc_decipher(&K, &A, &P, szFullPath, fullPath);//解密
 
 			break;
 		}
-		mp_clear(&GX);
-		mp_clear(&GY);
-		mp_clear(&K);//私有密钥
-		mp_clear(&A);
-		mp_clear(&B);
-		mp_clear(&QX);
-		mp_clear(&QY);
-		mp_clear(&P);//Fp中的p(有限域P)
+
 	}break;
 	case 3: {
 		ECC ecc;
