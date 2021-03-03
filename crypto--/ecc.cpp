@@ -74,43 +74,45 @@ void ECC::PrintParameters(void)
 	printf("椭圆曲线的参数如下(以十进制显示):\n");
 	printf("有限域 P 是:\n");
 	
-	mp_to_radix(&P, const_cast<char*>(temp.c_str()), SIZE_MAX, &written, 10);
+	mp_to_radix(&P, t, SIZE_MAX, &written, 10);
+	temp = t;
 	printf("%s\n", temp.c_str());
 
 	printf("曲线参数 A 是:\n");
-	mp_to_radix(&A, const_cast<char*>(tempA.c_str()), SIZE_MAX, &written, 10);
+	mp_to_radix(&A, t, SIZE_MAX, &written, 10);
+	tempA = t;
 	printf("%s\n", tempA.c_str());
 
 	printf("曲线参数 B 是:\n");
-	mp_to_radix(&B, const_cast<char*>(tempB.c_str()), SIZE_MAX, &written, 10);
+	mp_to_radix(&B, t, SIZE_MAX, &written, 10);
+	tempB = t;
 	printf("%s\n", tempB.c_str());
 	
 	printf("曲线G点X坐标是:\n");
-	mp_to_radix(&GX, const_cast<char*>(tempGX.c_str()), SIZE_MAX, &written, 10);
+	mp_to_radix(&GX, t, SIZE_MAX, &written, 10);
+	tempGX = t;
 	printf("%s\n", tempGX.c_str());
 	
 	printf("曲线G点Y坐标是:\n");
-	mp_to_radix(&GY, const_cast<char*>(tempGY.c_str()), SIZE_MAX, &written, 10);
+	mp_to_radix(&GY, t, SIZE_MAX, &written, 10);
+	tempGY = t;
 	printf("%s\n", tempGY.c_str());
 
 	printf("私钥 K 是:\n");
-	mp_to_radix(&K, const_cast<char*>(tempK.c_str()), SIZE_MAX, &written, 10);
+	mp_to_radix(&K, t, SIZE_MAX, &written, 10);
+	tempK = t;
 	printf("%s\n", tempK.c_str());
 		
 	
 	printf("公钥X坐标是:\n");
-	mp_to_radix(&QX, const_cast<char*>(tempQX.c_str()), SIZE_MAX, &written, 10);
+	mp_to_radix(&QX, t, SIZE_MAX, &written, 10);
+	tempQX = t;
 	printf("%s\n", tempQX.c_str());
 	
 	printf("公钥Y坐标是:\n");
-	mp_to_radix(&QY, const_cast<char*>(tempQY.c_str()), SIZE_MAX, &written, 10);
+	mp_to_radix(&QY, t, SIZE_MAX, &written, 10);
+	tempQY = t;
 	printf("%s\n", tempQY.c_str());
-
-	////传入密钥和密钥文件所在文件夹
-	//e.Ecc_saveKey(tempK, tempA, temp, dirPath);
-
-	//printf("\n------------------------------------------------------------------------\n");
-	//e.Ecc_encipher(&QX, &QY, &GX, &GY, &A, &P, szFullPath, fullPath);//加密
 }
 
 std::string ECC::Encrypt(const std::string& plain, const std::string& key)
@@ -536,7 +538,7 @@ int ECC::putin(mp_int* a, char* ch, int chlong)
 	return MP_OKAY;
 }
 
-void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a, mp_int* p, char* inPath, string outPath)
+void ECC::Ecc_encipher(char* inPath, string outPath)
 {
 	mp_int mx, my;
 	mp_int c1x, c1y;
@@ -612,9 +614,9 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 		putin(&mx, miwenx, enlongtemp + 1);//文件存入         
 		putin(&my, miweny, enlongtemp + 1);//文件存入
 
-		Ecc_points_mul(&c2x, &c2y, px, py, &r, a, p);//加密
-		Ecc_points_mul(&tempx, &tempy, qx, qy, &r, a, p);
-		Two_points_add(&mx, &my, &tempx, &tempy, &c1x, &c1y, a, zero, p);
+		Ecc_points_mul(&c2x, &c2y, &GX, &GY, &r, &A, &P);//加密
+		Ecc_points_mul(&tempx, &tempy, &QX, &QY, &r, &A, &P);
+		Two_points_add(&mx, &my, &tempx, &tempy, &c1x, &c1y, &A, zero, &P);
 
 		//保存密文      
 		chmistore(&c1x, fq);
@@ -651,12 +653,12 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 			putin(&my, miweny, Residue - enlongtemp + 1);//文件存入 
 		}
 
-		Ecc_points_mul(&c2x, &c2y, px, py, &r, a, p);//加密
+		Ecc_points_mul(&c2x, &c2y, &GX, &GY, &r, &A, &P);//加密
 
-		Ecc_points_mul(&tempx, &tempy, qx, qy, &r, a, p);
+		Ecc_points_mul(&tempx, &tempy, &QX, &QY, &r, &A, &P);
 
 
-		Two_points_add(&mx, &my, &tempx, &tempy, &c1x, &c1y, a, zero, p);
+		Two_points_add(&mx, &my, &tempx, &tempy, &c1x, &c1y, &A, zero, &P);
 
 
 		//保存密文      
@@ -690,7 +692,7 @@ void ECC::Ecc_encipher(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int* a
 
 }
 
-void ECC::Ecc_saveKey(char* tempK, char* tempA, char* temp, string outPath)
+void ECC::Ecc_saveKey(string outPath)
 {
 	outPath+="privateKey.txt";
 	ofstream out(outPath, ios::out);
@@ -703,7 +705,7 @@ void ECC::Ecc_saveKey(char* tempK, char* tempA, char* temp, string outPath)
 	}	
 }
 
-void ECC::Ecc_loadKey(mp_int* k, mp_int* a, mp_int* p, string inPath)
+void ECC::Ecc_loadKey(string inPath)
 {
 	char tempK[800] = { 0 };
 	char tempA[800] = { 0 };
@@ -718,9 +720,9 @@ void ECC::Ecc_loadKey(mp_int* k, mp_int* a, mp_int* p, string inPath)
 		ifile.getline(temp, 800);
 		ifile.close();
 	}
-	mp_read_radix(k, tempK, 10);
-	mp_read_radix(a, tempA, 10);
-	mp_read_radix(p, temp, 10);
+	mp_read_radix(&K, tempK, 10);
+	mp_read_radix(&A, tempA, 10);
+	mp_read_radix(&P, temp, 10);
 }
 
 
@@ -796,7 +798,7 @@ int ECC::chdraw(mp_int* a, char* ch)
 
 }
 
-void ECC::Ecc_decipher(mp_int* k, mp_int* a, mp_int* p,char* inPath, string outPath) {
+void ECC::Ecc_decipher(char* inPath, string outPath) {
 
 	mp_int c1x, c1y;
 	mp_int c2x, c2y;
@@ -907,10 +909,10 @@ void ECC::Ecc_decipher(mp_int* k, mp_int* a, mp_int* p,char* inPath, string outP
 		mp_zero(&tempzero);
 		if (mp_cmp(&c1x, &tempzero) == 0) break;
 
-		Ecc_points_mul(&tempx, &tempy, &c2x, &c2y, k, a, p);
+		Ecc_points_mul(&tempx, &tempy, &c2x, &c2y, &K, &A, &P);
 
 		mp_neg(&tempy, &temp);
-		Two_points_add(&c1x, &c1y, &tempx, &temp, &mx, &my, a, zero, p);
+		Two_points_add(&c1x, &c1y, &tempx, &temp, &mx, &my, &A, zero, &P);
 
 		int chtem;
 		chtem = chdraw(&mx, stemp);//从ming中取出字符串

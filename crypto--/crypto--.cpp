@@ -129,12 +129,16 @@ int main(int argc, char* argv[])
 			srand((unsigned)time(&t));
 			e.BuildParameters();
 			e.PrintParameters();
-			
+			//传入密钥和密钥文件所在文件夹
+			e.Ecc_saveKey(dirPath);
+
+			printf("\n------------------------------------------------------------------------\n");
+			e.Ecc_encipher(szFullPath, fullPath);//加密
 			break;
 		case 2:
-			//printf("\n------------------------------------------------------------------------\n");
-			//e.Ecc_loadKey(&K, &A, &P, dirPath);
-			//e.Ecc_decipher(&K, &A, &P, szFullPath, fullPath);//解密
+			printf("\n------------------------------------------------------------------------\n");
+			e.Ecc_loadKey(dirPath);
+			e.Ecc_decipher(szFullPath, fullPath);//解密
 
 			break;
 		}
