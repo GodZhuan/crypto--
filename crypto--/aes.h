@@ -8,8 +8,8 @@ using namespace std;
 typedef bitset<8> byte;
 typedef bitset<32> word;
 
-#define Nr  10 // AES-128需要 10 轮加密 
-#define Nk  4 // Nk 表示输入密钥的 word 个数 
+const unsigned char Nr = 10; // AES-128需要 10 轮加密 
+const unsigned char Nk = 4; // Nk 表示输入密钥的 word 个数 
 
 
 class AES

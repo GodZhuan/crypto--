@@ -23,12 +23,12 @@ public:
 
 private:
 	//生成16个子秘钥
-	bool CreateSubKey(const std::string& key, char subKey[SUBKEY_NUM][SUBKEY_LENGHT]);
+	bool CreateSubKey(const std::string& key, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT]);
 
 	//加密8字节数据块
-	bool EncryptBlock(std::string& block, char subKey[SUBKEY_NUM][SUBKEY_LENGHT]);
+	bool EncryptBlock(std::string& block, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT]);
 	//解密8字节数据块
-	bool DecryptBlock(std::string& block, char subKey[SUBKEY_NUM][SUBKEY_LENGHT]);
+	bool DecryptBlock(std::string& block, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT]);
 
 
 private:

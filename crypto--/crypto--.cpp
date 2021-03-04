@@ -7,6 +7,7 @@
 #include"tools.h"
 #include "sts.h"
 #include "sha256.h"
+#include "des.h"
 
 using namespace std;
 
@@ -72,7 +73,7 @@ int main(int argc, char* argv[])
 			charToByte(key, keyStr);
 			a.KeyExpansion(key, w);
 			in.open(szFullPath, ios::binary);
-			out.open(fullPath, ios::binary);
+			out.open(fullPath, ios::binary|ios::ate);
 			while (in.read((char*)&data, sizeof(data)))
 			{
 				divideToByte(plain, data);
@@ -714,6 +715,54 @@ int main(int argc, char* argv[])
 		mp_to_radix(&s, tempSHA, SIZE_MAX, &written, 0x10);
 		printf("%s\n", tempSHA);
 
+	}break;
+	case 7: {
+		DES d;
+		string keyStr;
+		ifstream in;
+		ofstream out;
+		switch (enDoIndex)
+		{
+		case 1:
+			keyStr = GetRandList(16);
+			cout << "ÃÜÔ¿Îª£º" << keyStr << "(Çë×¢Òâ¸´ÖÆ±£´æ)" << endl;
+			in.open(szFullPath, ios::binary);
+			out.open(fullPath, ios::binary | ios::ate);
+			if (in.is_open()) {
+				string buf((std::istreambuf_iterator<char>(in)),
+					std::istreambuf_iterator<char>());
+				buf=d.Encrypt(buf, keyStr);
+				out.write(buf.c_str(),buf.size());
+			}	
+			in.close();
+			out.close();
+			cout << "press any key to shutdown" << endl;
+			std::cin.get();
+			break;
+		case 2:
+			cout << "ÇëÊäÈëÃÜÔ¿£º";
+			cin >> keyStr;
+			if (keyStr.size() == 16) {
+				in.open(szFullPath, ios::binary);
+				out.open(fullPath, ios::binary | ios::ate);
+				if (in.is_open()) {
+					string buf((std::istreambuf_iterator<char>(in)),
+						std::istreambuf_iterator<char>());
+					buf = d.Decrypt(buf, keyStr);
+					out.write(buf.c_str(), buf.size());
+				}
+				in.close();
+				out.close();
+				cout << "press any key to shutdown" << endl;
+				std::cin.get();
+			}
+			else {
+				cout << "ÃÜÔ¿³¤¶ÈÓÐÎó";
+				cout << "press any key to shutdown" << endl;
+				std::cin.get();
+			}
+			break;
+		}
 	}break;
 	default:
 		break;

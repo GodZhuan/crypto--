@@ -95,7 +95,7 @@ char DES::SBox_Table[KEY_SZIE][4][16] = {                     //8¸öSºÐ   ÈýÎ¬Êý×
 }
 };
 
-char subKey[SUBKEY_NUM][SUBKEY_LENGHT];
+char subKeys[SUBKEY_NUM][SUBKEY_LENGHT];
 
 DES::DES(){}
 
@@ -105,12 +105,12 @@ std::string DES::Encrypt(const std::string& plain, const std::string& key)
 {
 	std::string result;
 	if (plain.empty() || key.empty())return result;
-	if (!CreateSubKey(key,subKey))return result;
+	if (!CreateSubKey(key,subKeys))return result;
 
 	for (size_t i = 0; i < plain.size() / 8; ++i)
 	{
 		std::string block = plain.substr(i * 8, 8);
-		EncryptBlock(block, subKey);
+		EncryptBlock(block, subKeys);
 		result.append(block);
 	}
 	int remainder = plain.size() % 8;
@@ -118,7 +118,7 @@ std::string DES::Encrypt(const std::string& plain, const std::string& key)
 	{
 		std::string block = plain.substr(plain.size() - remainder, remainder);
 		block.append(8 - remainder, '\0');
-		EncryptBlock(block, subKey);
+		EncryptBlock(block, subKeys);
 		result.append(block);
 	}
 
@@ -130,19 +130,19 @@ std::string DES::Decrypt(const std::string& cipher, const std::string& key)
 	std::string result;
 	if (cipher.empty() || key.empty())return result;
 	else if (cipher.size()%8)return result;
-	else if (!CreateSubKey(key, subKey))return result;
+	else if (!CreateSubKey(key, subKeys))return result;
 
 	for (size_t i = 0; i < cipher.size() / 8; ++i)
 	{
 		std::string block = cipher.substr(i * 8, 8);
-		DecryptBlock(block, subKey);
+		DecryptBlock(block, subKeys);
 		result.append(block);
 	}
 
 	return result;
 }
 
-bool DES::CreateSubKey(const std::string& key, char subKey[SUBKEY_NUM][SUBKEY_LENGHT])
+bool DES::CreateSubKey(const std::string& key, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT])
 {	
 	std::string bitStr;
 	bitStr.resize(BIT_STR_SIZE);// 64
@@ -158,12 +158,12 @@ bool DES::CreateSubKey(const std::string& key, char subKey[SUBKEY_NUM][SUBKEY_LE
 		LeftCycle(PC1BitStr, 0, PC_1_SIZE / 2, Move_Table[i]);
 		LeftCycle(PC1BitStr, PC_1_SIZE / 2, PC_1_SIZE, Move_Table[i]);
 
-		PC2_Transform(PC1BitStr, subKey[i]); // 48
+		PC2_Transform(PC1BitStr, subKeys[i]); // 48
 	}
 	return true;
 }
 
-bool DES::EncryptBlock(std::string& block, char subKey[SUBKEY_NUM][SUBKEY_LENGHT])
+bool DES::EncryptBlock(std::string& block, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT])
 {
 	if (block.size() != KEY_SZIE)return false;
 	std::string bitStr;
@@ -181,7 +181,7 @@ bool DES::EncryptBlock(std::string& block, char subKey[SUBKEY_NUM][SUBKEY_LENGHT
 	{
 		Expand_Transform(bitStr.substr(bitStr.size() / 2), eBitStr);
 
-		std::string subKey = std::string(subKey[i], SUBKEY_LENGHT);
+		std::string subKey = std::string(subKeys[i], SUBKEY_LENGHT);
 
 		XOR(eBitStr, subKey, SUBKEY_LENGHT);
 
@@ -201,7 +201,7 @@ bool DES::EncryptBlock(std::string& block, char subKey[SUBKEY_NUM][SUBKEY_LENGHT
 	return false;
 }
 
-bool DES::DecryptBlock(std::string& block, char subKey[SUBKEY_NUM][SUBKEY_LENGHT])
+bool DES::DecryptBlock(std::string& block, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT])
 {
 	if (block.size() != KEY_SZIE)
 		return false;
@@ -220,7 +220,7 @@ bool DES::DecryptBlock(std::string& block, char subKey[SUBKEY_NUM][SUBKEY_LENGHT
 	{
 		Expand_Transform(bitStr.substr(bitStr.size() / 2), eBitStr);
 
-		std::string SubKey = std::string(subKey[i], SUBKEY_LENGHT);
+		std::string SubKey = std::string(subKeys[i], SUBKEY_LENGHT);
 
 		XOR(eBitStr, SubKey, SUBKEY_LENGHT);
 
