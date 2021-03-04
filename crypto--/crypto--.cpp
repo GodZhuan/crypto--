@@ -9,7 +9,7 @@
 #include "sha256.h"
 #include "des.h"
 
-using namespace std;
+
 
 mp_err(err);
 int main(int argc, char* argv[])

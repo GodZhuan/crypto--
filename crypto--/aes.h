@@ -3,7 +3,7 @@
 
 #include <bitset> 
 using std::bitset;
-using namespace std;
+
 
 typedef bitset<8> byte;
 typedef bitset<32> word;
