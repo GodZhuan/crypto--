@@ -65,6 +65,9 @@
     <ClInclude Include="stdbool.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="crypto--.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\tommath.lib">

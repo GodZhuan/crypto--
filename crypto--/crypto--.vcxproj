@@ -21,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aes.h" />
+    <ClInclude Include="crypto--.h" />
     <ClInclude Include="des.h" />
     <ClInclude Include="ecc.h" />
     <ClInclude Include="rc4.h" />

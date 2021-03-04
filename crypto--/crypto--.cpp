@@ -1,15 +1,17 @@
 #define _CRT_RAND_S  
 #include <stdlib.h> 
-#include<iostream>
+#include <iostream>
 #include <fstream>
-#include"aes.h"
-#include"ecc.h"
-#include"tools.h"
+#include "aes.h"
+#include "ecc.h"
+#include "tools.h"
 #include "sts.h"
 #include "sha256.h"
 #include "des.h"
 
-
+enum class CryptoGraphic{
+	AES = 1,ECC,ECDSA,ElGamal,SHA256,RC4,DES
+};
 
 mp_err(err);
 int main(int argc, char* argv[])
