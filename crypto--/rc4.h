@@ -1,6 +1,6 @@
 #ifndef _RC4_H_
 #define _RC4_H_
-using namespace std;
+using std::string;
 class RC4
 {
 public:

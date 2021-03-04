@@ -6,7 +6,7 @@
 #include <iostream>
 #include "tommath.h"
 #include <time.h>
-using namespace std;
+
 
 #define BIT_LEN 800 
 #define KEY_LONG 256  //ÀΩ‘ø±»Ãÿ≥§

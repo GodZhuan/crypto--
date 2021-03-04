@@ -5,7 +5,8 @@
 #include<iostream>
 #include <string>
 #include <fstream>
-using namespace std;
+
+using std::string;
 // ∧ 按位“与”
 // ¬  按位“补”
 // ⊕ 按位“异或”

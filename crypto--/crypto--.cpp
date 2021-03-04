@@ -724,35 +724,33 @@ int main(int argc, char* argv[])
 		switch (enDoIndex)
 		{
 		case 1:
-			keyStr = GetRandList(16);
+			keyStr = GetRandList(8);
 			cout << "ÃÜÔ¿Îª£º" << keyStr << "(Çë×¢Òâ¸´ÖÆ±£´æ)" << endl;
 			in.open(szFullPath, ios::binary);
 			out.open(fullPath, ios::binary | ios::ate);
-			if (in.is_open()) {
+			if (in.is_open() && out.is_open()) {
 				string buf((std::istreambuf_iterator<char>(in)),
 					std::istreambuf_iterator<char>());
 				buf=d.Encrypt(buf, keyStr);
 				out.write(buf.c_str(),buf.size());
+				in.close();
+				out.close();
 			}	
-			in.close();
-			out.close();
-			cout << "press any key to shutdown" << endl;
-			std::cin.get();
 			break;
 		case 2:
 			cout << "ÇëÊäÈëÃÜÔ¿£º";
 			cin >> keyStr;
-			if (keyStr.size() == 16) {
+			if (keyStr.size() == 8) {
 				in.open(szFullPath, ios::binary);
 				out.open(fullPath, ios::binary | ios::ate);
-				if (in.is_open()) {
+				if (in.is_open()&&out.is_open()) {
 					string buf((std::istreambuf_iterator<char>(in)),
 						std::istreambuf_iterator<char>());
 					buf = d.Decrypt(buf, keyStr);
 					out.write(buf.c_str(), buf.size());
+					in.close();
+					out.close();
 				}
-				in.close();
-				out.close();
 				cout << "press any key to shutdown" << endl;
 				std::cin.get();
 			}

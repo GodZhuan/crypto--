@@ -3,14 +3,14 @@
 
 #include <string>
 
-const unsigned char BITS_PER_CHAR = 8;
-const unsigned char KEY_SZIE = 8;
-const unsigned char SUBKEY_NUM = 16;
-const unsigned char SUBKEY_LENGHT = 48;
-const unsigned char EXPAND_SIZE = 48;
-const unsigned char PC_2_SIZE = 48;
-const unsigned char PC_1_SIZE = 56;
-const unsigned char BIT_STR_SIZE = 64;
+const unsigned BITS_PER_CHAR = 8;
+const unsigned KEY_SZIE = 8;
+const unsigned SUBKEY_NUM = 16;
+const unsigned SUBKEY_LENGHT = 48;
+const unsigned EXPAND_SIZE = 48;
+const unsigned PC_2_SIZE = 48;
+const unsigned PC_1_SIZE = 56;
+const unsigned BIT_STR_SIZE = 64;
 
 class DES
 {
@@ -24,7 +24,8 @@ private:
 	//置换选择表2
 	//选择其中的某些位将其减少到48位
 	static char PC2_Table[PC_2_SIZE];
-
+	//子密钥
+	char subKeys[SUBKEY_NUM][SUBKEY_LENGHT];
 	//----------------------------------加密或解密需要的表--------------------------------------------
 	//初始置换表
 	//表中的数值表示输入为被置换后的新位置
@@ -40,12 +41,12 @@ private:
 	static char SBox_Table[KEY_SZIE][4][16];
 private:
 	//生成16个子秘钥
-	bool CreateSubKey(const std::string& key, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT]);
+	bool CreateSubKey(const std::string& key);
 
 	//加密8字节数据块
-	bool EncryptBlock(std::string& block, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT]);
+	bool EncryptBlock(std::string& block);
 	//解密8字节数据块
-	bool DecryptBlock(std::string& block, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT]);
+	bool DecryptBlock(std::string& block);
 
 	//----------------------------------转换工具-----------------------------------------------
 	bool PC1_Transform(const std::string& bitStr, std::string& PC1BitStr);

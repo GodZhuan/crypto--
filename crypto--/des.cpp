@@ -105,12 +105,12 @@ std::string DES::Encrypt(const std::string& plain, const std::string& key)
 {
 	std::string result;
 	if (plain.empty() || key.empty())return result;
-	if (!CreateSubKey(key,subKeys))return result;
+	if (!CreateSubKey(key))return result;
 
 	for (size_t i = 0; i < plain.size() / 8; ++i)
 	{
 		std::string block = plain.substr(i * 8, 8);
-		EncryptBlock(block, subKeys);
+		EncryptBlock(block);
 		result.append(block);
 	}
 	int remainder = plain.size() % 8;
@@ -118,7 +118,7 @@ std::string DES::Encrypt(const std::string& plain, const std::string& key)
 	{
 		std::string block = plain.substr(plain.size() - remainder, remainder);
 		block.append(8 - remainder, '\0');
-		EncryptBlock(block, subKeys);
+		EncryptBlock(block);
 		result.append(block);
 	}
 
@@ -128,21 +128,19 @@ std::string DES::Encrypt(const std::string& plain, const std::string& key)
 std::string DES::Decrypt(const std::string& cipher, const std::string& key)
 {
 	std::string result;
-	if (cipher.empty() || key.empty())return result;
-	else if (cipher.size()%8)return result;
-	else if (!CreateSubKey(key, subKeys))return result;
+	if (cipher.empty() || key.empty()|| cipher.size() % 8|| !CreateSubKey(key))return result;
 
 	for (size_t i = 0; i < cipher.size() / 8; ++i)
 	{
 		std::string block = cipher.substr(i * 8, 8);
-		DecryptBlock(block, subKeys);
+		DecryptBlock(block);
 		result.append(block);
 	}
 
 	return result;
 }
 
-bool DES::CreateSubKey(const std::string& key, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT])
+bool DES::CreateSubKey(const std::string& key)
 {	
 	std::string bitStr;
 	bitStr.resize(BIT_STR_SIZE);// 64
@@ -163,7 +161,7 @@ bool DES::CreateSubKey(const std::string& key, char subKeys[SUBKEY_NUM][SUBKEY_L
 	return true;
 }
 
-bool DES::EncryptBlock(std::string& block, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT])
+bool DES::EncryptBlock(std::string& block)
 {
 	if (block.size() != KEY_SZIE)return false;
 	std::string bitStr;
@@ -201,7 +199,7 @@ bool DES::EncryptBlock(std::string& block, char subKeys[SUBKEY_NUM][SUBKEY_LENGH
 	return false;
 }
 
-bool DES::DecryptBlock(std::string& block, char subKeys[SUBKEY_NUM][SUBKEY_LENGHT])
+bool DES::DecryptBlock(std::string& block)
 {
 	if (block.size() != KEY_SZIE)
 		return false;
@@ -346,7 +344,7 @@ bool DES::Char8ToBit64(const std::string& str, std::string& bitStr)
 	if(str.size() != KEY_SZIE || bitStr.size() != BIT_STR_SIZE)
 		return false;
 
-	for (size_t i = 0; i < str.size(); ++i)
+	for (size_t i = 0; i < KEY_SZIE; ++i)
 	{
 		for (size_t j = 0; j < BITS_PER_CHAR; ++j)
 			bitStr[i * BITS_PER_CHAR + j] = ((str[i] >> j) & 0x1);
