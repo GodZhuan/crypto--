@@ -11,6 +11,7 @@ const unsigned EXPAND_SIZE = 48;
 const unsigned PC_2_SIZE = 48;
 const unsigned PC_1_SIZE = 56;
 const unsigned BIT_STR_SIZE = 64;
+const unsigned HALF_BIT_STR_SIZE=BIT_STR_SIZE / 2;
 
 class DES
 {
@@ -25,7 +26,7 @@ private:
 	//选择其中的某些位将其减少到48位
 	static char PC2_Table[PC_2_SIZE];
 	//子密钥
-	char subKeys[SUBKEY_NUM][SUBKEY_LENGHT];
+	bool subKeys[SUBKEY_NUM][SUBKEY_LENGHT];
 	//----------------------------------加密或解密需要的表--------------------------------------------
 	//初始置换表
 	//表中的数值表示输入为被置换后的新位置
@@ -50,26 +51,27 @@ private:
 
 	//----------------------------------转换工具-----------------------------------------------
 	bool PC1_Transform(const std::string& bitStr, std::string& PC1BitStr);
+	void PC1_Transform(const bool bitStr[BIT_STR_SIZE], bool PC1bitStr[PC_1_SIZE]);
 
-	bool PC2_Transform(const std::string& PC1BitStr, char subKey[SUBKEY_LENGHT]);
+	void PC2_Transform(const bool PC1bitStr[PC_1_SIZE], bool subKey[SUBKEY_LENGHT]);
 
-	bool IP_Transform(std::string& bitStr);
+	bool IP_Transform(bool bitStr[BIT_STR_SIZE]);
 
-	bool Expand_Transform(const std::string& halfBitStr, std::string& eBitStr);
+	void Expand_Transform(bool eBitStr[EXPAND_SIZE]);
 
-	bool SBox_Transform(const std::string& eBitStr, std::string& halfBitStr);
+	void SBox_Transform(bool eBitStr[EXPAND_SIZE]);
 
-	bool Permute_Transform(std::string& halfBitStr);
+	void Permute_Transform(bool halfBitStr[HALF_BIT_STR_SIZE]);
 
-	bool IP_1_Transform(std::string& bitStr);
+	void IP_1_Transform(bool bitStr[BIT_STR_SIZE]);
 
 	//------------------------------------基础工具------------------------------------------------
-	bool Char8ToBit64(const std::string& str, std::string& bitStr);
-	bool Bit64ToChar8(const std::string& bitStr, std::string& str);
+	void CharToBit(const std::string& str, bool* bitStr, int bits);
+	void BitToChar(const bool* bitStr, std::string& str);
 
-	bool XOR(std::string& strFirst, std::string& strSecond, size_t num);
+	void XOR(bool strFirst[EXPAND_SIZE], bool strSecond[EXPAND_SIZE], size_t num);
 
-	bool LeftCycle(std::string& str, size_t beginSection, size_t endSection, size_t step);
+	bool LeftCycle(bool str[PC_1_SIZE], size_t step);
 public:
 	DES();
 	~DES();

@@ -142,19 +142,16 @@ std::string DES::Decrypt(const std::string& cipher, const std::string& key)
 
 bool DES::CreateSubKey(const std::string& key)
 {	
-	std::string bitStr;
-	bitStr.resize(BIT_STR_SIZE);// 64
-	Char8ToBit64(key, bitStr);
+	bool bitStr[BIT_STR_SIZE];// 64
+	CharToBit(key, bitStr, BIT_STR_SIZE);
 
-	std::string PC1BitStr;
-	PC1BitStr.resize(PC_1_SIZE);//56
+	bool PC1BitStr[PC_1_SIZE];//56
 
-	if (!PC1_Transform(bitStr, PC1BitStr))return false;
+	PC1_Transform(bitStr, PC1BitStr);
 
 	for (int i = 0; i < SUBKEY_NUM; ++i)
 	{
-		LeftCycle(PC1BitStr, 0, PC_1_SIZE / 2, Move_Table[i]);
-		LeftCycle(PC1BitStr, PC_1_SIZE / 2, PC_1_SIZE, Move_Table[i]);
+		LeftCycle(PC1BitStr, Move_Table[i]);
 
 		PC2_Transform(PC1BitStr, subKeys[i]); // 48
 	}
@@ -164,37 +161,36 @@ bool DES::CreateSubKey(const std::string& key)
 bool DES::EncryptBlock(std::string& block)
 {
 	if (block.size() != KEY_SZIE)return false;
-	std::string bitStr;
-	bitStr.resize(BIT_STR_SIZE);
-	Char8ToBit64(block, bitStr);
-
+	bool bitStr[BIT_STR_SIZE];
+	CharToBit(block, bitStr, BIT_STR_SIZE);
 	IP_Transform(bitStr);
-
-	std::string halfBitStr;
-	halfBitStr.resize(bitStr.size() / 2);
-	std::string eBitStr;
-	eBitStr.resize(EXPAND_SIZE);
+	bool eBitStr[EXPAND_SIZE];
 
 	for (size_t i = 0; i < SUBKEY_NUM; ++i)
 	{
-		Expand_Transform(bitStr.substr(bitStr.size() / 2), eBitStr);
+		memcpy(eBitStr, bitStr + BIT_STR_SIZE / 2, BIT_STR_SIZE / 2);
+		Expand_Transform(eBitStr);
 
-		std::string subKey = std::string(subKeys[i], SUBKEY_LENGHT);
+		bool subKey[SUBKEY_LENGHT] = { subKeys[i] };
 
 		XOR(eBitStr, subKey, SUBKEY_LENGHT);
 
-		SBox_Transform(eBitStr, halfBitStr);
+		SBox_Transform(eBitStr);
 
-		Permute_Transform(halfBitStr);
+		Permute_Transform(eBitStr);
 
-		XOR(bitStr, halfBitStr, halfBitStr.size());
+		XOR(bitStr, eBitStr, HALF_BIT_STR_SIZE);
 
-		if (i != SUBKEY_NUM - 1)
-			LeftCycle(bitStr, 0, bitStr.size(), bitStr.size() / 2);
+		if (i != SUBKEY_NUM - 1) {
+				bool temp[HALF_BIT_STR_SIZE];
+				memcpy(temp, bitStr, HALF_BIT_STR_SIZE);
+				memcpy(bitStr, bitStr+HALF_BIT_STR_SIZE, HALF_BIT_STR_SIZE);
+				memcpy(bitStr+HALF_BIT_STR_SIZE, temp, HALF_BIT_STR_SIZE);
+		}
 	}
 	IP_1_Transform(bitStr);
 
-	Bit64ToChar8(bitStr, block);
+	BitToChar(bitStr, block);
 
 	return false;
 }
@@ -204,42 +200,39 @@ bool DES::DecryptBlock(std::string& block)
 	if (block.size() != KEY_SZIE)
 		return false;
 
-	std::string bitStr;
-	bitStr.resize(BIT_STR_SIZE);
-	Char8ToBit64(block, bitStr);
+	bool bitStr[BIT_STR_SIZE];
+	CharToBit(block, bitStr,BIT_STR_SIZE);
 
 	IP_Transform(bitStr);
-
-	std::string halfBitStr;
-	halfBitStr.resize(bitStr.size() / 2);
-	std::string eBitStr;
-	eBitStr.resize(EXPAND_SIZE);
+	bool eBitStr[EXPAND_SIZE];
 	for (int i = SUBKEY_NUM - 1; i >= 0; --i)
 	{
-		Expand_Transform(bitStr.substr(bitStr.size() / 2), eBitStr);
+		Expand_Transform(eBitStr);
 
-		std::string SubKey = std::string(subKeys[i], SUBKEY_LENGHT);
+		bool subKey[SUBKEY_LENGHT] = { subKeys[i] };
 
-		XOR(eBitStr, SubKey, SUBKEY_LENGHT);
+		XOR(eBitStr, subKey, SUBKEY_LENGHT);
 
-		SBox_Transform(eBitStr, halfBitStr);
-		Permute_Transform(halfBitStr);
+		SBox_Transform(eBitStr);
+		Permute_Transform(eBitStr);
 
-		XOR(bitStr, halfBitStr, halfBitStr.size());
+		XOR(bitStr, eBitStr, HALF_BIT_STR_SIZE);
 
-		if (i != 0)
-			LeftCycle(bitStr, 0, bitStr.size(), bitStr.size() / 2);
+		if (i != 0) {
+			bool temp[HALF_BIT_STR_SIZE];
+			memcpy(temp, bitStr, HALF_BIT_STR_SIZE);
+			memcpy(bitStr, bitStr + HALF_BIT_STR_SIZE, HALF_BIT_STR_SIZE);
+			memcpy(bitStr + HALF_BIT_STR_SIZE, temp, HALF_BIT_STR_SIZE);
+		}
 	}
 	IP_1_Transform(bitStr);
-	Bit64ToChar8(bitStr, block);
+	BitToChar(bitStr, block);
 
 	return true;
 }
 
 bool DES::PC1_Transform(const std::string& bitStr, std::string& PC1BitStr)
 {
-	if (bitStr.size() != BIT_STR_SIZE)return false;
-
 	std::string tmpStr;
 	tmpStr.resize(PC_1_SIZE);
 	for (size_t i = 0; i < PC_1_SIZE; ++i)
@@ -250,145 +243,109 @@ bool DES::PC1_Transform(const std::string& bitStr, std::string& PC1BitStr)
 	return true;
 }
 
-bool DES::PC2_Transform(const std::string& PC1BitStr, char subKey[SUBKEY_LENGHT])
+void DES::PC1_Transform(const bool bitStr[BIT_STR_SIZE], bool PC1bitStr[PC_1_SIZE])
 {
-	if (PC1BitStr.size() != PC_1_SIZE)return false;
+	for (size_t i = 0; i < PC_1_SIZE; ++i)
+		PC1bitStr[i] = bitStr[PC1_Table[i]];
+}
 
+void DES::PC2_Transform(const bool PC1bitStr[PC_1_SIZE], bool subKey[SUBKEY_LENGHT])
+{
 	std::string tmpStr;
 	tmpStr.resize(PC_2_SIZE);
 	for (size_t i = 0; i < PC_2_SIZE; ++i)
-		subKey[SUBKEY_LENGHT] = PC1BitStr[PC2_Table[i]];
-
-	return true;
+		subKey[i] = PC1bitStr[PC2_Table[i]];
 }
 
-bool DES::IP_Transform(std::string& bitStr)
+bool DES::IP_Transform(bool bitStr[BIT_STR_SIZE])
 {
-	if (bitStr.size() != BIT_STR_SIZE)return false;
-
-	std::string tmpBitStr;
-	tmpBitStr.resize(bitStr.size());
-	for (size_t i = 0; i < bitStr.size(); ++i)
+	bool tmpBitStr[BIT_STR_SIZE];
+	for (size_t i = 0; i < BIT_STR_SIZE; ++i)
 		tmpBitStr[i] = bitStr[IP_Table[i]];
-
-	bitStr.swap(tmpBitStr);
-
+	memcpy(bitStr, tmpBitStr, BIT_STR_SIZE);
 	return true;
 }
 
-bool DES::Expand_Transform(const std::string& halfBitStr, std::string& eBitStr)
+void DES::Expand_Transform(bool eBitStr[EXPAND_SIZE])
 {
-	if (halfBitStr.size() != BIT_STR_SIZE / 2 || eBitStr.size() != EXPAND_SIZE)return false;
-
-	for (size_t i = 0; i < eBitStr.size(); ++i)
-		eBitStr[i] = halfBitStr[Expand_Table[i]];
-
-	return true;
+	bool temp[EXPAND_SIZE];
+	for (size_t i = 0; i < EXPAND_SIZE; ++i)
+		temp[i] = eBitStr[Expand_Table[i]];
+	memcpy(eBitStr, temp, EXPAND_SIZE);
 }
 
-bool DES::SBox_Transform(const std::string& eBitStr, std::string& halfBitStr)
+void DES::SBox_Transform(bool eBitStr[EXPAND_SIZE])
 {
-	if (eBitStr.size() != EXPAND_SIZE || halfBitStr.size() != BIT_STR_SIZE / 2)return false;
-
 	for (size_t i = 0; i < KEY_SZIE; ++i)
 	{
 		size_t j = i * 6;
-		size_t row = (eBitStr[j] << 1) + eBitStr[j + eBitStr.size() / KEY_SZIE - 1];
+		size_t row = (eBitStr[j] << 1) + eBitStr[j + EXPAND_SIZE / KEY_SZIE - 1];
 		size_t column = (eBitStr[j + 1] << 3) + (eBitStr[j + 2] << 2) + (eBitStr[j + 3] << 1) + eBitStr[j + 4];
 
 		int x = SBox_Table[i][row][column];
 
 
-		halfBitStr[i * 4] = x >> 3;
-		halfBitStr[i * 4 + 1] = (x >> 2) & 0x1;
-		halfBitStr[i * 4 + 2] = (x >> 1) & 0x1;
-		halfBitStr[i * 4 + 3] = x & 0x1;
+		eBitStr[i * 4] = x >> 3;
+		eBitStr[i * 4 + 1] = (x >> 2) & 0x1;
+		eBitStr[i * 4 + 2] = (x >> 1) & 0x1;
+		eBitStr[i * 4 + 3] = x & 0x1;
 
 	}
-	return true;
 }
 
-bool DES::Permute_Transform(std::string& halfBitStr)
+void DES::Permute_Transform(bool halfBitStr[HALF_BIT_STR_SIZE])
 {
-	if (halfBitStr.size() != BIT_STR_SIZE / 2)
-		return false;
+	bool tmpStr[HALF_BIT_STR_SIZE];
 
-	std::string tmpStr;
-	tmpStr.resize(halfBitStr.size());
-
-	for (size_t i = 0; i < halfBitStr.size(); ++i)
+	for (size_t i = 0; i < HALF_BIT_STR_SIZE; ++i)
 		tmpStr[i] = halfBitStr[Permute_Table[i]];
 
-	halfBitStr.swap(tmpStr);
-
-	return true;
+	memcpy(halfBitStr, tmpStr, HALF_BIT_STR_SIZE);
 }
 
-bool DES::IP_1_Transform(std::string& bitStr)
+void DES::IP_1_Transform(bool bitStr[BIT_STR_SIZE])
 {
-	if (bitStr.size() != BIT_STR_SIZE)
-		return false;
-
-	std::string tmpStr;
-	tmpStr.resize(BIT_STR_SIZE);
-	for (size_t i = 0; i < bitStr.size(); ++i)
+	bool tmpStr[BIT_STR_SIZE];
+	for (size_t i = 0; i < BIT_STR_SIZE; ++i)
 		tmpStr[i] = bitStr[IP_1_Table[i]];
-
-	bitStr.swap(tmpStr);
-
-	return true;
+	memcpy(bitStr, tmpStr, BIT_STR_SIZE);
 }
 
-bool DES::Char8ToBit64(const std::string& str, std::string& bitStr)
-{
-	if(str.size() != KEY_SZIE || bitStr.size() != BIT_STR_SIZE)
-		return false;
 
-	for (size_t i = 0; i < KEY_SZIE; ++i)
-	{
-		for (size_t j = 0; j < BITS_PER_CHAR; ++j)
-			bitStr[i * BITS_PER_CHAR + j] = ((str[i] >> j) & 0x1);
-	}
-	return true;
+void DES::CharToBit(const std::string& str, bool* bitStr, int bits)
+{
+	for (size_t i = 0; i < bits; ++i)
+		bitStr[i] = ((str[i / BITS_PER_CHAR] >> i % BITS_PER_CHAR) & 0x1);
 }
 
-bool DES::Bit64ToChar8(const std::string& bitStr, std::string& str)
+void DES::BitToChar(const bool* bitStr, std::string& str)
 {
-	if (str.size() != KEY_SZIE || bitStr.size() != BIT_STR_SIZE)
-		return false;
-
 	for (size_t i = 0; i < KEY_SZIE; ++i)
-	{
 		for (size_t j = 0; j < BITS_PER_CHAR; ++j)
 			str[i] |= bitStr[i * KEY_SZIE + j] << j;
-	}
-	return true;
 }
 
-bool DES::XOR(std::string& strFirst, std::string& strSecond, size_t num)
+void DES::XOR(bool strFirst[EXPAND_SIZE], bool strSecond[EXPAND_SIZE], size_t num)
 {
-	if (strFirst.size()<num || strSecond.size()<num)
-		return false;
-
 	for (size_t i = 0; i < num; ++i)
 		strFirst[i] ^= strSecond[i];
-	
-	return true;
 }
 
-bool DES::LeftCycle(std::string& str, size_t beginSection, size_t endSection, size_t step)
+bool DES::LeftCycle(bool str[PC_1_SIZE], size_t step)
 {
-	if (endSection > str.size())
-		return false;
+	bool temp[PC_1_SIZE];
 
-	size_t tmpStep = step % (endSection - beginSection);
-	std::string tmpStr = str.substr(beginSection + tmpStep, endSection - beginSection - tmpStep);
+	//保存将要循环移动到右边的位  
+	memcpy(temp, str, step);
+	memcpy(temp + step, str + 28, step);
 
-	tmpStr.append(str.substr(beginSection, tmpStep));
+	//前28位移动  
+	memcpy(str, str + step, 28 - step);
+	memcpy(str + 28 - step, temp, step);
 
-	//for (auto __begin = std::begin(Move_Table), __end = std::end(Move_Table); __begin != __end; ++__begin) {}
-	for (size_t i = beginSection; i < endSection; ++i)
-		str[i] = tmpStr[i - beginSection];
+	//后28位移动  
+	memcpy(str + 28, str + 28 + step, 28 - step);
+	memcpy(str + PC_1_SIZE - step, temp + step, step);
 
 	return true;
 }
