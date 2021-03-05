@@ -1,4 +1,5 @@
 #define _CRT_RAND_S  
+#define _HAS_STD_BYTE 0
 #include <stdlib.h> 
 #include <iostream>
 #include <fstream>
