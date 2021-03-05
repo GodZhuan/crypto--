@@ -723,10 +723,13 @@ int main(int argc, char* argv[])
 		string keyStr;
 		ifstream in;
 		ofstream out;
+		bitset<64> data;
+		byte plain[8];
 		switch (enDoIndex)
 		{
 		case 1:
-			keyStr = GetRandList(8);
+			//keyStr = GetRandList(8);
+			keyStr = "12345678";
 			cout << "ÃÜÔ¿Îª£º" << keyStr << "(Çë×¢Òâ¸´ÖÆ±£´æ)" << endl;
 			in.open(szFullPath, ios::binary);
 			out.open(fullPath, ios::binary | ios::ate);
@@ -734,14 +737,15 @@ int main(int argc, char* argv[])
 				string buf((std::istreambuf_iterator<char>(in)),
 					std::istreambuf_iterator<char>());
 				buf=d.Encrypt(buf, keyStr);
-				out.write(buf.c_str(),buf.size());
+				out.write(buf.c_str(),buf.length());
 				in.close();
 				out.close();
 			}	
 			break;
 		case 2:
-			cout << "ÇëÊäÈëÃÜÔ¿£º";
-			cin >> keyStr;
+			/*cout << "ÇëÊäÈëÃÜÔ¿£º";
+			cin >> keyStr;*/
+			keyStr = "12345678";
 			if (keyStr.size() == 8) {
 				in.open(szFullPath, ios::binary);
 				out.open(fullPath, ios::binary | ios::ate);
@@ -749,7 +753,7 @@ int main(int argc, char* argv[])
 					string buf((std::istreambuf_iterator<char>(in)),
 						std::istreambuf_iterator<char>());
 					buf = d.Decrypt(buf, keyStr);
-					out.write(buf.c_str(), buf.size());
+					out.write(buf.c_str(), buf.length());
 					in.close();
 					out.close();
 				}
