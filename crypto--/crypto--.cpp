@@ -9,6 +9,7 @@
 #include "sts.h"
 #include "sha256.h"
 #include "sm4.h"
+#include "zuc.h"
 //#include "des.h"
 
 enum class CryptoGraphic{
@@ -770,7 +771,7 @@ int main(int argc, char* argv[])
 	//		break;
 	//	}
 	//}break;
-	case 7: { }break;
+	case 7: {  }break;
 	default:
 		break;
 	}

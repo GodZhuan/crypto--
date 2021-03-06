@@ -19,6 +19,7 @@
     <ClCompile Include="sm3.cpp" />
     <ClCompile Include="sm4.cpp" />
     <ClCompile Include="sts.cpp" />
+    <ClCompile Include="zuc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aes.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="sts.h" />
     <ClInclude Include="tommath.h" />
     <ClInclude Include="tools.h" />
+    <ClInclude Include="zuc.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\tommath.lib" />
