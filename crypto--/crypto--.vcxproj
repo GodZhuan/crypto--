@@ -13,19 +13,21 @@
   <ItemGroup>
     <ClCompile Include="aes.cpp" />
     <ClCompile Include="crypto--.cpp" />
-    <ClCompile Include="des.cpp" />
     <ClCompile Include="ecc.cpp" />
     <ClCompile Include="rc4.cpp" />
     <ClCompile Include="sha256.cpp" />
+    <ClCompile Include="sm3.cpp" />
+    <ClCompile Include="sm4.cpp" />
     <ClCompile Include="sts.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aes.h" />
     <ClInclude Include="crypto--.h" />
-    <ClInclude Include="des.h" />
     <ClInclude Include="ecc.h" />
     <ClInclude Include="rc4.h" />
     <ClInclude Include="sha256.h" />
+    <ClInclude Include="sm3.h" />
+    <ClInclude Include="sm4.h" />
     <ClInclude Include="stdbool.h" />
     <ClInclude Include="sts.h" />
     <ClInclude Include="tommath.h" />

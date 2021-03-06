@@ -8,7 +8,8 @@
 #include "tools.h"
 #include "sts.h"
 #include "sha256.h"
-#include "des.h"
+#include "sm4.h"
+//#include "des.h"
 
 enum class CryptoGraphic{
 	AES = 1,ECC,ECDSA,ElGamal,SHA256,RC4,DES
@@ -29,7 +30,7 @@ int main(int argc, char* argv[])
 	cout << "4.ElGamal数字签名" << endl;
 	cout << "5.SHA256哈希散列" << endl;
 	cout << "6.RC4流式加解密" << endl;
-	cout << "7.DES加解密" << endl;
+	cout << "7.SM4加解密" << endl;
 	cin >> index;
 	cout << "请输入要计算文件的位置" << endl;
 	cin >> szFullPath;
@@ -719,56 +720,57 @@ int main(int argc, char* argv[])
 		printf("%s\n", tempSHA);
 
 	}break;
-	case 7: {
-		DES d;
-		string keyStr;
-		ifstream in;
-		ofstream out;
-		bitset<64> data;
-		byte plain[8];
-		switch (enDoIndex)
-		{
-		case 1:
-			//keyStr = GetRandList(8);
-			keyStr = "12345678";
-			cout << "密钥为：" << keyStr << "(请注意复制保存)" << endl;
-			in.open(szFullPath, ios::binary);
-			out.open(fullPath, ios::binary | ios::ate);
-			if (in.is_open() && out.is_open()) {
-				string buf((std::istreambuf_iterator<char>(in)),
-					std::istreambuf_iterator<char>());
-				buf=d.Encrypt(buf, keyStr);
-				out.write(buf.c_str(),buf.length());
-				in.close();
-				out.close();
-			}	
-			break;
-		case 2:
-			/*cout << "请输入密钥：";
-			cin >> keyStr;*/
-			keyStr = "12345678";
-			if (keyStr.size() == 8) {
-				in.open(szFullPath, ios::binary);
-				out.open(fullPath, ios::binary | ios::ate);
-				if (in.is_open()&&out.is_open()) {
-					string buf((std::istreambuf_iterator<char>(in)),
-						std::istreambuf_iterator<char>());
-					buf = d.Decrypt(buf, keyStr);
-					out.write(buf.c_str(), buf.length());
-					in.close();
-					out.close();
-				}
-				cout << "press any key to shutdown" << endl;
-				std::cin.get();
-			}
-			else {
-				cout << "密钥长度有误";
-				cout << "press any key to shutdown" << endl;
-				std::cin.get();
-			}
-			break;
-		}
-	}break;
+	//case 7: {
+	//	DES d;
+	//	string keyStr;
+	//	ifstream in;
+	//	ofstream out;
+	//	bitset<64> data;
+	//	byte plain[8];
+	//	switch (enDoIndex)
+	//	{
+	//	case 1:
+	//		//keyStr = GetRandList(8);
+	//		keyStr = "12345678";
+	//		cout << "密钥为：" << keyStr << "(请注意复制保存)" << endl;
+	//		in.open(szFullPath, ios::binary);
+	//		out.open(fullPath, ios::binary | ios::ate);
+	//		if (in.is_open() && out.is_open()) {
+	//			string buf((std::istreambuf_iterator<char>(in)),
+	//				std::istreambuf_iterator<char>());
+	//			buf=d.Encrypt(buf, keyStr);
+	//			out.write(buf.c_str(),buf.length());
+	//			in.close();
+	//			out.close();
+	//		}	
+	//		break;
+	//	case 2:
+	//		/*cout << "请输入密钥：";
+	//		cin >> keyStr;*/
+	//		keyStr = "12345678";
+	//		if (keyStr.size() == 8) {
+	//			in.open(szFullPath, ios::binary);
+	//			out.open(fullPath, ios::binary | ios::ate);
+	//			if (in.is_open()&&out.is_open()) {
+	//				string buf((std::istreambuf_iterator<char>(in)),
+	//					std::istreambuf_iterator<char>());
+	//				buf = d.Decrypt(buf, keyStr);
+	//				out.write(buf.c_str(), buf.length());
+	//				in.close();
+	//				out.close();
+	//			}
+	//			cout << "press any key to shutdown" << endl;
+	//			std::cin.get();
+	//		}
+	//		else {
+	//			cout << "密钥长度有误";
+	//			cout << "press any key to shutdown" << endl;
+	//			std::cin.get();
+	//		}
+	//		break;
+	//	}
+	//}break;
+	case 7: { }break;
 	default:
 		break;
 	}

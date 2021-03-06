@@ -19,27 +19,27 @@ private:
 	//------------------------------------生成秘钥需要的表----------------------------------------
 	//置换选择表1
 	//压缩换位去掉每个字节的第8位，用作奇偶校检，基本上第8位可忽略
-	static const char PC1_Table[PC_1_SIZE];
+	static const unsigned int PC1_Table[PC_1_SIZE];
 	//左循环距离表
-	static const char Move_Table[SUBKEY_NUM];
+	static const unsigned int Move_Table[SUBKEY_NUM];
 	//置换选择表2
 	//选择其中的某些位将其减少到48位
-	static const char PC2_Table[PC_2_SIZE];
+	static const unsigned int PC2_Table[PC_2_SIZE];
 	//子密钥
-	bool subKeys[SUBKEY_NUM][SUBKEY_LENGHT];
+	volatile bool subKeys[SUBKEY_NUM][SUBKEY_LENGHT];
 	//----------------------------------加密或解密需要的表--------------------------------------------
 	//初始置换表
 	//表中的数值表示输入为被置换后的新位置
-	static const char IP_Table[BIT_STR_SIZE];
+	static const unsigned int IP_Table[BIT_STR_SIZE];
 	//扩展表
 	//通过重复某些位将32位的右半部分按照表扩展成48位
-	static const char Expand_Table[EXPAND_SIZE];
+	static const unsigned int Expand_Table[EXPAND_SIZE];
 	//单纯置换表
-	static const char Permute_Table[BIT_STR_SIZE / 2];
+	static const unsigned int Permute_Table[BIT_STR_SIZE / 2];
 	//反置换表
-	static const char IP_1_Table[BIT_STR_SIZE];
+	static const unsigned int IP_1_Table[BIT_STR_SIZE];
 	//置换盒
-	static const char SBox_Table[KEY_SZIE][4][16];
+	static const unsigned int SBox_Table[KEY_SZIE][4][16];
 private:
 	//生成16个子秘钥
 	bool CreateSubKey(const std::string& key);
@@ -53,7 +53,7 @@ private:
 	bool PC1_Transform(const std::string& bitStr, std::string& PC1BitStr);
 	void PC1_Transform(const bool bitStr[BIT_STR_SIZE], bool PC1bitStr[PC_1_SIZE]);
 
-	void PC2_Transform(const bool PC1bitStr[PC_1_SIZE], bool subKey[SUBKEY_LENGHT]);
+	void PC2_Transform(const bool PC1bitStr[PC_1_SIZE], volatile bool subKey[SUBKEY_LENGHT]);
 
 	bool IP_Transform(bool bitStr[BIT_STR_SIZE]);
 
