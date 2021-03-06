@@ -19,27 +19,27 @@ private:
 	//------------------------------------生成秘钥需要的表----------------------------------------
 	//置换选择表1
 	//压缩换位去掉每个字节的第8位，用作奇偶校检，基本上第8位可忽略
-	static char PC1_Table[PC_1_SIZE];
+	static const char PC1_Table[PC_1_SIZE];
 	//左循环距离表
-	static char Move_Table[SUBKEY_NUM];
+	static const char Move_Table[SUBKEY_NUM];
 	//置换选择表2
 	//选择其中的某些位将其减少到48位
-	static char PC2_Table[PC_2_SIZE];
+	static const char PC2_Table[PC_2_SIZE];
 	//子密钥
 	bool subKeys[SUBKEY_NUM][SUBKEY_LENGHT];
 	//----------------------------------加密或解密需要的表--------------------------------------------
 	//初始置换表
 	//表中的数值表示输入为被置换后的新位置
-	static char IP_Table[BIT_STR_SIZE];
+	static const char IP_Table[BIT_STR_SIZE];
 	//扩展表
 	//通过重复某些位将32位的右半部分按照表扩展成48位
-	static char Expand_Table[EXPAND_SIZE];
+	static const char Expand_Table[EXPAND_SIZE];
 	//单纯置换表
-	static char Permute_Table[BIT_STR_SIZE / 2];
+	static const char Permute_Table[BIT_STR_SIZE / 2];
 	//反置换表
-	static char IP_1_Table[BIT_STR_SIZE];
+	static const char IP_1_Table[BIT_STR_SIZE];
 	//置换盒
-	static char SBox_Table[KEY_SZIE][4][16];
+	static const char SBox_Table[KEY_SZIE][4][16];
 private:
 	//生成16个子秘钥
 	bool CreateSubKey(const std::string& key);
