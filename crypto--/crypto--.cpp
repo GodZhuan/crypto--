@@ -10,12 +10,15 @@
 #include "sha256.h"
 #include "sm4.h"
 #include "zuc.h"
+#include "sm3.h"
 //#include "des.h"
 
-enum class CryptoGraphic{
-	AES = 1,ECC,ECDSA,ElGamal,SHA256,RC4,DES
+enum class cryptoGraphic{
+	AES = 1,ECC,ECDSA,ElGamal,SHA256,RC4,SM3,SM4,ZUC
 };
-
+enum class cryptoType {
+	Crypto = 1, Decrypt
+};
 mp_err(err);
 int main(int argc, char* argv[])
 {
@@ -771,7 +774,7 @@ int main(int argc, char* argv[])
 	//		break;
 	//	}
 	//}break;
-	case 7: {  }break;
+	case 7: {if(ZUC_SelfCheck())cout<<"ÕýÈ·";  }break;
 	default:
 		break;
 	}
