@@ -25,6 +25,7 @@
     <ClInclude Include="aes.h" />
     <ClInclude Include="crypto--.h" />
     <ClInclude Include="ecc.h" />
+    <ClInclude Include="fileproc.h" />
     <ClInclude Include="rc4.h" />
     <ClInclude Include="sha256.h" />
     <ClInclude Include="sm3.h" />

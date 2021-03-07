@@ -199,7 +199,7 @@ void SM3_compress(SM3_STATE* md)
  Return: null
  Others:
 *******************************************************************************/
-void SM3_process(SM3_STATE* md, unsigned char* buf, int len)
+void SM3_process(SM3_STATE* md, unsigned char buf[], int len)
 {
 	while (len--)
 	{

@@ -80,6 +80,9 @@
     <ClInclude Include="zuc.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="fileproc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="lib\tommath.lib">

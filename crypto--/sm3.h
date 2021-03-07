@@ -43,14 +43,14 @@ typedef struct {
 	unsigned int curlen;
 	unsigned char buf[64];
 } SM3_STATE;
-void BiToWj(unsigned int Bi[], unsigned int Wj[]);
-void WjToWj1(unsigned int Wj[], unsigned int Wj1[]);
-void CF(unsigned int Wj[], unsigned int Wj1[], unsigned int V[]);
+void BiToW(unsigned int Bi[], unsigned int W[]);
+void WToW1(unsigned int W[], unsigned int W1[]);
+void CF(unsigned int W[], unsigned int W1[], unsigned int V[]);
 void BigEndian(unsigned char src[], unsigned int bytelen, unsigned char des[]);
 void SM3_init(SM3_STATE* md);
 void SM3_compress(SM3_STATE* md);
 void SM3_process(SM3_STATE* md, unsigned char buf[], int len);
-void SM3_done(SM3_STATE* md, unsigned char* hash);
+void SM3_done(SM3_STATE* md, unsigned char hash[]);
 void SM3_256(unsigned char buf[], int len, unsigned char hash[]);
 int SM3_SelfTest();
 #endif
