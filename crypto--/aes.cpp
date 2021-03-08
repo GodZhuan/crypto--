@@ -1,7 +1,7 @@
 #include "string.h"
 #include "aes.h"
 namespace crypto__ {
-	AES::AES(unsigned char* key)
+	AES::AES(uint8_t* key)
 	{
 		memcpy(Sbox, sBox, 256);
 		memcpy(InvSbox, invsBox, 256);
@@ -13,9 +13,9 @@ namespace crypto__ {
 
 	}
 
-	unsigned char* AES::Cipher(unsigned char* input)
+	uint8_t* AES::Cipher(uint8_t* input)
 	{
-		unsigned char state[4][4];
+		uint8_t state[4][4];
 		int i, r, c;
 
 		for (r = 0; r < 4; r++)
@@ -47,9 +47,9 @@ namespace crypto__ {
 		return input;
 	}
 
-	unsigned char* AES::InvCipher(unsigned char* input)
+	uint8_t* AES::InvCipher(uint8_t* input)
 	{
-		unsigned char state[4][4];
+		uint8_t state[4][4];
 		int i, r, c;
 
 		for (r = 0; r < 4; r++)
@@ -85,12 +85,12 @@ namespace crypto__ {
 
 	void* AES::Cipher(void* input, int length)
 	{
-		unsigned char* in = (unsigned char*)input;
+		uint8_t* in = (uint8_t*)input;
 		int i;
 		if (!length)
 		{
 			while (*(in + length++));
-			in = (unsigned char*)input;
+			in = (uint8_t*)input;
 		}
 		for (i = 0; i < length; i += 16)
 		{
@@ -101,7 +101,7 @@ namespace crypto__ {
 
 	void* AES::InvCipher(void* input, int length)
 	{
-		unsigned char* in = (unsigned char*)input;
+		uint8_t* in = (uint8_t*)input;
 		int i;
 		for (i = 0; i < length; i += 16)
 		{
@@ -110,10 +110,10 @@ namespace crypto__ {
 		return input;
 	}
 
-	void AES::KeyExpansion(unsigned char* key, unsigned char w[][4][4])
+	void AES::KeyExpansion(uint8_t* key, uint8_t w[][4][4])
 	{
 		int i, j, r, c;
-		unsigned char rc[] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36 };
+		uint8_t rc[] = { 0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36 };
 		for (r = 0; r < 4; r++)
 		{
 			for (c = 0; c < 4; c++)
@@ -125,14 +125,14 @@ namespace crypto__ {
 		{
 			for (j = 0; j < 4; j++)
 			{
-				unsigned char t[4];
+				uint8_t t[4];
 				for (r = 0; r < 4; r++)
 				{
 					t[r] = j ? w[i][r][j - 1] : w[i - 1][r][3];
 				}
 				if (j == 0)
 				{
-					unsigned char temp = t[0];
+					uint8_t temp = t[0];
 					for (r = 0; r < 3; r++)
 					{
 						t[r] = Sbox[t[(r + 1) % 4]];
@@ -148,10 +148,10 @@ namespace crypto__ {
 		}
 	}
 
-	unsigned char AES::FFmul(unsigned char a, unsigned char b)
+	uint8_t AES::FFmul(uint8_t a, uint8_t b)
 	{
-		unsigned char bw[4];
-		unsigned char res = 0;
+		uint8_t bw[4];
+		uint8_t res = 0;
 		int i;
 		bw[0] = b;
 		for (i = 1; i < 4; i++)
@@ -172,7 +172,7 @@ namespace crypto__ {
 		return res;
 	}
 
-	void AES::SubBytes(unsigned char state[][4])
+	void AES::SubBytes(uint8_t state[][4])
 	{
 		int r, c;
 		for (r = 0; r < 4; r++)
@@ -184,9 +184,9 @@ namespace crypto__ {
 		}
 	}
 
-	void AES::ShiftRows(unsigned char state[][4])
+	void AES::ShiftRows(uint8_t state[][4])
 	{
-		unsigned char t[4];
+		uint8_t t[4];
 		int r, c;
 		for (r = 1; r < 4; r++)
 		{
@@ -201,9 +201,9 @@ namespace crypto__ {
 		}
 	}
 
-	void AES::MixColumns(unsigned char state[][4])
+	void AES::MixColumns(uint8_t state[][4])
 	{
-		unsigned char t[4];
+		uint8_t t[4];
 		int r, c;
 		for (c = 0; c < 4; c++)
 		{
@@ -221,7 +221,7 @@ namespace crypto__ {
 		}
 	}
 
-	void AES::AddRoundKey(unsigned char state[][4], unsigned char k[][4])
+	void AES::AddRoundKey(uint8_t state[][4], uint8_t k[][4])
 	{
 		int r, c;
 		for (c = 0; c < 4; c++)
@@ -233,7 +233,7 @@ namespace crypto__ {
 		}
 	}
 
-	void AES::InvSubBytes(unsigned char state[][4])
+	void AES::InvSubBytes(uint8_t state[][4])
 	{
 		int r, c;
 		for (r = 0; r < 4; r++)
@@ -245,9 +245,9 @@ namespace crypto__ {
 		}
 	}
 
-	void AES::InvShiftRows(unsigned char state[][4])
+	void AES::InvShiftRows(uint8_t state[][4])
 	{
-		unsigned char t[4];
+		uint8_t t[4];
 		int r, c;
 		for (r = 1; r < 4; r++)
 		{
@@ -262,9 +262,9 @@ namespace crypto__ {
 		}
 	}
 
-	void AES::InvMixColumns(unsigned char state[][4])
+	void AES::InvMixColumns(uint8_t state[][4])
 	{
-		unsigned char t[4];
+		uint8_t t[4];
 		int r, c;
 		for (c = 0; c < 4; c++)
 		{

@@ -1,9 +1,10 @@
 #ifndef _AES_H_
 #define _AES_H_
+#include <cstdint>
 namespace crypto__ {
 	class AES
 	{
-		static constexpr unsigned char sBox[] =
+		static constexpr uint8_t sBox[] =
 		{ /*  0    1    2    3    4    5    6    7    8    9    a    b    c    d    e    f */
 			0x63,0x7c,0x77,0x7b,0xf2,0x6b,0x6f,0xc5,0x30,0x01,0x67,0x2b,0xfe,0xd7,0xab,0x76, /*0*/
 			0xca,0x82,0xc9,0x7d,0xfa,0x59,0x47,0xf0,0xad,0xd4,0xa2,0xaf,0x9c,0xa4,0x72,0xc0, /*1*/
@@ -22,7 +23,7 @@ namespace crypto__ {
 			0xe1,0xf8,0x98,0x11,0x69,0xd9,0x8e,0x94,0x9b,0x1e,0x87,0xe9,0xce,0x55,0x28,0xdf, /*e*/
 			0x8c,0xa1,0x89,0x0d,0xbf,0xe6,0x42,0x68,0x41,0x99,0x2d,0x0f,0xb0,0x54,0xbb,0x16  /*f*/
 		};
-		static constexpr unsigned char invsBox[256] =
+		static constexpr uint8_t invsBox[256] =
 		{ /*  0    1    2    3    4    5    6    7    8    9    a    b    c    d    e    f  */
 			0x52,0x09,0x6a,0xd5,0x30,0x36,0xa5,0x38,0xbf,0x40,0xa3,0x9e,0x81,0xf3,0xd7,0xfb, /*0*/
 			0x7c,0xe3,0x39,0x82,0x9b,0x2f,0xff,0x87,0x34,0x8e,0x43,0x44,0xc4,0xde,0xe9,0xcb, /*1*/
@@ -42,29 +43,29 @@ namespace crypto__ {
 			0x17,0x2b,0x04,0x7e,0xba,0x77,0xd6,0x26,0xe1,0x69,0x14,0x63,0x55,0x21,0x0c,0x7d  /*f*/
 		};
 	public:
-		AES(unsigned char* key);
+		AES(uint8_t* key);
 		virtual ~AES();
-		unsigned char* Cipher(unsigned char* input);
-		unsigned char* InvCipher(unsigned char* input);
+		uint8_t* Cipher(uint8_t* input);
+		uint8_t* InvCipher(uint8_t* input);
 		void* Cipher(void* input, int length = 0);
 		void* InvCipher(void* input, int length);
 
 	private:
-		unsigned char Sbox[256];
-		unsigned char InvSbox[256];
-		unsigned char w[11][4][4];
+		uint8_t Sbox[256];
+		uint8_t InvSbox[256];
+		uint8_t w[11][4][4];
 
-		void KeyExpansion(unsigned char* key, unsigned char w[][4][4]);
-		unsigned char FFmul(unsigned char a, unsigned char b);
+		void KeyExpansion(uint8_t* key, uint8_t w[][4][4]);
+		uint8_t FFmul(uint8_t a, uint8_t b);
 
-		void SubBytes(unsigned char state[][4]);
-		void ShiftRows(unsigned char state[][4]);
-		void MixColumns(unsigned char state[][4]);
-		void AddRoundKey(unsigned char state[][4], unsigned char k[][4]);
+		void SubBytes(uint8_t state[][4]);
+		void ShiftRows(uint8_t state[][4]);
+		void MixColumns(uint8_t state[][4]);
+		void AddRoundKey(uint8_t state[][4], uint8_t k[][4]);
 
-		void InvSubBytes(unsigned char state[][4]);
-		void InvShiftRows(unsigned char state[][4]);
-		void InvMixColumns(unsigned char state[][4]);
+		void InvSubBytes(uint8_t state[][4]);
+		void InvShiftRows(uint8_t state[][4]);
+		void InvMixColumns(uint8_t state[][4]);
 	};
 }
 #endif // !_AES_H_

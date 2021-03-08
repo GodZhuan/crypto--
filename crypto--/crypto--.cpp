@@ -1,5 +1,3 @@
-#define _CRT_RAND_S  
-#define _HAS_STD_uint8_t 0
 #include <stdlib.h> 
 #include <iostream>
 #include <fstream>
@@ -11,23 +9,14 @@
 #include "sm4.h"
 #include "zuc.h"
 #include "sm3.h"
-//#include "des.h"
+#include "crypto--.h"
 using namespace crypto__;
 using std::cout;
-enum class cryptoGraphic{
-	AES = 1,ECC,ECDSA,ElGamal,SHA256,RC4,SM3,SM4,ZUC
-};
-enum class cryptoType {
-	Crypto = 1, Decrypt
-};
-mp_err(err);
+
+mp_err err;
 int main(int argc, char* argv[])
 {
 
-	SHA256 sha256;
-	int index, enDoIndex, ret;
-	char szFullPath[_MAX_PATH], szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFileName[_MAX_FNAME], szExt[_MAX_EXT];
-	std::string fullPath, dirPath;
 	cout << "crypto--" << endl;
 	cout << "1.AES加解密" << endl;
 	cout << "2.ECC加解密" << endl;
@@ -36,80 +25,76 @@ int main(int argc, char* argv[])
 	cout << "5.SHA256哈希散列" << endl;
 	cout << "6.RC4流式加解密" << endl;
 	cout << "7.SM4加解密" << endl;
-	cin >> index;
+	int i;
+	cin >> i;
+	CRYPTO__ c((cryptoType)i,(cryptoGraphic)1);
+
+}
+
+crypto__::CRYPTO__::CRYPTO__(cryptoType ct, cryptoGraphic cg)
+{
+	SHA256 sha256;
+	int ret;
+	char szFullPath[_MAX_PATH], szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFileName[_MAX_FNAME], szExt[_MAX_EXT];
+	std::string fullPath, dirPath;
 	cout << "请输入要计算文件的位置" << endl;
 	cin >> szFullPath;
 	ret = _splitpath_s(szFullPath, szDrive, szDrive ? _MAX_DRIVE : 0, szDir, szDir ? _MAX_DIR : 0, szFileName, szFileName ? _MAX_FNAME : 0, szExt, szExt ? _MAX_EXT : 0);
-	if (ret)return ret;
-	if (index != 5) {
-		cout << "1.加密" << endl;
-		cout << "2.解密" << endl;
-		cin >> enDoIndex;
-		dirPath += szDrive ? szDrive : "";
-		dirPath += szDir ? szDir : "";
-		fullPath = dirPath;
-		switch (enDoIndex)
-		{
-		case 1:
-			fullPath += szFileName ? szFileName : "";
-			fullPath += "cipher.txt";
-			break;
-		case 2:
-			std::string outFName;
-			cout << "输入解密后的文件名（形似hello.cpp）" << endl;
-			cin >> outFName;
-			fullPath += outFName;
-			break;
-		}
-	}
-	switch (index)
+	dirPath += szDrive ? szDrive : "";
+	dirPath += szDir ? szDir : "";
+	fullPath = dirPath;
+	switch (ct)
 	{
-	case 1: {
+	case cryptoType::Encrypt:
+		fullPath += szFileName ? szFileName : "";
+		fullPath += "cipher.txt";
+		break;
+	case cryptoType::Decrypt:
+		std::string outFName;
+		cout << "输入解密后的文件名（形似hello.cpp）" << endl;
+		cin >> outFName;
+		fullPath += outFName;
+		break;
+	}
+	switch (cg)
+	{
+	case cryptoGraphic::AES: {
 		string keyStr;
-		char plain[128];
+		char plain[16] = { 0 };
 		cout << "请输入密钥：";
 		cin >> keyStr;
-		fstream in, out;
+		ifstream in(szFullPath, ios::binary);
+		ofstream out(fullPath, ios::binary | ios::ate);
 		if (keyStr.size() == 16) {
 			AES a((unsigned char*)keyStr.c_str());
-			switch (enDoIndex)
+			switch (ct)
 			{
-			case 1:
-				in.open(szFullPath, ios::binary);
-				out.open(fullPath, ios::binary | ios::ate);
+			case cryptoType::Encrypt:
 				while (in.read((char*)&plain, sizeof(plain)))
 				{
-					a.Cipher(plain, 128);
-					out.write((char*)&plain, sizeof(plain));
-				}
-				in.close();
-				out.close();
-				cout << "press any key to shutdown" << endl;
-				std::cin.get();
-				break;
-			case 2:
+					memcpy(plain, a.Cipher(plain, sizeof(plain)), sizeof(plain));
+					out.write(plain, sizeof(plain));
+				}break;
+			case cryptoType::Decrypt:
 				// 解密 cipher.txt，并写入图片 flower1.jpg
-				in.open(szFullPath, ios::binary);
-				out.open(fullPath, ios::binary);
 				while (in.read((char*)&plain, sizeof(plain)))
 				{
-					a.InvCipher(plain, 128);
+					memcpy(plain, a.InvCipher(plain, 128), sizeof(plain));
 					out.write((char*)&plain, sizeof(plain));
-				}
-				in.close();
-				out.close();
-				break;
+				}break;
 			}
+			in.close();
+			out.close();
 		}
 	}break;
-	case 2: {
+	case cryptoGraphic::ECC: {
 		ECC e;
 
 		cout << "\n          本程序实现椭圆曲线的加密解密" << endl;
 		cout << "\n------------------------------------------------------------------------\n" << endl;
-		switch (enDoIndex)
+		switch (ct)
 		{
-		case 1:
+		case cryptoType::Encrypt:
 			time_t t;
 			srand((unsigned)time(&t));
 			e.BuildParameters();
@@ -120,7 +105,7 @@ int main(int argc, char* argv[])
 			printf("\n------------------------------------------------------------------------\n");
 			e.Ecc_encipher(szFullPath, fullPath);//加密
 			break;
-		case 2:
+		case cryptoType::Decrypt:
 			printf("\n------------------------------------------------------------------------\n");
 			e.Ecc_loadKey(dirPath);
 			e.Ecc_decipher(szFullPath, fullPath);//解密
@@ -129,7 +114,7 @@ int main(int argc, char* argv[])
 		}
 
 	}break;
-	case 3: {
+	case cryptoGraphic::ECDSA: {
 		ECC ecc;
 		STS sts;
 		int lon;
@@ -201,210 +186,211 @@ int main(int argc, char* argv[])
 		const char* rGY = "483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8";
 		const char* rn = "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141";
 
+		try
+		{
+			if ((err = mp_init(&Hm)) != MP_OKAY) {
+				throw("Error initializing the Hm. %s",
+					mp_error_to_string(err));
+			}
+			if ((err = mp_init(&s)) != MP_OKAY) {
+				throw("Error initializing the s. %s",
+					mp_error_to_string(err));
+			}
+			if ((err = mp_init(&p)) != MP_OKAY) {
+				throw("Error initializing the p. %s",
+					mp_error_to_string(err));
+			}
+			if ((err = mp_init(&a)) != MP_OKAY) {
+				throw("Error initializing the a. %s",
+					mp_error_to_string(err));
 
-		if ((err = mp_init(&Hm)) != MP_OKAY) {
-			printf("Error initializing the Hm. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&s)) != MP_OKAY) {
-			printf("Error initializing the s. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&p)) != MP_OKAY) {
-			printf("Error initializing the p. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&a)) != MP_OKAY) {
-			printf("Error initializing the a. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&rA)) != MP_OKAY) {
-			printf("Error initializing the rA. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&sA)) != MP_OKAY) {
-			printf("Error initializing the sA. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&rB)) != MP_OKAY) {
-			printf("Error initializing the rB. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&sB)) != MP_OKAY) {
-			printf("Error initializing the sB. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&K)) != MP_OKAY) {
-			printf("Error initializing the K. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&GX)) != MP_OKAY) {
-			printf("Error initializing the GX. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&GY)) != MP_OKAY) {
-			printf("Error initializing the GY. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init_set(&n, 1)) != MP_OKAY) {
-			printf("Error initializing the n. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init_set(&h, 1)) != MP_OKAY) {
-			printf("Error initializing the h. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&d)) != MP_OKAY) {
-			printf("Error initializing the d. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&k)) != MP_OKAY) {
-			printf("Error initializing the k. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init_set(&A, 0)) != MP_OKAY) {
-			printf("Error initializing the A. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init_set(&B, 7)) != MP_OKAY) {
-			printf("Error initializing the B. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&PX)) != MP_OKAY) {
-			printf("Error initializing the PX. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&PY)) != MP_OKAY) {
-			printf("Error initializing the PY. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&X1)) != MP_OKAY) {
-			printf("Error initializing the X1. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&Y1)) != MP_OKAY) {
-			printf("Error initializing the Y1. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&u1X)) != MP_OKAY) {
-			printf("Error initializing the u1X. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&u1Y)) != MP_OKAY) {
-			printf("Error initializing the u1Y. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&u2X)) != MP_OKAY) {
-			printf("Error initializing the u2X. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&u2Y)) != MP_OKAY) {
-			printf("Error initializing the u2Y. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&X2)) != MP_OKAY) {
-			printf("Error initializing the X2. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&Y2)) != MP_OKAY) {
-			printf("Error initializing the Y2. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&v)) != MP_OKAY) {
-			printf("Error initializing the v. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&r)) != MP_OKAY) {
-			printf("Error initializing the r. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&P)) != MP_OKAY) {
-			printf("Error initializing the P. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&k1)) != MP_OKAY) {
-			printf("Error initializing the k1. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&s1)) != MP_OKAY) {
-			printf("Error initializing the s1. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&n1)) != MP_OKAY) {
-			printf("Error initializing the n1. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&temp)) != MP_OKAY) {
-			printf("Error initializing the temp. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&u1)) != MP_OKAY) {
-			printf("Error initializing the u1. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&u2)) != MP_OKAY) {
-			printf("Error initializing the u2. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		n.alloc = 512;
-		if ((err = mp_read_radix(&P, rP, 0x10)) != MP_OKAY) {
-			printf("mp_read_radix failed: \"%s\"\n",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_read_radix(&GX, rGX, 0x10)) != MP_OKAY) {
-			printf("mp_read_radix failed: \"%s\"\n",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_read_radix(&GY, rGY, 0x10)) != MP_OKAY) {
-			printf("mp_read_radix failed: \"%s\"\n",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_read_radix(&n, rn, 0x10)) != MP_OKAY) {
-			printf("mp_read_radix failed: \"%s\"\n",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
+			}
+			if ((err = mp_init(&rA)) != MP_OKAY) {
+				throw("Error initializing the rA. %s",
+					mp_error_to_string(err));
 
+			}
+			if ((err = mp_init(&sA)) != MP_OKAY) {
+				throw("Error initializing the sA. %s",
+					mp_error_to_string(err));
 
+			}
+			if ((err = mp_init(&rB)) != MP_OKAY) {
+				throw("Error initializing the rB. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&sB)) != MP_OKAY) {
+				throw("Error initializing the sB. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&K)) != MP_OKAY) {
+				throw("Error initializing the K. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&GX)) != MP_OKAY) {
+				throw("Error initializing the GX. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&GY)) != MP_OKAY) {
+				throw("Error initializing the GY. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init_set(&n, 1)) != MP_OKAY) {
+				throw("Error initializing the n. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init_set(&h, 1)) != MP_OKAY) {
+				throw("Error initializing the h. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&d)) != MP_OKAY) {
+				throw("Error initializing the d. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&k)) != MP_OKAY) {
+				throw("Error initializing the k. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init_set(&A, 0)) != MP_OKAY) {
+				throw("Error initializing the A. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init_set(&B, 7)) != MP_OKAY) {
+				throw("Error initializing the B. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&PX)) != MP_OKAY) {
+				throw("Error initializing the PX. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&PY)) != MP_OKAY) {
+				throw("Error initializing the PY. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&X1)) != MP_OKAY) {
+				throw("Error initializing the X1. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&Y1)) != MP_OKAY) {
+				throw("Error initializing the Y1. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&u1X)) != MP_OKAY) {
+				throw("Error initializing the u1X. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&u1Y)) != MP_OKAY) {
+				throw("Error initializing the u1Y. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&u2X)) != MP_OKAY) {
+				throw("Error initializing the u2X. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&u2Y)) != MP_OKAY) {
+				throw("Error initializing the u2Y. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&X2)) != MP_OKAY) {
+				throw("Error initializing the X2. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&Y2)) != MP_OKAY) {
+				throw("Error initializing the Y2. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&v)) != MP_OKAY) {
+				throw("Error initializing the v. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&r)) != MP_OKAY) {
+				throw("Error initializing the r. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&P)) != MP_OKAY) {
+				throw("Error initializing the P. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&k1)) != MP_OKAY) {
+				throw("Error initializing the k1. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&s1)) != MP_OKAY) {
+				throw("Error initializing the s1. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&n1)) != MP_OKAY) {
+				throw("Error initializing the n1. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&temp)) != MP_OKAY) {
+				throw("Error initializing the temp. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&u1)) != MP_OKAY) {
+				throw("Error initializing the u1. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&u2)) != MP_OKAY) {
+				throw("Error initializing the u2. %s",
+					mp_error_to_string(err));
+
+			}
+			n.alloc = 512;
+			if ((err = mp_read_radix(&P, rP, 0x10)) != MP_OKAY) {
+				throw("mp_read_radix failed: \"%s\"\n",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_read_radix(&GX, rGX, 0x10)) != MP_OKAY) {
+				throw("mp_read_radix failed: \"%s\"\n",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_read_radix(&GY, rGY, 0x10)) != MP_OKAY) {
+				throw("mp_read_radix failed: \"%s\"\n",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_read_radix(&n, rn, 0x10)) != MP_OKAY) {
+				throw("mp_read_radix failed: \"%s\"\n",
+					mp_error_to_string(err));
+
+			}
+		}
+		catch (const char* init_err)
+		{
+			cout << init_err << endl;
+		}
 
 		cout << "请输入大素数的位数：";
 		cin >> lon;
@@ -544,7 +530,7 @@ int main(int argc, char* argv[])
 		mp_clear(&u1);
 		mp_clear(&u2);
 	}break;
-	case 4: {
+	case cryptoGraphic::ElGamal: {
 		ECC ecc;
 		STS sts;
 
@@ -570,71 +556,78 @@ int main(int argc, char* argv[])
 		std::unique_ptr<char[]> tempA1(new char[800]());
 		std::unique_ptr<char[]> tempT(new char[800]());
 
+		try
+		{
+			if ((err = mp_init(&p)) != MP_OKAY) {
+				throw("Error initializing the p. %s",
+					mp_error_to_string(err));
 
-		if ((err = mp_init(&p)) != MP_OKAY) {
-			printf("Error initializing the p. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
+			}
+			if ((err = mp_init(&a)) != MP_OKAY) {
+				throw("Error initializing the a. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&p_1)) != MP_OKAY) {
+				throw("Error initializing the p_1. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&x)) != MP_OKAY) {
+				throw("Error initializing the x. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&y)) != MP_OKAY) {
+				throw("Error initializing the y. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&a)) != MP_OKAY) {
+				throw("Error initializing the a. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&k)) != MP_OKAY) {
+				throw("Error initializing the k. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&r)) != MP_OKAY) {
+				throw("Error initializing the r. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&s)) != MP_OKAY) {
+				throw("Error initializing the s. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&sha)) != MP_OKAY) {
+				throw("Error initializing the sha. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&a1)) != MP_OKAY) {
+				throw("Error initializing the a1. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&b1)) != MP_OKAY) {
+				throw("Error initializing the b1. %s",
+					mp_error_to_string(err));
+
+			}
+			if ((err = mp_init(&temp3)) != MP_OKAY) {
+				throw("Error initializing the temp3. %s",
+					mp_error_to_string(err));
+
+			}
+
 		}
-		if ((err = mp_init(&a)) != MP_OKAY) {
-			printf("Error initializing the a. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&p_1)) != MP_OKAY) {
-			printf("Error initializing the p_1. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&x)) != MP_OKAY) {
-			printf("Error initializing the x. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&y)) != MP_OKAY) {
-			printf("Error initializing the y. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&a)) != MP_OKAY) {
-			printf("Error initializing the a. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&k)) != MP_OKAY) {
-			printf("Error initializing the k. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&r)) != MP_OKAY) {
-			printf("Error initializing the r. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&s)) != MP_OKAY) {
-			printf("Error initializing the s. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&sha)) != MP_OKAY) {
-			printf("Error initializing the sha. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&a1)) != MP_OKAY) {
-			printf("Error initializing the a1. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&b1)) != MP_OKAY) {
-			printf("Error initializing the b1. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
-		}
-		if ((err = mp_init(&temp3)) != MP_OKAY) {
-			printf("Error initializing the temp3. %s",
-				mp_error_to_string(err));
-			return EXIT_FAILURE;
+		catch (const char* init_err)
+		{
+			cout << init_err << endl;
 		}
 
 
@@ -673,7 +666,7 @@ int main(int argc, char* argv[])
 		mp_to_radix(&a1, tempT.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempT.get());
 	}break;
-	case 5: {
+	case cryptoGraphic::SHA256: {
 		mp_int s;
 		size_t written;
 		mp_init(&s);
@@ -685,19 +678,8 @@ int main(int argc, char* argv[])
 		printf("%s\n", tempSHA);
 
 	}break;
-	case 6: {
-		std::string path;
-		mp_int s;
-		size_t written;
-		mp_init(&s);
-		cout << "请输入要计算散列值文件的位置：";
-		cin >> path;
-		std::string a = sha256.ShaFile(path);
-		mp_read_radix(&s, a.c_str(), 10);
-		char tempSHA[800] = { 0 };
-		printf("SHA是:\n");
-		mp_to_radix(&s, tempSHA, SIZE_MAX, &written, 0x10);
-		printf("%s\n", tempSHA);
+	case cryptoGraphic::RC4: {
+
 
 	}break;
 		//case 7: {
@@ -750,7 +732,7 @@ int main(int argc, char* argv[])
 		//		break;
 		//	}
 		//}break;
-	case 7: {
+	case cryptoGraphic::SM3: {
 		SM3 sm3;
 		SM4 sm4;
 		ZUC zuc;
