@@ -8,7 +8,7 @@ namespace crypto__ {
 	class ZUC
 	{
 	private:
-		static constexpr unsigned char ZUC_S0[256] =
+		static constexpr uint8_t ZUC_S0[256] =
 		{ 0x3e,0x72,0x5b,0x47,0xca,0xe0,0x00,0x33,0x04,0xd1,0x54,0x98,0x09,0xb9,0x6d,0xcb,
 		0x7b,0x1b,0xf9,0x32,0xaf,0x9d,0x6a,0xa5,0xb8,0x2d,0xfc,0x1d,0x08,0x53,0x03,0x90,
 		0x4d,0x4e,0x84,0x99,0xe4,0xce,0xd9,0x91,0xdd,0xb6,0x85,0x48,0x8b,0x29,0x6e,0xac,
@@ -25,7 +25,7 @@ namespace crypto__ {
 		0xf6,0xfa,0x36,0xd2,0x50,0x68,0x9e,0x62,0x71,0x15,0x3d,0xd6,0x40,0xc4,0xe2,0x0f,
 		0x8e,0x83,0x77,0x6b,0x25,0x05,0x3f,0x0c,0x30,0xea,0x70,0xb7,0xa1,0xe8,0xa9,0x65,
 		0x8d,0x27,0x1a,0xdb,0x81,0xb3,0xa0,0xf4,0x45,0x7a,0x19,0xdf,0xee,0x78,0x34,0x60 };
-		static constexpr unsigned char ZUC_S1[256] =
+		static constexpr uint8_t ZUC_S1[256] =
 		{ 0x55,0xc2,0x63,0x71,0x3b,0xc8,0x47,0x86,0x9f,0x3c,0xda,0x5b,0x29,0xaa,0xfd,0x77,
 		0x8c,0xc5,0x94,0x0c,0xa6,0x1a,0x13,0x00,0xe3,0xa8,0x16,0x72,0x40,0xf9,0xf8,0x42,
 		0x44,0x26,0x68,0x96,0x81,0xd9,0x45,0x3e,0x10,0x76,0xc6,0xa7,0x8b,0x39,0x43,0xe1,
@@ -43,36 +43,36 @@ namespace crypto__ {
 		0x88,0xb1,0x98,0x7c,0xf3,0x3d,0x60,0x6c,0x7b,0xca,0xd3,0x1f,0x32,0x65,0x04,0x28,
 		0x64,0xbe,0x85,0x9b,0x2f,0x59,0x8a,0xd7,0xb0,0x25,0xac,0xaf,0x12,0x03,0xe2,0xf2 };
 		//D value in key loading
-		static constexpr unsigned int ZUC_d[16] = { 0x44D7, 0x26BC, 0x626B, 0x135E, 0x5789, 0x35E2, 0x7135, 0x09AF,
+		static constexpr uint32_t ZUC_d[16] = { 0x44D7, 0x26BC, 0x626B, 0x135E, 0x5789, 0x35E2, 0x7135, 0x09AF,
 		0x4D78, 0x2F13, 0x6BC4, 0x1AF1, 0x5E26, 0x3C4D, 0x789A, 0x47AC };
 		//rotate n bits to the left in a 32bit buffer
-		/*inline unsigned int ZUC_rotl32(unsigned int x, int k) {
+		/*inline uint32_t ZUC_rotl32(uint32_t x, int k) {
 			return(x << k) | (x >> (32 - k));
 		}*/
 //si = ki¡¬di¡¬ivi,in key loading
-		inline unsigned int ZUC_LinkToS(unsigned int a, unsigned int b, unsigned int c) {
+		inline uint32_t ZUC_LinkToS(uint32_t a, uint32_t b, uint32_t c) {
 			return(a << 23) | (b << 8) | c;
 		}
-		unsigned int AddMod(unsigned int a, unsigned int b);
-		unsigned int PowMod(unsigned int x, unsigned int k);
-		unsigned int L1(unsigned int X);
-		unsigned int L2(unsigned int X);
-		unsigned char BitValue(unsigned int M[], unsigned int i);
-		unsigned int GetWord(unsigned int k[], unsigned int i);
-		void LFSRWithInitMode(unsigned int LFSR_S[], unsigned int u);
-		void LFSRWithWorkMode(unsigned int LFSR_S[]);
-		void BR(unsigned int LFSR_S[], unsigned int BR_X[]);
-		unsigned int F(unsigned int BR_X[], unsigned int F_R[]);
-		void ZUC_Init(unsigned char k[], unsigned char iv[], unsigned int LFSR_S[], unsigned int
-			BR_X[], unsigned int F_R[]);
-		void ZUC_Work(unsigned int LFSR_S[], unsigned int BR_X[], unsigned int F_R[], unsigned int
+		uint32_t AddMod(uint32_t a, uint32_t b);
+		uint32_t PowMod(uint32_t x, uint32_t k);
+		uint32_t L1(uint32_t X);
+		uint32_t L2(uint32_t X);
+		uint8_t BitValue(uint32_t M[], uint32_t i);
+		uint32_t GetWord(uint32_t k[], uint32_t i);
+		void LFSRWithInitMode(uint32_t LFSR_S[], uint32_t u);
+		void LFSRWithWorkMode(uint32_t LFSR_S[]);
+		void BR(uint32_t LFSR_S[], uint32_t BR_X[]);
+		uint32_t F(uint32_t BR_X[], uint32_t F_R[]);
+		void ZUC_Init(uint8_t k[], uint8_t iv[], uint32_t LFSR_S[], uint32_t
+			BR_X[], uint32_t F_R[]);
+		void ZUC_Work(uint32_t LFSR_S[], uint32_t BR_X[], uint32_t F_R[], uint32_t
 			pKeyStream[], int KeyStreamLen);
-		void ZUC_GenKeyStream(unsigned char k[], unsigned char iv[], unsigned int KeyStream[], int
+		void ZUC_GenKeyStream(uint8_t k[], uint8_t iv[], uint32_t KeyStream[], int
 			KeyStreamLen);
-		void ZUC_Confidentiality(unsigned char CK[], unsigned int COUNT, unsigned char BEARER, unsigned
-			char DIRECTION, unsigned int IBS[], int LENGTH, unsigned int OBS[]);
-		unsigned int ZUC_Integrity(unsigned char IK[], unsigned int COUNT, unsigned char BEARER, unsigned
-			char DIRECTION, unsigned int M[], int LENGTH);
+		void ZUC_Confidentiality(uint8_t CK[], uint32_t COUNT, uint8_t BEARER, unsigned
+			char DIRECTION, uint32_t IBS[], int LENGTH, uint32_t OBS[]);
+		uint32_t ZUC_Integrity(uint8_t IK[], uint32_t COUNT, uint8_t BEARER, unsigned
+			char DIRECTION, uint32_t M[], int LENGTH);
 		
 	public:
 		ZUC(){}

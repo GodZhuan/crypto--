@@ -1,8 +1,8 @@
 #include "zuc.h"
 namespace crypto__ {
-	unsigned int ZUC::AddMod(unsigned int a, unsigned int b)
+	uint32_t ZUC::AddMod(uint32_t a, uint32_t b)
 	{
-		unsigned int c = a + b;
+		uint32_t c = a + b;
 		if (c >> 31)
 		{
 			c = (c & 0x7fffffff) + 1;
@@ -10,22 +10,22 @@ namespace crypto__ {
 		return c;
 	}
 
-	unsigned int ZUC::PowMod(unsigned int x, unsigned int k)
+	uint32_t ZUC::PowMod(uint32_t x, uint32_t k)
 	{
 		return (((x << k) | (x >> (31 - k))) & 0x7fffffff);
 	}
 
-	unsigned int ZUC::L1(unsigned int X)
+	uint32_t ZUC::L1(uint32_t X)
 	{
 		return X ^ rotl32(X, 2) ^ rotl32(X, 10) ^ rotl32(X, 18) ^ rotl32(X, 24);
 	}
 
-	unsigned int ZUC::L2(unsigned int X)
+	uint32_t ZUC::L2(uint32_t X)
 	{
 		return X ^ rotl32(X, 8) ^ rotl32(X, 14) ^ rotl32(X, 22) ^ rotl32(X, 30);
 	}
 
-	unsigned char ZUC::BitValue(unsigned int M[], unsigned int i)
+	uint8_t ZUC::BitValue(uint32_t M[], uint32_t i)
 	{
 		int j, k;
 		j = i >> 5;
@@ -36,10 +36,10 @@ namespace crypto__ {
 			return 0;
 	}
 
-	unsigned int ZUC::GetWord(unsigned int k[], unsigned int i) //获取字串中的从第i个比特值开始的字
+	uint32_t ZUC::GetWord(uint32_t k[], uint32_t i) //获取字串中的从第i个比特值开始的字
 	{
 		int j, m;
-		unsigned int word;
+		uint32_t word;
 		j = i >> 5;
 		m = i & 0x1f;
 		if (m == 0)
@@ -49,9 +49,9 @@ namespace crypto__ {
 		return word;
 	}
 
-	void ZUC::LFSRWithInitMode(unsigned int LFSR_S[], unsigned int u)
+	void ZUC::LFSRWithInitMode(uint32_t LFSR_S[], uint32_t u)
 	{
-		unsigned int v = LFSR_S[0], i;
+		uint32_t v = LFSR_S[0], i;
 		v = AddMod(v, PowMod(LFSR_S[15], 15));
 		v = AddMod(v, PowMod(LFSR_S[13], 17));
 		v = AddMod(v, PowMod(LFSR_S[10], 21));
@@ -68,9 +68,9 @@ namespace crypto__ {
 		}
 	};
 
-	void ZUC::LFSRWithWorkMode(unsigned int LFSR_S[])
+	void ZUC::LFSRWithWorkMode(uint32_t LFSR_S[])
 	{
-		unsigned int v = LFSR_S[0], i;
+		uint32_t v = LFSR_S[0], i;
 		v = AddMod(v, PowMod(LFSR_S[15], 15));
 		v = AddMod(v, PowMod(LFSR_S[13], 17));
 		v = AddMod(v, PowMod(LFSR_S[10], 21));
@@ -87,7 +87,7 @@ namespace crypto__ {
 		}
 	};
 
-	void ZUC::BR(unsigned int LFSR_S[], unsigned int BR_X[])
+	void ZUC::BR(uint32_t LFSR_S[], uint32_t BR_X[])
 	{
 		BR_X[0] = ((LFSR_S[15] & 0x7fff8000) << 1) | (LFSR_S[14] & 0x0000ffff);
 		BR_X[1] = ((LFSR_S[11] & 0x0000ffff) << 16) | ((LFSR_S[9] & 0x7fff8000) >> 15);
@@ -95,9 +95,9 @@ namespace crypto__ {
 		BR_X[3] = ((LFSR_S[2] & 0x0000ffff) << 16) | ((LFSR_S[0] & 0x7fff8000) >> 15);
 	}
 
-	unsigned int ZUC::F(unsigned int BR_X[], unsigned int F_R[])
+	uint32_t ZUC::F(uint32_t BR_X[], uint32_t F_R[])
 	{
-		unsigned int W, W1, W2;
+		uint32_t W, W1, W2;
 		W = (BR_X[0] ^ F_R[0]) + F_R[1];
 		W1 = F_R[0] + BR_X[1];
 		W2 = F_R[1] ^ BR_X[2];
@@ -114,10 +114,10 @@ namespace crypto__ {
 		return W;
 	};
 
-	void ZUC::ZUC_Init(unsigned char k[], unsigned char iv[], unsigned int LFSR_S[], unsigned int
-		BR_X[], unsigned int F_R[])
+	void ZUC::ZUC_Init(uint8_t k[], uint8_t iv[], uint32_t LFSR_S[], uint32_t
+		BR_X[], uint32_t F_R[])
 	{
-		unsigned char count = 32;
+		uint8_t count = 32;
 		int i;
 		//loading key to the LFSR s0,s1,s2....s15
 		printf("\ninitial state of LFSR: S[0]-S[15]\n");
@@ -130,7 +130,7 @@ namespace crypto__ {
 		F_R[1] = 0x00; //R2
 		while (count) //32 times
 		{
-			unsigned int W;
+			uint32_t W;
 			BR(LFSR_S, BR_X); //BitReconstruction
 			W = F(BR_X, F_R); //nonlinear function
 			LFSRWithInitMode(LFSR_S, W >> 1);
@@ -138,7 +138,7 @@ namespace crypto__ {
 		}
 	}
 
-	void ZUC::ZUC_Work(unsigned int LFSR_S[], unsigned int BR_X[], unsigned int F_R[], unsigned int
+	void ZUC::ZUC_Work(uint32_t LFSR_S[], uint32_t BR_X[], uint32_t F_R[], uint32_t
 		pKeyStream[], int KeyStreamLen)
 	{
 		int i = 0;
@@ -154,12 +154,12 @@ namespace crypto__ {
 		}
 	}
 
-	void ZUC::ZUC_GenKeyStream(unsigned char k[], unsigned char iv[], unsigned int KeyStream[], int
+	void ZUC::ZUC_GenKeyStream(uint8_t k[], uint8_t iv[], uint32_t KeyStream[], int
 		KeyStreamLen)
 	{
-		unsigned int LFSR_S[16]; //LFSR state s0,s1,s2,...s15
-		unsigned int BR_X[4]; //Bit Reconstruction X0,X1,X2,X3
-		unsigned int F_R[2]; //R1,R2,variables of nonlinear function F
+		uint32_t LFSR_S[16]; //LFSR state s0,s1,s2,...s15
+		uint32_t BR_X[4]; //Bit Reconstruction X0,X1,X2,X3
+		uint32_t F_R[2]; //R1,R2,variables of nonlinear function F
 		int i;
 		//Initialisation
 		ZUC_Init(k, iv, LFSR_S, BR_X, F_R);
@@ -175,17 +175,17 @@ namespace crypto__ {
 		ZUC_Work(LFSR_S, BR_X, F_R, KeyStream, KeyStreamLen);
 	}
 
-	void ZUC::ZUC_Confidentiality(unsigned char CK[], unsigned int COUNT, unsigned char BEARER, unsigned
-		char DIRECTION, unsigned int IBS[], int LENGTH, unsigned int OBS[])
+	void ZUC::ZUC_Confidentiality(uint8_t CK[], uint32_t COUNT, uint8_t BEARER, unsigned
+		char DIRECTION, uint32_t IBS[], int LENGTH, uint32_t OBS[])
 	{
-		unsigned int* k;
+		uint32_t* k;
 		int L, i, t;
-		unsigned char iv[16];
+		uint8_t iv[16];
 		//generate vector iv1,iv2,...iv15
-		iv[0] = (unsigned char)(COUNT >> 24);
-		iv[1] = (unsigned char)((COUNT >> 16) & 0xff);
-		iv[2] = (unsigned char)((COUNT >> 8) & 0xff);
-		iv[3] = (unsigned char)(COUNT & 0xff);
+		iv[0] = (uint8_t)(COUNT >> 24);
+		iv[1] = (uint8_t)((COUNT >> 16) & 0xff);
+		iv[2] = (uint8_t)((COUNT >> 8) & 0xff);
+		iv[3] = (uint8_t)(COUNT & 0xff);
 		iv[4] = (((BEARER << 3) | (DIRECTION << 2)) & 0xfc);
 		iv[5] = 0x00;
 		iv[6] = 0x00;
@@ -200,7 +200,7 @@ namespace crypto__ {
 		iv[15] = iv[7];
 		//L,the length of key stream,taking 32bit as a unit
 		L = (LENGTH + 31) / 32;
-		k = static_cast<unsigned int*>(malloc(sizeof(unsigned int) * L));
+		k = static_cast<uint32_t*>(malloc(sizeof(uint32_t) * L));
 		//generate key stream k
 		ZUC_GenKeyStream(CK, iv, k, L); //generate key stream
 		//OBS=IBS^k
@@ -231,18 +231,18 @@ namespace crypto__ {
 	Return: MAC //message authentication code
 	Others:
 	****************************************************************/
-	unsigned int ZUC::ZUC_Integrity(unsigned char IK[], unsigned int COUNT, unsigned char BEARER, unsigned
-		char DIRECTION, unsigned int M[], int LENGTH)
+	uint32_t ZUC::ZUC_Integrity(uint8_t IK[], uint32_t COUNT, uint8_t BEARER, unsigned
+		char DIRECTION, uint32_t M[], int LENGTH)
 	{
-		unsigned int* k, ki, MAC;
+		uint32_t* k, ki, MAC;
 		int L, i;
-		unsigned char iv[16];
-		unsigned int T = 0;
+		uint8_t iv[16];
+		uint32_t T = 0;
 		//generate vector iv1,iv2,...iv15
-		iv[0] = (unsigned char)(COUNT >> 24);
-		iv[1] = (unsigned char)((COUNT >> 16) & 0xff);
-		iv[2] = (unsigned char)((COUNT >> 8) & 0xff);
-		iv[3] = (unsigned char)(COUNT & 0xff);
+		iv[0] = (uint8_t)(COUNT >> 24);
+		iv[1] = (uint8_t)((COUNT >> 16) & 0xff);
+		iv[2] = (uint8_t)((COUNT >> 8) & 0xff);
+		iv[3] = (uint8_t)(COUNT & 0xff);
 		iv[4] = BEARER << 3;
 		iv[5] = 0x00;
 		iv[6] = 0x00;
@@ -257,7 +257,7 @@ namespace crypto__ {
 		iv[15] = iv[7];
 		//L,the length of key stream,taking 32bit as a unit
 		L = (LENGTH + 31) / 32 + 2;
-		k = static_cast<unsigned int*>(malloc(sizeof(unsigned int) * L));
+		k = static_cast<uint32_t*>(malloc(sizeof(uint32_t) * L));
 		//generate key stream k
 		ZUC_GenKeyStream(IK, iv, k, L);
 		//T=T^ki
@@ -294,44 +294,44 @@ namespace crypto__ {
 		int i;
 		/**************** KeyStream generation validation data ***************************/
 		//(random)
-		unsigned char
+		uint8_t
 			k[16] = { 0x3d,0x4c,0x4b,0xe9,0x6a,0x82,0xfd,0xae,0xb5,0x8f,0x64,0x1d,0xb1,0x7b,0x45,0x5b };
-		unsigned char
+		uint8_t
 			iv[16] = { 0x84,0x31,0x9a,0xa8,0xde,0x69,0x15,0xca,0x1f,0x6b,0xda,0x6b,0xfb,0xd8,0xc7,0x66 };
-		unsigned int Std_Keystream[2] = { 0x14f1c272,0x3279c419 };
+		uint32_t Std_Keystream[2] = { 0x14f1c272,0x3279c419 };
 		int KeystreamLen = 2;//the length of key stream
-		unsigned int Keystream[2];
+		uint32_t Keystream[2];
 		/******************* Confidentiality validation data ***************************/
-		unsigned char key[16] =
+		uint8_t key[16] =
 		{ 0x17,0x3d,0x14,0xba,0x50,0x03,0x73,0x1d,0x7a,0x60,0x04,0x94,0x70,0xf0,0x0a,0x29 };
-		unsigned int COUNT = 0x66035492;
-		unsigned char BEARER = 0x0f;
-		unsigned char DIRECTION = 0x00;
-		unsigned int plain[7] =
+		uint32_t COUNT = 0x66035492;
+		uint8_t BEARER = 0x0f;
+		uint8_t DIRECTION = 0x00;
+		uint32_t plain[7] =
 		{ 0x6cf65340,0x735552ab,0x0c9752fa,0x6f9025fe,0x0bd675d9,0x005875b2,0x00000000 };
-		unsigned int Std_cipher[7] =
+		uint32_t Std_cipher[7] =
 		{ 0xa6c85fc6,0x6afb8533,0xaafc2518,0xdfe78494,0x0ee1e4b0,0x30238cc8,0x00000000 };
 		int plainlen = 0xc1;
-		unsigned int cipher[7];
+		uint32_t cipher[7];
 		/*2
-		unsigned char key[16] ={0xe5, 0xbd, 0x3e, 0xa0, 0xeb, 0x55, 0xad, 0xe8, 0x66, 0xc6, 0xac, 0x58, 0xbd, 0x54, 0x30, 0x2a};
-		unsigned int COUNT=0x00056823;
-		unsigned char BEARER=0x18;
-		unsigned char DIRECTION=0x01;
-		unsigned int plain[25] ={0x14a8ef69, 0x3d678507, 0xbbe7270a, 0x7f67ff50, 0x06c3525b, 0x9807e467, 0xc4e56000,
+		uint8_t key[16] ={0xe5, 0xbd, 0x3e, 0xa0, 0xeb, 0x55, 0xad, 0xe8, 0x66, 0xc6, 0xac, 0x58, 0xbd, 0x54, 0x30, 0x2a};
+		uint32_t COUNT=0x00056823;
+		uint8_t BEARER=0x18;
+		uint8_t DIRECTION=0x01;
+		uint32_t plain[25] ={0x14a8ef69, 0x3d678507, 0xbbe7270a, 0x7f67ff50, 0x06c3525b, 0x9807e467, 0xc4e56000,
 			0xba338f5d, 0x42955903, 0x67518222, 0x46c80d3b, 0x38f07f4b, 0xe2d8ff58, 0x05f51322, 0x29bde93b, 0xbbdcaf38,
 			0x2bf1ee97, 0x2fbf9977, 0xbada8945, 0x847a2a6c, 0x9ad34a66, 0x7554e04d, 0x1f7fa2c3, 0x3241bd8f, 0x01ba220d};
-		unsigned int Std_cipher[25] ={0x131d43e0, 0xdea1be5c, 0x5a1bfd97, 0x1d852cbf, 0x712d7b4f, 0x57961fea, 0x3208afa8,
+		uint32_t Std_cipher[25] ={0x131d43e0, 0xdea1be5c, 0x5a1bfd97, 0x1d852cbf, 0x712d7b4f, 0x57961fea, 0x3208afa8,
 			0xbca433f4, 0x56ad09c7, 0x417e58bc, 0x69cf8866, 0xd1353f74, 0x865e8078, 0x1d202dfb, 0x3ecff7fc, 0xbc3b190f,
 			0xe82a204e, 0xd0e350fc, 0x0f6f2613, 0xb2f2bca6, 0xdf5a473a, 0x57a4a00d, 0x985ebad8, 0x80d6f238, 0x64a07b01};
 		int plainlen = 0x0320;
-		unsigned int cipher[25];*/
+		uint32_t cipher[25];*/
 		/*3
-		unsigned char key[16] ={0xe1, 0x3f, 0xed, 0x21, 0xb4, 0x6e, 0x4e, 0x7e, 0xc3, 0x12, 0x53, 0xb2, 0xbb, 0x17, 0xb3, 0xe0};
-		unsigned int COUNT=0x2738cdaa;
-		unsigned char BEARER=0x1a;
-		unsigned char DIRECTION=0x00;
-		unsigned int plain[126] ={0x8d74e20d, 0x54894e06, 0xd3cb13cb, 0x3933065e, 0x8674be62, 0xadb1c72b, 0x3a646965,
+		uint8_t key[16] ={0xe1, 0x3f, 0xed, 0x21, 0xb4, 0x6e, 0x4e, 0x7e, 0xc3, 0x12, 0x53, 0xb2, 0xbb, 0x17, 0xb3, 0xe0};
+		uint32_t COUNT=0x2738cdaa;
+		uint8_t BEARER=0x1a;
+		uint8_t DIRECTION=0x00;
+		uint32_t plain[126] ={0x8d74e20d, 0x54894e06, 0xd3cb13cb, 0x3933065e, 0x8674be62, 0xadb1c72b, 0x3a646965,
 			0xab63cb7b, 0x7854dfdc, 0x27e84929, 0xf49c64b8, 0x72a490b1, 0x3f957b64, 0x827e71f4, 0x1fbd4269, 0xa42c97f8,
 			0x24537027, 0xf86e9f4a, 0xd82d1df4, 0x51690fdd, 0x98b6d03f, 0x3a0ebe3a, 0x312d6b84, 0x0ba5a182, 0x0b2a2c97,
 			0x09c090d2, 0x45ed267c, 0xf845ae41, 0xfa975d33, 0x33ac3009, 0xfd40eba9, 0xeb5b8857, 0x14b768b6, 0x97138baf,
@@ -346,7 +346,7 @@ namespace crypto__ {
 			0xe01eabb2, 0x16743026, 0x9d72ee51, 0x1c9dde30, 0x797c9a25, 0xd86ce74f, 0x5b961be5, 0xfdfb6807, 0x814039e7,
 			0x137636bd, 0x1d7fa9e0, 0x9efd2007, 0x505906a5, 0xac45dfde, 0xed7757bb, 0xee745749, 0xc2963335, 0x0bee0ea6,
 			 0xf409df45,0x80160000};
-			unsigned int Std_cipher[126] ={ 0x94eaa4aa,0x30a57137,0xddf09b97,0xb25618a2,0x0a13e2f1,0x0fa5bf81,0x61a879cc,
+			uint32_t Std_cipher[126] ={ 0x94eaa4aa,0x30a57137,0xddf09b97,0xb25618a2,0x0a13e2f1,0x0fa5bf81,0x61a879cc,
 			0x2ae797a6,0xb4cf2d9d,0xf31debb9,0x905ccfec,0x97de605d,0x21c61ab8,0x531b7f3c,0x9da5f039,0x31f8a064,
 			0x2de48211,0xf5f52ffe,0xa10f392a,0x04766998,0x5da454a2,0x8f080961,0xa6c2b62d,0xaa17f33c,0xd60a4971,
 			0xf48d2d90,0x9394a55f,0x48117ace,0x43d708e6,0xb77d3dc4,0x6d8bc017,0xd4d1abb7,0x7b7428c0,0x42b06f2f,
@@ -362,34 +362,34 @@ namespace crypto__ {
 			0x127174af,0x57b471df,0x4b2768fd,0x79c1540f,0xb3edf2ea,0x22cb69be,0xc0cf8d93,0x3d9c6fdd,0x645e8505,
 			 0x91cca3d6,0x2c0cc000};
 			int plainlen = 0x0fb3;
-			unsigned int cipher[126];*/
+			uint32_t cipher[126];*/
 			/******************* Integrity validation data ***************************/
 			//1
-		unsigned char IK[16] =
+		uint8_t IK[16] =
 		{ 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00 };
-		unsigned int counter = 0x00000000;
-		unsigned char bear = 0x00;
-		unsigned char direc = 0x00;
-		unsigned int message[1] = { 0x00000000 };
+		uint32_t counter = 0x00000000;
+		uint8_t bear = 0x00;
+		uint8_t direc = 0x00;
+		uint32_t message[1] = { 0x00000000 };
 		int length = 1;
-		unsigned int Std_MAC = 0xc8a9595e;
+		uint32_t Std_MAC = 0xc8a9595e;
 		//2
-		//unsigned char IK[16] ={0xc9,0xe6,0xce,0xc4,0x60,0x7c,0x72,0xdb,0x00,0x0a,0xef,0xa8,0x83,0x85,0xab,0x0a};
-	   //unsigned int counter=0xa94059da;
-	   //unsigned char bear=0x0a;
-	   //unsigned char direc=0x01;
-	   //unsigned int message[19] ={0x983b41d4,0x7d780c9e,0x1ad11d7e,0xb70391b1,0xde0b35da,0x2dc62f83,0xe7b78d63,
+		//uint8_t IK[16] ={0xc9,0xe6,0xce,0xc4,0x60,0x7c,0x72,0xdb,0x00,0x0a,0xef,0xa8,0x83,0x85,0xab,0x0a};
+	   //uint32_t counter=0xa94059da;
+	   //uint8_t bear=0x0a;
+	   //uint8_t direc=0x01;
+	   //uint32_t message[19] ={0x983b41d4,0x7d780c9e,0x1ad11d7e,0xb70391b1,0xde0b35da,0x2dc62f83,0xe7b78d63,
 		  //0x06ca0ea0,0x7e941b7b,0xe91348f9,0xfcb170e2,0x217fecd9,0x7f9f68ad,0xb16e5d7d,0x21e569d2,0x80ed775c,
 		  // 0xebde3f40,0x93c53881,0x00000000};
 		  //int length = 0x0241;
-		  //unsigned int Std_MAC=0xfae8ff0b;
+		  //uint32_t Std_MAC=0xfae8ff0b;
 		  //3
-		  /* unsigned char IK[16] =
+		  /* uint8_t IK[16] =
 		 {0x6b,0x8b,0x08,0xee,0x79,0xe0,0xb5,0x98,0x2d,0x6d,0x12,0x8e,0xa9,0xf2,0x20,0xcb};
-		  unsigned int counter=0x561eb2dd;
-		  unsigned char bear=0x1c;
-		  unsigned char direc=0x00;
-		  unsigned int message[178] =
+		  uint32_t counter=0x561eb2dd;
+		  uint8_t bear=0x1c;
+		  uint8_t direc=0x00;
+		  uint32_t message[178] =
 		 {0x5bad7247,0x10ba1c56,0xd5a315f8,0xd40f6e09,0x3780be8e,0x8de07b69,0x92432018,
 
 		 0xe08ed96a,0x5734af8b,0xad8a575d,0x3a1f162f,0x85045cc7,0x70925571,0xd9f5b94e,0x454a77c1,0x6e
@@ -449,8 +449,8 @@ namespace crypto__ {
 		 0x08f08571,0xd9a4bb79,0x2af271f6,0xcc6dbb8d,0xc7ec36e3,0x6be1ed30,0x8164c31c,0x7c0afc54,0x1c
 		 000000};
 		  int length = 0x1626;
-		  unsigned int Std_MAC=0x0ca12792;*/
-		unsigned int MAC;
+		  uint32_t Std_MAC=0x0ca12792;*/
+		uint32_t MAC;
 		/**************** KeyStream generation testing ***************************/
 		ZUC_GenKeyStream(k, iv, Keystream, KeystreamLen);
 		for (i = 0; i < KeystreamLen; i++)

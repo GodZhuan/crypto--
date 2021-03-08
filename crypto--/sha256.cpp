@@ -46,7 +46,7 @@ std::string SHA256::ShaFile(string path)
 	std::ifstream in;
 	in.open(path);
 	in.seekg(0, std::ios::end);
-	unsigned int length = in.tellg();
+	uint32_t length = in.tellg();
 	in.seekg(0, std::ios::beg);
 	int l = length + ((length % 64 >= 56) ? (128 - length % 64) : (64 - length % 64));
 	std::unique_ptr<char[]> input(new char[l]());
@@ -64,7 +64,7 @@ std::string SHA256::ShaFile(string path)
 		input.get()[i--] = (char)b;
 		length = length >> 8;
 	}
-	Transform(buf, (const unsigned char*)input.get(), l / 64);
+	Transform(buf, (const uint8_t*)input.get(), l / 64);
 
 	string shaStr;
 	for (int i = 0; i < 8; i++)
@@ -94,7 +94,7 @@ string SHA256::ShaStr(string Str)
 		input[i--] = (char)b;
 		length = length >> 8;
 	}
-	const unsigned char* it = (const unsigned char*)input.get();
+	const uint8_t* it = (const uint8_t*)input.get();
 	Transform(buf, it, l / 64);
 	string shaStr;
 	for (int i = 0; i < 8; i++)
@@ -102,7 +102,7 @@ string SHA256::ShaStr(string Str)
 	return shaStr;
 }
 // SHA-256所需要做的64次轮函数 
-void  SHA256::Transform(uint32_t* s, const unsigned char* chunk, size_t blocks)
+void  SHA256::Transform(uint32_t* s, const uint8_t* chunk, size_t blocks)
 {
 	while (blocks--) {
 		uint32_t a = s[0], b = s[1], c = s[2], d = s[3], e = s[4], f = s[5], g = s[6], h = s[7], i;

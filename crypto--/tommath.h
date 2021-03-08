@@ -553,7 +553,7 @@ mp_err mp_prime_next_prime(mp_int *a, int t, bool bbs_style) MP_WUR;
  *   MP_PRIME_SAFE     - make sure (p-1)/2 is prime as well (implies MP_PRIME_BBS)
  *   MP_PRIME_2MSB_ON  - make the 2nd highest bit one
  *
- * You have to supply a callback which fills in a buffer with random bytes.  "dat" is a parameter you can
+ * You have to supply a callback which fills in a buffer with random uint8_ts.  "dat" is a parameter you can
  * have passed to the callback (e.g. a state or something).  This function doesn't use "dat" itself
  * so it can be NULL
  *

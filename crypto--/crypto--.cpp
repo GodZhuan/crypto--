@@ -1,5 +1,5 @@
 #define _CRT_RAND_S  
-#define _HAS_STD_BYTE 0
+#define _HAS_STD_uint8_t 0
 #include <stdlib.h> 
 #include <iostream>
 #include <fstream>
@@ -13,6 +13,7 @@
 #include "sm3.h"
 //#include "des.h"
 using namespace crypto__;
+using std::cout;
 enum class cryptoGraphic{
 	AES = 1,ECC,ECDSA,ElGamal,SHA256,RC4,SM3,SM4,ZUC
 };
@@ -24,9 +25,9 @@ int main(int argc, char* argv[])
 {
 
 	SHA256 sha256;
-	int index,enDoIndex, ret;
+	int index, enDoIndex, ret;
 	char szFullPath[_MAX_PATH], szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFileName[_MAX_FNAME], szExt[_MAX_EXT];
-	std::string fullPath,dirPath;
+	std::string fullPath, dirPath;
 	cout << "crypto--" << endl;
 	cout << "1.AES加解密" << endl;
 	cout << "2.ECC加解密" << endl;
@@ -64,71 +65,46 @@ int main(int argc, char* argv[])
 	switch (index)
 	{
 	case 1: {
-		AES a;
 		string keyStr;
-		byte key[16];
-		// 密钥扩展
-		word w[4 * (Nr + 1)];
-		bitset<128> data;
-		byte plain[16];
-		ifstream in;
-		ofstream out;
-		switch (enDoIndex)
-		{
-		case 1:
-			keyStr = GetRandList(16);
-			cout <<"密钥为："<< keyStr<<"(请注意复制保存)"<<endl;
-			charToByte(key, keyStr);
-			a.KeyExpansion(key, w);
-			in.open(szFullPath, ios::binary);
-			out.open(fullPath, ios::binary|ios::ate);
-			while (in.read((char*)&data, sizeof(data)))
+		char plain[128];
+		cout << "请输入密钥：";
+		cin >> keyStr;
+		fstream in, out;
+		if (keyStr.size() == 16) {
+			AES a((unsigned char*)keyStr.c_str());
+			switch (enDoIndex)
 			{
-				divideToByte(plain, data);
-				a.encrypt(plain, w);
-				data = mergeByte(plain);
-				out.write((char*)&data, sizeof(data));
-				data.reset();  // 置0
-			}
-			in.close();
-			out.close();
-			cout << "press any key to shutdown" << endl;
-			std::cin.get();
-			break;
-		case 2:
-			cout << "请输入密钥：";
-			cin >> keyStr;
-			if (keyStr.size() == 16) {
-				charToByte(key, keyStr);
-				a.KeyExpansion(key, w);
-				// 解密 cipher.txt，并写入图片 flower1.jpg
+			case 1:
 				in.open(szFullPath, ios::binary);
-				out.open(fullPath, ios::binary);
-				while (in.read((char*)&data, sizeof(data)))
+				out.open(fullPath, ios::binary | ios::ate);
+				while (in.read((char*)&plain, sizeof(plain)))
 				{
-					divideToByte(plain, data);
-					a.decrypt(plain, w);
-					data = mergeByte(plain);
-					out.write((char*)&data, sizeof(data));
-					data.reset();  // 置0
+					a.Cipher(plain, 128);
+					out.write((char*)&plain, sizeof(plain));
 				}
 				in.close();
 				out.close();
 				cout << "press any key to shutdown" << endl;
 				std::cin.get();
+				break;
+			case 2:
+				// 解密 cipher.txt，并写入图片 flower1.jpg
+				in.open(szFullPath, ios::binary);
+				out.open(fullPath, ios::binary);
+				while (in.read((char*)&plain, sizeof(plain)))
+				{
+					a.InvCipher(plain, 128);
+					out.write((char*)&plain, sizeof(plain));
+				}
+				in.close();
+				out.close();
+				break;
 			}
-			else {
-				cout << "密钥长度有误";
-				cout << "press any key to shutdown" << endl;
-				std::cin.get();
-			}	
-			break;
 		}
-	}
-		  break;
+	}break;
 	case 2: {
 		ECC e;
-		
+
 		cout << "\n          本程序实现椭圆曲线的加密解密" << endl;
 		cout << "\n------------------------------------------------------------------------\n" << endl;
 		switch (enDoIndex)
@@ -442,7 +418,7 @@ int main(int argc, char* argv[])
 		mp_exptmod(&a, &rB, &p, &sB);
 		mp_exptmod(&sA, &rB, &p, &K);
 
-		
+
 		printf("基点G的阶 是:\n");
 		mp_to_radix(&n, tempN.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempN.get());
@@ -450,7 +426,7 @@ int main(int argc, char* argv[])
 			ecc.GetPrime(&d, KEY_LONG);
 		} while (mp_cmp(&d, &n) != -1);
 
-		
+
 		printf("私钥 d 是:\n");
 		mp_to_radix(&d, tempD.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempD.get());
@@ -661,7 +637,7 @@ int main(int argc, char* argv[])
 			return EXIT_FAILURE;
 		}
 
-		
+
 		cout << "请输入大素数的位数：";
 		cin >> lon;
 		sts.GetPrime(&p, &a, lon);
@@ -724,63 +700,63 @@ int main(int argc, char* argv[])
 		printf("%s\n", tempSHA);
 
 	}break;
-	//case 7: {
-	//	DES d;
-	//	string keyStr;
-	//	ifstream in;
-	//	ofstream out;
-	//	bitset<64> data;
-	//	byte plain[8];
-	//	switch (enDoIndex)
-	//	{
-	//	case 1:
-	//		//keyStr = GetRandList(8);
-	//		keyStr = "12345678";
-	//		cout << "密钥为：" << keyStr << "(请注意复制保存)" << endl;
-	//		in.open(szFullPath, ios::binary);
-	//		out.open(fullPath, ios::binary | ios::ate);
-	//		if (in.is_open() && out.is_open()) {
-	//			string buf((std::istreambuf_iterator<char>(in)),
-	//				std::istreambuf_iterator<char>());
-	//			buf=d.Encrypt(buf, keyStr);
-	//			out.write(buf.c_str(),buf.length());
-	//			in.close();
-	//			out.close();
-	//		}	
-	//		break;
-	//	case 2:
-	//		/*cout << "请输入密钥：";
-	//		cin >> keyStr;*/
-	//		keyStr = "12345678";
-	//		if (keyStr.size() == 8) {
-	//			in.open(szFullPath, ios::binary);
-	//			out.open(fullPath, ios::binary | ios::ate);
-	//			if (in.is_open()&&out.is_open()) {
-	//				string buf((std::istreambuf_iterator<char>(in)),
-	//					std::istreambuf_iterator<char>());
-	//				buf = d.Decrypt(buf, keyStr);
-	//				out.write(buf.c_str(), buf.length());
-	//				in.close();
-	//				out.close();
-	//			}
-	//			cout << "press any key to shutdown" << endl;
-	//			std::cin.get();
-	//		}
-	//		else {
-	//			cout << "密钥长度有误";
-	//			cout << "press any key to shutdown" << endl;
-	//			std::cin.get();
-	//		}
-	//		break;
-	//	}
-	//}break;
+		//case 7: {
+		//	DES d;
+		//	string keyStr;
+		//	ifstream in;
+		//	ofstream out;
+		//	bitset<64> data;
+		//	uint8_t plain[8];
+		//	switch (enDoIndex)
+		//	{
+		//	case 1:
+		//		//keyStr = GetRandList(8);
+		//		keyStr = "12345678";
+		//		cout << "密钥为：" << keyStr << "(请注意复制保存)" << endl;
+		//		in.open(szFullPath, ios::binary);
+		//		out.open(fullPath, ios::binary | ios::ate);
+		//		if (in.is_open() && out.is_open()) {
+		//			string buf((std::istreambuf_iterator<char>(in)),
+		//				std::istreambuf_iterator<char>());
+		//			buf=d.Encrypt(buf, keyStr);
+		//			out.write(buf.c_str(),buf.length());
+		//			in.close();
+		//			out.close();
+		//		}	
+		//		break;
+		//	case 2:
+		//		/*cout << "请输入密钥：";
+		//		cin >> keyStr;*/
+		//		keyStr = "12345678";
+		//		if (keyStr.size() == 8) {
+		//			in.open(szFullPath, ios::binary);
+		//			out.open(fullPath, ios::binary | ios::ate);
+		//			if (in.is_open()&&out.is_open()) {
+		//				string buf((std::istreambuf_iterator<char>(in)),
+		//					std::istreambuf_iterator<char>());
+		//				buf = d.Decrypt(buf, keyStr);
+		//				out.write(buf.c_str(), buf.length());
+		//				in.close();
+		//				out.close();
+		//			}
+		//			cout << "press any key to shutdown" << endl;
+		//			std::cin.get();
+		//		}
+		//		else {
+		//			cout << "密钥长度有误";
+		//			cout << "press any key to shutdown" << endl;
+		//			std::cin.get();
+		//		}
+		//		break;
+		//	}
+		//}break;
 	case 7: {
 		SM3 sm3;
 		SM4 sm4;
 		ZUC zuc;
-		if(!sm3.SM3_SelfTest())cout << "SM3正确";
+		if (!sm3.SM3_SelfTest())cout << "SM3正确";
 		sm4.SM4_SelfCheck();
-		if(!zuc.ZUC_SelfCheck())cout<<"ZUC正确";  
+		if (!zuc.ZUC_SelfCheck())cout << "ZUC正确";
 	}break;
 	default:
 		break;

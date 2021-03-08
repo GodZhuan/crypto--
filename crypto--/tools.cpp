@@ -2,48 +2,16 @@
 namespace crypto__ {
 	/**
 	 *  将一个char字符数组转化为二进制
-	 *  存到一个 byte 数组中
+	 *  存到一个 Byte 数组中
 	 */
-	bool charToByte(byte out[16], std::string& s)
+	void charToByte(uint8_t out[4][4], std::string& s)
 	{
-		if (s[15] == NULL)return false;
-		for (int i = 0; i < 16; ++i)
-			for (int j = 0; j < 8; ++j)
-				out[i][j] = ((s[i] >> j) & 1);
-		return true;
+		for (size_t i = 0; i < 4; ++i)
+			for (size_t j = 0; j < 4; ++j)
+				out[i][j] = s[i * 4 + j];
 	}
 
-	/**
-	 *  将连续的128位分成16组，存到一个 byte 数组中
-	 */
-	void divideToByte(byte out[16], bitset<128>& data)
-	{
-		bitset<128> temp;
-		for (int i = 0; i < 16; ++i)
-		{
-			temp = (data << 8 * i) >> 120;
-			out[i] = temp.to_ulong();
-		}
-	}
-
-
-	/**
-	 *  将16个 byte 合并成连续的128位
-	 */
-	bitset<128> mergeByte(byte in[16])
-	{
-		bitset<128> res;
-		res.reset();  // 置0
-		bitset<128> temp;
-		for (int i = 0; i < 16; ++i)
-		{
-			temp = in[i].to_ulong();
-			temp <<= 8 * (15 - i);
-			res |= temp;
-		}
-		return res;
-	}
-	int myrng(unsigned char* dst, int len, void* dat)
+	int myrng(uint8_t* dst, int len, void* dat)
 	{
 		int x;
 		for (x = 0; x < len; x++) dst[x] = rand() & 0xFF;
@@ -55,7 +23,7 @@ namespace crypto__ {
 	{
 		char strRandomList[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '!', '@', '#', '$', '%', '&', '*', '_' };
 		std::string pwd = "";
-		std::mt19937 e(static_cast<unsigned int>(time(NULL)));
+		std::mt19937 e(static_cast<uint32_t>(time(NULL)));
 		std::uniform_int_distribution<unsigned> u(0, 69);
 		for (int i = 0; i < len; i++)
 		{

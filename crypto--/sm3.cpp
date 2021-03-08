@@ -1,9 +1,9 @@
 #include "SM3.h"
 namespace crypto__ {
-	void SM3::BiToW(unsigned int Bi[], unsigned int W[])
+	void SM3::BiToW(uint32_t Bi[], uint32_t W[])
 	{
 		int i;
-		unsigned int tmp;
+		uint32_t tmp;
 		for (i = 0; i <= 15; i++)
 		{
 			W[i] = Bi[i];
@@ -19,7 +19,7 @@ namespace crypto__ {
 		}
 	}
 
-	void SM3::WToW1(unsigned int W[], unsigned int W1[])
+	void SM3::WToW1(uint32_t W[], uint32_t W1[])
 	{
 		int i;
 		for (i = 0; i <= 63; i++)
@@ -28,16 +28,16 @@ namespace crypto__ {
 		}
 	}
 
-	void SM3::CF(unsigned int W[], unsigned int W1[], unsigned int V[])
+	void SM3::CF(uint32_t W[], uint32_t W1[], uint32_t V[])
 	{
-		unsigned int SS1;
-		unsigned int SS2;
-		unsigned int TT1;
-		unsigned int TT2;
-		unsigned int A, B, C, D, E, F, G, H;
-		unsigned int T = SM3_T1;
-		unsigned int FF;
-		unsigned int GG;
+		uint32_t SS1;
+		uint32_t SS2;
+		uint32_t TT1;
+		uint32_t TT2;
+		uint32_t A, B, C, D, E, F, G, H;
+		uint32_t T = SM3_T1;
+		uint32_t FF;
+		uint32_t GG;
 		int j;
 		//reg init,set ABCDEFGH=V0
 		A = V[0];
@@ -122,17 +122,17 @@ namespace crypto__ {
 	 call to change the little-endian format into big-endian format.
 	 Calls:
 	 Called By: SM3_compress, SM3_done
-	 Input: src[bytelen]
-	 bytelen
-	 Output: des[bytelen]
+	 Input: src[uint8_tlen]
+	 uint8_tlen
+	 Output: des[uint8_tlen]
 	 Return: null
 	 Others: src and des could implies the same address
 	*******************************************************************************/
-	void SM3::BigEndian(unsigned char src[], unsigned int bytelen, unsigned char des[])
+	void SM3::BigEndian(uint8_t src[], uint32_t uint8_tlen, uint8_t des[])
 	{
-		unsigned char tmp = 0;
-		unsigned int i = 0;
-		for (i = 0; i < bytelen / 4; i++)
+		uint8_t tmp = 0;
+		uint32_t i = 0;
+		for (i = 0; i < uint8_tlen / 4; i++)
 		{
 			tmp = des[4 * i];
 			des[4 * i] = src[4 * i + 3];
@@ -179,11 +179,11 @@ namespace crypto__ {
 	*******************************************************************************/
 	void SM3::SM3_compress(SM3_STATE* md)
 	{
-		unsigned int W[68];
-		unsigned int W1[64];
+		uint32_t W[68];
+		uint32_t W1[64];
 		//if CPU uses little-endian, BigEndian function is a necessary call
 		BigEndian(md->buf, 64, md->buf);
-		BiToW((unsigned int*)md->buf, W);
+		BiToW((uint32_t*)md->buf, W);
 		WToW1(W, W1);
 		CF(W, W1, md->state);
 	}
@@ -193,20 +193,20 @@ namespace crypto__ {
 	 Calls: SM3_compress
 	 Called By: SM3_256
 	 Input: SM3_STATE *md
-	 unsigned char buf[len] //the input message
-	 int len //bytelen of message
+	 uint8_t buf[len] //the input message
+	 int len //uint8_tlen of message
 	 Output: SM3_STATE *md
 	 Return: null
 	 Others:
 	*******************************************************************************/
-	void SM3::SM3_process(SM3_STATE* md, unsigned char buf[], int len)
+	void SM3::SM3_process(SM3_STATE* md, uint8_t buf[], int len)
 	{
 		while (len--)
 		{
-			/* copy byte */
+			/* copy uint8_t */
 			md->buf[md->curlen] = *buf++;
 			md->curlen++;
-			/* is 64 bytes full? */
+			/* is 64 uint8_ts full? */
 			if (md->curlen == 64)
 			{
 				SM3_compress(md);
@@ -221,21 +221,21 @@ namespace crypto__ {
 	 Calls: SM3_compress
 	 Called By: SM3_256
 	 Input: SM3_STATE *md
-	 Output: unsigned char *hash
+	 Output: uint8_t *hash
 	 Return: null
 	 Others:
 	*******************************************************************************/
-	void SM3::SM3_done(SM3_STATE* md, unsigned char hash[])
+	void SM3::SM3_done(SM3_STATE* md, uint8_t hash[])
 	{
 		int i;
-		unsigned char tmp = 0;
+		uint8_t tmp = 0;
 		/* increase the bit length of the message */
 		md->length += md->curlen << 3;
 		/* append the '1' bit */
 		md->buf[md->curlen] = 0x80;
 		md->curlen++;
-		/* if the length is currently above 56 bytes, appends zeros till
-		it reaches 64 bytes, compress the current block, creat a new
+		/* if the length is currently above 56 uint8_ts, appends zeros till
+		it reaches 64 uint8_ts, compress the current block, creat a new
 		block by appending zeros and length,and then compress it
 		*/
 		if (md->curlen > 56)
@@ -248,7 +248,7 @@ namespace crypto__ {
 			SM3_compress(md);
 			md->curlen = 0;
 		}
-		/* if the length is less than 56 bytes, pad upto 56 bytes of zeroes */
+		/* if the length is less than 56 uint8_ts, pad upto 56 uint8_ts of zeroes */
 		for (; md->curlen < 56;)
 		{
 			md->buf[md->curlen] = 0;
@@ -276,13 +276,13 @@ namespace crypto__ {
 	 SM3_process
 	 SM3_done
 	 Called By:
-	 Input: unsigned char buf[len] //the input message
-	 int len //bytelen of the message
-	 Output: unsigned char hash[32]
+	 Input: uint8_t buf[len] //the input message
+	 int len //uint8_tlen of the message
+	 Output: uint8_t hash[32]
 	 Return: null
 	 Others:
 	*******************************************************************************/
-	void SM3::SM3_256(unsigned char buf[], int len, unsigned char hash[])
+	void SM3::SM3_256(uint8_t buf[], int len, uint8_t hash[])
 	{
 		SM3_STATE md;
 		SM3_init(&md);
@@ -303,15 +303,15 @@ namespace crypto__ {
 	*******************************************************************************/
 	int SM3::SM3_SelfTest()
 	{
-		unsigned int i = 0, a = 1, b = 1;
-		unsigned char Msg1[3] = { 0x61,0x62,0x63 };
+		uint32_t i = 0, a = 1, b = 1;
+		uint8_t Msg1[3] = { 0x61,0x62,0x63 };
 		int MsgLen1 = 3;
-		unsigned char MsgHash1[32] = { 0 };
-		unsigned char
+		uint8_t MsgHash1[32] = { 0 };
+		uint8_t
 			StdHash1[32] = { 0x66,0xC7,0xF0,0xF4,0x62,0xEE,0xED,0xD9,0xD1,0xF2,0xD4,0x6B,0xDC,0x10,0xE4,0xE2,
 
 			0x41,0x67,0xC4,0x87,0x5C,0xF2,0xF7,0xA2,0x29,0x7D,0xA0,0x2B,0x8F,0x4B,0xA8,0xE0 };
-		unsigned char
+		uint8_t
 			Msg2[64] = { 0x61,0x62,0x63,0x64,0x61,0x62,0x63,0x64,0x61,0x62,0x63,0x64,0x61,0x62,0x63,0x64,
 
 			0x61,0x62,0x63,0x64,0x61,0x62,0x63,0x64,0x61,0x62,0x63,0x64,0x61,0x62,0x63,0x64,
@@ -320,8 +320,8 @@ namespace crypto__ {
 
 			0x61,0x62,0x63,0x64,0x61,0x62,0x63,0x64,0x61,0x62,0x63,0x64,0x61,0x62,0x63,0x64 };
 		int MsgLen2 = 64;
-		unsigned char MsgHash2[32] = { 0 };
-		unsigned char
+		uint8_t MsgHash2[32] = { 0 };
+		uint8_t
 			StdHash2[32] = { 0xde,0xbe,0x9f,0xf9,0x22,0x75,0xb8,0xa1,0x38,0x60,0x48,0x89,0xc1,0x8e,0x5a,0x4d,
 
 			0x6f,0xdb,0x70,0xe5,0x38,0x7e,0x57,0x65,0x29,0x3d,0xcb,0xa3,0x9c,0x0c,0x57,0x32 };

@@ -52,7 +52,7 @@ uint32_t inline sigma1(uint32_t x)
 }
 
 // 将变量转换为小端(little endia),因为x86是小端系统
-uint32_t static inline ReadLE32(const unsigned char* ptr)
+uint32_t static inline ReadLE32(const uint8_t* ptr)
 {
 	uint32_t x;
 	memcpy((char*)&x, ptr, 4);
@@ -65,7 +65,7 @@ class SHA256
 public:
 	SHA256();
 	~SHA256();
-	void Transform(uint32_t* s, const unsigned char* chunk, size_t blocks);
+	void Transform(uint32_t* s, const uint8_t* chunk, size_t blocks);
 	void Round(uint32_t a, uint32_t b, uint32_t c, uint32_t& d, uint32_t e, uint32_t f, uint32_t g, uint32_t& h, uint32_t k, uint32_t w);
 	string ShaFile(string path);
 	string ShaStr(string path);

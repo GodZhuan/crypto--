@@ -572,7 +572,7 @@ void ECC::Ecc_encipher(char* inPath, string outPath)
 		exit(1);
 	}
 
-	unsigned int FileLong = 0;//文件字符长度
+	uint32_t FileLong = 0;//文件字符长度
 	char ChTem;//临时字符变
 	int Frequency = 0;//取明文字节数的次数
 	int Residue = 0;//取明文字节后的剩余部分

@@ -11,7 +11,7 @@ const char* WordList = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 
 int* RC4::init_Key() {
     int index;
-    unsigned int number;
+    uint32_t number;
     rand_s(&number);
     int keylen = int(double(number) / double(RAND_MAX) * 256);
     for (int i = 0; i < keylen; i++) {
@@ -66,14 +66,14 @@ void RC4::Rc4EncryptText(string text, string KeyStream, string PlainText, string
     cout << "============开始加密============:\n 密文：" << endl;;
     ofstream out;
     out.open(strPath + "textcipher.txt", ios::trunc);
-    for (unsigned int i = 0; i < KeyStream.length(); i++) {
+    for (uint32_t i = 0; i < KeyStream.length(); i++) {
         CryptoText.push_back(char(KeyStream[i] ^ text[i])); //加密
         out << CryptoText[i];
     }
     out.close();
     cout << "\n============加密完成============\n============开始解密============\n明文：" << endl;
     out.open(strPath + "textcipherencipher.txt", ios::trunc);
-    for (unsigned int i = 0; i < KeyStream.length(); i++) {
+    for (uint32_t i = 0; i < KeyStream.length(); i++) {
         PlainText.push_back(char(KeyStream[i] ^ CryptoText[i]));   //解密
         out << PlainText[i];
     }

@@ -1,8 +1,8 @@
 #include "sm4.h"
 namespace crypto__ {
-	void SM4::SM4_KeySchedule(unsigned char MK[], unsigned int rk[])
+	void SM4::SM4_KeySchedule(uint8_t MK[], uint32_t rk[])
 	{
-		unsigned int tmp, buf, K[36];
+		uint32_t tmp, buf, K[36];
 		int i;
 		for (i = 0; i < 4; i++)
 		{
@@ -23,9 +23,9 @@ namespace crypto__ {
 		}
 	}
 
-	void SM4::SM4_Encrypt(unsigned char MK[], unsigned char PlainText[], unsigned char CipherText[])
+	void SM4::SM4_Encrypt(uint8_t MK[], uint8_t PlainText[], uint8_t CipherText[])
 	{
-		unsigned int rk[32], X[36], tmp, buf;
+		uint32_t rk[32], X[36], tmp, buf;
 		int i, j;
 		SM4_KeySchedule(MK, rk);
 		for (j = 0; j < 4; j++)
@@ -54,9 +54,9 @@ namespace crypto__ {
 		}
 	}
 
-	void SM4::SM4_Decrypt(unsigned char MK[], unsigned char CipherText[], unsigned char PlainText[])
+	void SM4::SM4_Decrypt(uint8_t MK[], uint8_t CipherText[], uint8_t PlainText[])
 	{
-		unsigned int rk[32], X[36], tmp, buf;
+		uint32_t rk[32], X[36], tmp, buf;
 		int i, j;
 		SM4_KeySchedule(MK, rk);
 		for (j = 0; j < 4; j++)
@@ -89,15 +89,15 @@ namespace crypto__ {
 	{
 		int i;
 		//Standard data
-		unsigned char key[16] =
+		uint8_t key[16] =
 		{ 0x01,0x23,0x45,0x67,0x89,0xab,0xcd,0xef,0xfe,0xdc,0xba,0x98,0x76,0x54,0x32,0x10 };
-		unsigned char plain[16] =
+		uint8_t plain[16] =
 		{ 0x01,0x23,0x45,0x67,0x89,0xab,0xcd,0xef,0xfe,0xdc,0xba,0x98,0x76,0x54,0x32,0x10 };
-		unsigned char
+		uint8_t
 			cipher[16] = { 0x68,0x1e,0xdf,0x34,0xd2,0x06,0x96,0x5e,0x86,0xb3,0xe9,0x4f,0x53,0x6e,0x42,0x46 }
 		;
-		unsigned char En_output[16];
-		unsigned char De_output[16];
+		uint8_t En_output[16];
+		uint8_t De_output[16];
 		SM4_Encrypt(key, plain, En_output);
 		SM4_Decrypt(key, cipher, De_output);
 		for (i = 0; i < 16; i++)

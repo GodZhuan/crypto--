@@ -49,7 +49,7 @@ private:
 	mp_int QX;//公钥Q的x坐标
 	mp_int QY;//公钥Q的y坐标
 	mp_int P;//Fp中的p(有限域P)
-	mp_err(err);
+	mp_err err;
 
 	string temp;
 	string tempA;
