@@ -12,7 +12,7 @@
 #include "zuc.h"
 #include "sm3.h"
 //#include "des.h"
-
+using namespace crypto__;
 enum class cryptoGraphic{
 	AES = 1,ECC,ECDSA,ElGamal,SHA256,RC4,SM3,SM4,ZUC
 };
@@ -774,7 +774,14 @@ int main(int argc, char* argv[])
 	//		break;
 	//	}
 	//}break;
-	case 7: {if(ZUC_SelfCheck())cout<<"正确";  }break;
+	case 7: {
+		SM3 sm3;
+		SM4 sm4;
+		ZUC zuc;
+		if(!sm3.SM3_SelfTest())cout << "SM3正确";
+		sm4.SM4_SelfCheck();
+		if(!zuc.ZUC_SelfCheck())cout<<"ZUC正确";  
+	}break;
 	default:
 		break;
 	}

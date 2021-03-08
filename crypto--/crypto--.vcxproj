@@ -19,6 +19,7 @@
     <ClCompile Include="sm3.cpp" />
     <ClCompile Include="sm4.cpp" />
     <ClCompile Include="sts.cpp" />
+    <ClCompile Include="tools.cpp" />
     <ClCompile Include="zuc.cpp" />
   </ItemGroup>
   <ItemGroup>
