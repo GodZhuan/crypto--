@@ -10,9 +10,10 @@
 #include "zuc.h"
 #include "sm3.h"
 #include "crypto--.h"
+#include "fileproc.h"
 using namespace crypto__;
 using std::cout;
-
+using std::cin;
 mp_err err;
 int main(int argc, char* argv[])
 {
@@ -24,38 +25,58 @@ int main(int argc, char* argv[])
 	cout << "4.ElGamal数字签名" << endl;
 	cout << "5.SHA256哈希散列" << endl;
 	cout << "6.RC4流式加解密" << endl;
-	cout << "7.SM4加解密" << endl;
+	cout << "7.SM3密码杂凑算法" << endl;
+	cout << "8.SM4加解密" << endl;
+	cout << "9.SM4加解密" << endl;
 	int i;
 	cin >> i;
-	CRYPTO__ c((cryptoType)i,(cryptoGraphic)1);
+	CRYPTO__ c((cryptoType)i,(cryptoGraphic)7, contentsType(1));
 
 }
 
-crypto__::CRYPTO__::CRYPTO__(cryptoType ct, cryptoGraphic cg)
+CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType cst)
 {
 	SHA256 sha256;
 	int ret;
 	char szFullPath[_MAX_PATH], szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFileName[_MAX_FNAME], szExt[_MAX_EXT];
-	std::string fullPath, dirPath;
-	cout << "请输入要计算文件的位置" << endl;
-	cin >> szFullPath;
-	ret = _splitpath_s(szFullPath, szDrive, szDrive ? _MAX_DRIVE : 0, szDir, szDir ? _MAX_DIR : 0, szFileName, szFileName ? _MAX_FNAME : 0, szExt, szExt ? _MAX_EXT : 0);
-	dirPath += szDrive ? szDrive : "";
-	dirPath += szDir ? szDir : "";
-	fullPath = dirPath;
-	switch (ct)
+	std::string fullPath, dirPath, msg;
+	switch (cst)
 	{
-	case cryptoType::Encrypt:
-		fullPath += szFileName ? szFileName : "";
-		fullPath += "cipher.txt";
-		break;
-	case cryptoType::Decrypt:
-		std::string outFName;
-		cout << "输入解密后的文件名（形似hello.cpp）" << endl;
-		cin >> outFName;
-		fullPath += outFName;
-		break;
+	case contentsType::File: {
+		cout << "请输入要计算文件的位置" << endl;
+		cin >> szFullPath;
+		ret = _splitpath_s(szFullPath, szDrive, szDrive ? _MAX_DRIVE : 0, szDir, szDir ? _MAX_DIR : 0, szFileName, szFileName ? _MAX_FNAME : 0, szExt, szExt ? _MAX_EXT : 0);
+		dirPath += szDrive ? szDrive : "";
+		dirPath += szDir ? szDir : "";
+		fullPath = dirPath;
+		switch (ct)
+		{
+			fullPath += szFileName ? szFileName : "";
+		case cryptoType::Encrypt: {
+			fullPath += "cipher.txt";
+		}break;
+		case cryptoType::Decrypt: {
+			fullPath += "invcipher";
+			fullPath += szExt;
+		}break;
+		}
+
+	}break;
+	case contentsType::Message: {
+		switch (ct)
+		{
+		case cryptoType::Encrypt:
+			cout << "请输入要加密消息:" << endl;
+			cin >> msg;
+			break;
+		case cryptoType::Decrypt:
+			cout << "请输入要解密消息:" << endl;
+			cin >> msg;
+			break;
+		}
+	}break;
 	}
+	
 	switch (cg)
 	{
 	case cryptoGraphic::AES: {
@@ -63,28 +84,23 @@ crypto__::CRYPTO__::CRYPTO__(cryptoType ct, cryptoGraphic cg)
 		char plain[16] = { 0 };
 		cout << "请输入密钥：";
 		cin >> keyStr;
-		ifstream in(szFullPath, ios::binary);
-		ofstream out(fullPath, ios::binary | ios::ate);
 		if (keyStr.size() == 16) {
+			FileProc fp(szFullPath, fullPath);
 			AES a((unsigned char*)keyStr.c_str());
 			switch (ct)
 			{
 			case cryptoType::Encrypt:
-				while (in.read((char*)&plain, sizeof(plain)))
-				{
+				while (fp.read(plain, sizeof(plain))){
 					memcpy(plain, a.Cipher(plain, sizeof(plain)), sizeof(plain));
-					out.write(plain, sizeof(plain));
+					fp.write(plain, sizeof(plain));
 				}break;
 			case cryptoType::Decrypt:
 				// 解密 cipher.txt，并写入图片 flower1.jpg
-				while (in.read((char*)&plain, sizeof(plain)))
-				{
-					memcpy(plain, a.InvCipher(plain, 128), sizeof(plain));
-					out.write((char*)&plain, sizeof(plain));
+				while (fp.read(plain, sizeof(plain))){
+					memcpy(plain, a.InvCipher(plain, sizeof(plain)), sizeof(plain));
+					fp.write(plain, sizeof(plain));
 				}break;
 			}
-			in.close();
-			out.close();
 		}
 	}break;
 	case cryptoGraphic::ECC: {
@@ -734,10 +750,14 @@ crypto__::CRYPTO__::CRYPTO__(cryptoType ct, cryptoGraphic cg)
 		//}break;
 	case cryptoGraphic::SM3: {
 		SM3 sm3;
-		SM4 sm4;
-		ZUC zuc;
 		if (!sm3.SM3_SelfTest())cout << "SM3正确";
+	}break;
+	case cryptoGraphic::SM4: {
+		SM4 sm4;	
 		sm4.SM4_SelfCheck();
+	}break;
+	case cryptoGraphic::ZUC: {
+		ZUC zuc;
 		if (!zuc.ZUC_SelfCheck())cout << "ZUC正确";
 	}break;
 	default:
