@@ -30,7 +30,7 @@ int main(int argc, char* argv[])
 	cout << "9.SM4加解密" << endl;
 	int i;
 	cin >> i;
-	CRYPTO__ c((cryptoType)i,(cryptoGraphic)7, contentsType(1));
+	CRYPTO__ c((cryptoType)i,(cryptoGraphic)8, contentsType(1));
 
 }
 
@@ -750,11 +750,38 @@ CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType 
 		//}break;
 	case cryptoGraphic::SM3: {
 		SM3 sm3;
-		if (!sm3.SM3_SelfTest())cout << "SM3正确";
+		FileProc fp(szFullPath, fullPath);
+		uint8_t hash[32];
+		sm3.SM3_HASH256(fp, hash);
+		for (auto i = 0; i < sizeof(hash); i++) {
+			printf("%x", hash[i]);
+		}
+
 	}break;
 	case cryptoGraphic::SM4: {
 		SM4 sm4;	
-		sm4.SM4_SelfCheck();
+		string key;
+		uint8_t* keyStr, plain[16] = { 0 }, cipher[16] = { 0, };
+		cout << "请输入密钥：";
+		cin >> key;
+		if (key.size() == 16) {
+			keyStr = (uint8_t*)key.c_str();
+			FileProc fp(szFullPath, fullPath);
+			switch (ct)
+			{
+			case cryptoType::Encrypt:
+				while (fp.read((char*)(plain), sizeof(plain))) {
+					sm4.SM4_Encrypt(keyStr, plain, cipher);
+					fp.write((char*)cipher, sizeof(cipher));
+				}break;
+			case cryptoType::Decrypt:
+				// 解密 cipher.txt，并写入图片 flower1.jpg
+				while (fp.read((char*)cipher, sizeof(cipher))) {
+					sm4.SM4_Decrypt(keyStr,cipher, plain);
+					fp.write((char*)plain, sizeof(plain));
+				}break;
+			}
+		}
 	}break;
 	case cryptoGraphic::ZUC: {
 		ZUC zuc;

@@ -1,4 +1,4 @@
-#include "SM3.h"
+#include "sm3.h"
 namespace crypto__ {
 	void SM3::BiToW(uint32_t Bi[], uint32_t W[])
 	{
@@ -337,5 +337,12 @@ namespace crypto__ {
 		{
 			return 1;
 		}
+	}
+	void SM3::SM3_HASH256(FileProc& fp, uint8_t hash[])
+	{
+		const size_t cnt = fp.inSize();
+		uint8_t* buf = new uint8_t[cnt];
+		SM3_256(buf, cnt, hash);
+		delete []buf;
 	}
 }

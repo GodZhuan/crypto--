@@ -2,6 +2,7 @@
 #define _SM3_H_
 #include <string.h>
 #include "tools.h"
+#include "fileproc.h"
 namespace crypto__ {
 	class SM3
 	{
@@ -63,6 +64,7 @@ namespace crypto__ {
 		SM3() {};
 		~SM3() {};
 		int SM3_SelfTest();
+		void SM3_HASH256(FileProc& fp, uint8_t hash[]);
 	};
 }
 #endif

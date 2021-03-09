@@ -11,10 +11,12 @@ namespace crypto__ {
 			in.close();
 			out.close();
 		}
+		std::streamsize inSize() {
+			in.seekg(0, in.end);
+			return in.tellg();
+		}
 		std::streamsize read(char* buf, size_t cnt) {
 			in.read(buf, cnt);
-			/*std::streamsize n = cnt - in.gcount();
-			if (n)*/
 			return in.gcount();
 		}
 		void write(const char* buf, size_t cnt) {
