@@ -1,6 +1,7 @@
 #include <stdlib.h> 
 #include <iostream>
 #include <fstream>
+#include <chrono>
 #include "aes.h"
 #include "ecc.h"
 #include "tools.h"
@@ -785,7 +786,31 @@ CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType 
 	}break;
 	case cryptoGraphic::ZUC: {
 		ZUC zuc;
-		if (!zuc.ZUC_SelfCheck())cout << "ZUC正确";
+		string key;
+		uint8_t* keyStr, plain[16] = { 0 }, cipher[16] = { 0, };
+		cout << "请输入密钥：";
+		cin >> key;
+		if (key.size() == 16) {
+			keyStr = (uint8_t*)key.c_str();
+			FileProc fp(szFullPath, fullPath);
+			unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+			std::mt19937 g1(seed);
+			uint32_t u32Random = g1();
+			switch (ct)
+			{
+			case cryptoType::Encrypt:
+				while (fp.read((char*)(plain), sizeof(plain))) {
+					zuc.ZUC_Confidentiality(keyStr, u32Random, );
+					fp.write((char*)cipher, sizeof(cipher));
+				}break;
+			case cryptoType::Decrypt:
+				// 解密 cipher.txt，并写入图片 flower1.jpg
+				while (fp.read((char*)cipher, sizeof(cipher))) {
+					sm4.SM4_Decrypt(keyStr, cipher, plain);
+					fp.write((char*)plain, sizeof(plain));
+				}break;
+			}
+		}
 	}break;
 	default:
 		break;

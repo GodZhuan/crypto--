@@ -49,7 +49,7 @@ namespace crypto__ {
 		/*inline uint32_t ZUC_rotl32(uint32_t x, int k) {
 			return(x << k) | (x >> (32 - k));
 		}*/
-//si = ki¡¬di¡¬ivi,in key loading
+		//si = ki¡¬di¡¬ivi,in key loading
 		inline uint32_t ZUC_LinkToS(uint32_t a, uint32_t b, uint32_t c) {
 			return(a << 23) | (b << 8) | c;
 		}
@@ -67,17 +67,15 @@ namespace crypto__ {
 			BR_X[], uint32_t F_R[]);
 		void ZUC_Work(uint32_t LFSR_S[], uint32_t BR_X[], uint32_t F_R[], uint32_t
 			pKeyStream[], int KeyStreamLen);
+	public:
+		ZUC(){}
+		~ZUC(){}
 		void ZUC_GenKeyStream(uint8_t k[], uint8_t iv[], uint32_t KeyStream[], int
 			KeyStreamLen);
 		void ZUC_Confidentiality(uint8_t CK[], uint32_t COUNT, uint8_t BEARER, unsigned
 			char DIRECTION, uint32_t IBS[], int LENGTH, uint32_t OBS[]);
 		uint32_t ZUC_Integrity(uint8_t IK[], uint32_t COUNT, uint8_t BEARER, unsigned
 			char DIRECTION, uint32_t M[], int LENGTH);
-		
-	public:
-		ZUC(){}
-
-		~ZUC(){}
 		int ZUC_SelfCheck();
 	};
 

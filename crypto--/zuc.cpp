@@ -1,4 +1,4 @@
-#include "zuc.h"
+﻿#include "zuc.h"
 namespace crypto__ {
 	uint32_t ZUC::AddMod(uint32_t a, uint32_t b)
 	{
@@ -36,7 +36,7 @@ namespace crypto__ {
 			return 0;
 	}
 
-	uint32_t ZUC::GetWord(uint32_t k[], uint32_t i) //��ȡ�ִ��еĴӵ�i������ֵ��ʼ����
+	uint32_t ZUC::GetWord(uint32_t k[], uint32_t i) //获取字串中的从第i个比特值开始的字
 	{
 		int j, m;
 		uint32_t word;
@@ -48,7 +48,7 @@ namespace crypto__ {
 			word = (k[j] << m) | (k[j + 1] >> (32 - m));
 		return word;
 	}
-
+	
 	void ZUC::LFSRWithInitMode(uint32_t LFSR_S[], uint32_t u)
 	{
 		uint32_t v = LFSR_S[0], i;
@@ -87,6 +87,10 @@ namespace crypto__ {
 		}
 	};
 
+	//X0 = ((s15∧0x7fff8000)≪1)∨(s14∧0x0000ffff);
+	//X1 = ((s9∧0x7fff8000)≫15)∨((s11∧0x0000ffff)≪16);
+	//X2 = ((s5∧0x7fff8000)≫15)∨((s7∧0x0000ffff)≪16);
+	//X3 = ((s0∧0x7fff8000)≫15)∨((s2∧0x0000ffff)≪16);
 	void ZUC::BR(uint32_t LFSR_S[], uint32_t BR_X[])
 	{
 		BR_X[0] = ((LFSR_S[15] & 0x7fff8000) << 1) | (LFSR_S[14] & 0x0000ffff);
@@ -95,6 +99,12 @@ namespace crypto__ {
 		BR_X[3] = ((LFSR_S[2] & 0x0000ffff) << 16) | ((LFSR_S[0] & 0x7fff8000) >> 15);
 	}
 
+	//W = (X0⊕R0)+R1mod232;
+	//W1 = R0 + X1mod232;
+	//W2 = R1⊕X2;;
+	//R0 = S(L1(((W1≪16)∨(W2≫16)));
+	//R1 = S(L2((W2≪16)∨(W1≫16)));
+	//输出W;
 	uint32_t ZUC::F(uint32_t BR_X[], uint32_t F_R[])
 	{
 		uint32_t W, W1, W2;
@@ -174,22 +184,33 @@ namespace crypto__ {
 		//Working
 		ZUC_Work(LFSR_S, BR_X, F_R, KeyStream, KeyStreamLen);
 	}
-
+	//CK:128位密钥
+	//COUNT:32位计数器
+	//BEARER:5位承载层标识(源于4G EPS)
+	//DIRECTION:1位传输方向标识
+	//IBS:LENGTH位输入比特流
+	//OBS:LENGTH位输出比特流
 	void ZUC::ZUC_Confidentiality(uint8_t CK[], uint32_t COUNT, uint8_t BEARER, unsigned
 		char DIRECTION, uint32_t IBS[], int LENGTH, uint32_t OBS[])
 	{
 		uint32_t* k;
 		int L, i, t;
 		uint8_t iv[16];
-		//generate vector iv1,iv2,...iv15
+		//generate vector iv1,iv2,...iv15	
+		//COUNT = COUNT[0] || COUNT[1] || COUNT[2] || COUNT[3], bitslen(COUNT[i]) = 8, i∈[0, 3];
+		//IV = IV[0] || IV[1] || … || IV[15], bitslen(IV[i]) = 8, i∈[0, 15];
+		//IV[i] = COUNT[i], i = 0…3;
 		iv[0] = (uint8_t)(COUNT >> 24);
 		iv[1] = (uint8_t)((COUNT >> 16) & 0xff);
 		iv[2] = (uint8_t)((COUNT >> 8) & 0xff);
 		iv[3] = (uint8_t)(COUNT & 0xff);
+		//IV[4] = BEARER || DIRECTION || 0 || 0;
 		iv[4] = (((BEARER << 3) | (DIRECTION << 2)) & 0xfc);
+		//IV[5] = IV[6] = IV[7] = 0x00;
 		iv[5] = 0x00;
 		iv[6] = 0x00;
 		iv[7] = 0x00;
+		//IV[j + 8] = IV[j], j∈[0, 7];
 		iv[8] = iv[0];
 		iv[9] = iv[1];
 		iv[10] = iv[2];
@@ -231,6 +252,12 @@ namespace crypto__ {
 	Return: MAC //message authentication code
 	Others:
 	****************************************************************/
+	//COUNT	32	计数器
+	//BEARER	5	承载层标识
+	//DIRECTION	1	传输方向标识
+	//CK	128	完整性密钥
+	//LENGTH	32	明文消息流的位长度
+	//M	LENGTH	输入比特流
 	uint32_t ZUC::ZUC_Integrity(uint8_t IK[], uint32_t COUNT, uint8_t BEARER, unsigned
 		char DIRECTION, uint32_t M[], int LENGTH)
 	{
