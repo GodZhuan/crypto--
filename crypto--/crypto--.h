@@ -23,14 +23,70 @@ namespace crypto__ {
 		~CRYPTO__()
 		{
 		}
-		void encrypt() {
+		void encrypt(FileProc& fp, string& keyStr,size_t keyLen) {
+			if (keyStr.size() == keyLen) {
+				switch (config.cryptoGraphicMode)
+				{
+				case cryptoGraphic::AES: {
+					AES aes((unsigned char*)keyStr.c_str());
+					while (fp.read(plain16, sizeof(plain16))) {
+						memcpy(plain16, aes.Cipher(plain16, sizeof(plain16)), sizeof(plain16));
+						fp.write(plain16, sizeof(plain16));
+					}
+				}break;
+				case cryptoGraphic::ECC: {
 
+				}break;
+				case cryptoGraphic::ECDSA: {
+
+				}break;
+				case cryptoGraphic::ElGamal: {
+
+				}break;
+				case cryptoGraphic::RC4: {
+				}break;
+				case cryptoGraphic::SM3: {
+				}break;
+				case cryptoGraphic::SM4: {
+				}break;
+				case cryptoGraphic::ZUC: {
+				}break;
+				}
+			}
 		}
-		void decrypt() {
+		void decrypt(FileProc& fp, string& keyStr, size_t keyLen) {
+			if (keyStr.size() == keyLen) {
+				switch (config.cryptoGraphicMode)
+				{
+				case cryptoGraphic::AES: {
+					AES aes((unsigned char*)keyStr.c_str());
+					while (fp.read(plain16, sizeof(plain16))) {
+						memcpy(plain16, aes.InvCipher(plain16, sizeof(plain16)), sizeof(plain16));
+						fp.write(plain16, sizeof(plain16));
+					}
+				}break;
+				case cryptoGraphic::ECC: {
 
+				}break;
+				case cryptoGraphic::ECDSA: {
+
+				}break;
+				case cryptoGraphic::ElGamal: {
+
+				}break;
+				case cryptoGraphic::RC4: {
+				}break;
+				case cryptoGraphic::SM3: {
+				}break;
+				case cryptoGraphic::SM4: {
+				}break;
+				case cryptoGraphic::ZUC: {
+				}break;
+				}
+			}
 		}
 	private:
-
+		char plain16[16] = { 0 };
 	};
 
 }

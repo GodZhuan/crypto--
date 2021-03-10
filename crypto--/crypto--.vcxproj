@@ -22,6 +22,7 @@
     <ClCompile Include="aes.cpp" />
     <ClCompile Include="crypto--.cpp" />
     <ClCompile Include="ecc.cpp" />
+    <ClCompile Include="ecdsa.cpp" />
     <ClCompile Include="rc4.cpp" />
     <ClCompile Include="sha256.cpp" />
     <ClCompile Include="sm3.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="aes.h" />
     <ClInclude Include="crypto--.h" />
     <ClInclude Include="ecc.h" />
+    <ClInclude Include="ecdsa.h" />
     <ClInclude Include="fileproc.h" />
     <ClInclude Include="rc4.h" />
     <ClInclude Include="sha256.h" />

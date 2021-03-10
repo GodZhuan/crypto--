@@ -45,6 +45,9 @@
     <ClCompile Include="tools.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="ecdsa.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="aes.h">
@@ -84,6 +87,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="fileproc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ecdsa.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
