@@ -2,7 +2,7 @@
 #define _CRYPTO__H_
 namespace crypto__ {
 	enum class cryptoType {
-		Encrypt = 1, Decrypt
+		Encrypt = 1, Decrypt, Hash
 	};
 	enum class contentsType {
 		File = 1, Message
@@ -10,10 +10,15 @@ namespace crypto__ {
 	enum class cryptoGraphic {
 		AES = 1, ECC, ECDSA, ElGamal, SHA256, RC4, SM3, SM4, ZUC
 	};
+	static struct config {
+		cryptoType cryptoTypeMode;
+		contentsType contentsTypeMode;
+		cryptoGraphic cryptoGraphicMode;
+	}config;
 	class CRYPTO__
 	{
 	public:
-		CRYPTO__(enum cryptoType ct,enum cryptoGraphic cg, enum contentsType cst);
+		CRYPTO__();
 
 		~CRYPTO__()
 		{

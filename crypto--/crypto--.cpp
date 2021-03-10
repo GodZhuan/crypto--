@@ -18,7 +18,49 @@ using std::cin;
 mp_err err;
 int main(int argc, char* argv[])
 {
+	//选择处理文件或者是消息
+	if (!strcmp(argv[1], "-f"))
+		config.contentsTypeMode = contentsType::File;
+	else if (!strcmp(argv[1], "-m"))
+		config.contentsTypeMode = contentsType::Message;
 
+	//选择加密或者是解密或者是哈希
+	if (!strcmp(argv[2], "-e"))
+		config.cryptoTypeMode = cryptoType::Encrypt;
+	else if (!strcmp(argv[2], "-d"))
+		config.cryptoTypeMode = cryptoType::Decrypt;
+	else if (!strcmp(argv[2], "-h"))
+		config.cryptoTypeMode = cryptoType::Hash;
+
+	switch (config.cryptoTypeMode)
+	{
+	case cryptoType::Hash: {
+		if (!strcmp(argv[3], "sha256"))
+			config.cryptoGraphicMode = cryptoGraphic::SHA256;
+		else if (!strcmp(argv[3], "zuc"))
+			config.cryptoGraphicMode = cryptoGraphic::ZUC;
+	}break;
+	case cryptoType::Encrypt:
+	case cryptoType::Decrypt: {
+		//选择算法
+		if (!strcmp(argv[3], "aes"))
+			config.cryptoGraphicMode = cryptoGraphic::AES;
+		else if (!strcmp(argv[3], "ecc"))
+			config.cryptoGraphicMode = cryptoGraphic::ECC;
+		else if (!strcmp(argv[3], "ecdsa"))
+			config.cryptoGraphicMode = cryptoGraphic::ECDSA;
+		else if (!strcmp(argv[3], "ElGamal"))
+			config.cryptoGraphicMode = cryptoGraphic::ElGamal;
+		else if (!strcmp(argv[3], "rc4"))
+			config.cryptoGraphicMode = cryptoGraphic::RC4;
+		else if (!strcmp(argv[3], "sm3"))
+			config.cryptoGraphicMode = cryptoGraphic::SM3;
+		else if (!strcmp(argv[3], "sm4"))
+			config.cryptoGraphicMode = cryptoGraphic::SM4;
+		else if (!strcmp(argv[3], "zuc"))
+			config.cryptoGraphicMode = cryptoGraphic::ZUC;
+	}break;
+	}
 	cout << "crypto--" << endl;
 	cout << "1.AES加解密" << endl;
 	cout << "2.ECC加解密" << endl;
@@ -28,20 +70,18 @@ int main(int argc, char* argv[])
 	cout << "6.RC4流式加解密" << endl;
 	cout << "7.SM3密码杂凑算法" << endl;
 	cout << "8.SM4加解密" << endl;
-	cout << "9.SM4加解密" << endl;
-	int i;
-	cin >> i;
-	CRYPTO__ c((cryptoType)i,(cryptoGraphic)8, contentsType(1));
+	cout << "9.ZUC加解密" << endl;
+	CRYPTO__ c();
 
 }
 
-CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType cst)
+CRYPTO__::CRYPTO__()
 {
 	SHA256 sha256;
 	int ret;
 	char szFullPath[_MAX_PATH], szDrive[_MAX_DRIVE], szDir[_MAX_DIR], szFileName[_MAX_FNAME], szExt[_MAX_EXT];
 	std::string fullPath, dirPath, msg;
-	switch (cst)
+	switch (config.contentsTypeMode)
 	{
 	case contentsType::File: {
 		cout << "请输入要计算文件的位置" << endl;
@@ -50,7 +90,7 @@ CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType 
 		dirPath += szDrive ? szDrive : "";
 		dirPath += szDir ? szDir : "";
 		fullPath = dirPath;
-		switch (ct)
+		switch (config.cryptoTypeMode)
 		{
 			fullPath += szFileName ? szFileName : "";
 		case cryptoType::Encrypt: {
@@ -64,7 +104,7 @@ CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType 
 
 	}break;
 	case contentsType::Message: {
-		switch (ct)
+		switch (config.cryptoTypeMode)
 		{
 		case cryptoType::Encrypt:
 			cout << "请输入要加密消息:" << endl;
@@ -78,7 +118,7 @@ CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType 
 	}break;
 	}
 	
-	switch (cg)
+	switch (config.cryptoGraphicMode)
 	{
 	case cryptoGraphic::AES: {
 		string keyStr;
@@ -88,7 +128,7 @@ CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType 
 		if (keyStr.size() == 16) {
 			FileProc fp(szFullPath, fullPath);
 			AES a((unsigned char*)keyStr.c_str());
-			switch (ct)
+			switch (config.cryptoTypeMode)
 			{
 			case cryptoType::Encrypt:
 				while (fp.read(plain, sizeof(plain))){
@@ -109,7 +149,7 @@ CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType 
 
 		cout << "\n          本程序实现椭圆曲线的加密解密" << endl;
 		cout << "\n------------------------------------------------------------------------\n" << endl;
-		switch (ct)
+		switch (config.cryptoTypeMode)
 		{
 		case cryptoType::Encrypt:
 			time_t t;
@@ -507,7 +547,7 @@ CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType 
 				printf("r 是:\n");
 				mp_to_radix(&r, tempR.get(), SIZE_MAX, &written, 10);
 				printf("%s\n", tempR.get());
-				if (mp_cmp(&v, &r) == 0)cout << "接受签名";
+				if (!mp_cmp(&v, &r) == 0)cout << "接受签名";
 			}
 		}
 		mp_clear(&Hm);
@@ -768,7 +808,7 @@ CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType 
 		if (key.size() == 16) {
 			keyStr = (uint8_t*)key.c_str();
 			FileProc fp(szFullPath, fullPath);
-			switch (ct)
+			switch (config.cryptoTypeMode)
 			{
 			case cryptoType::Encrypt:
 				while (fp.read((char*)(plain), sizeof(plain))) {
@@ -796,17 +836,17 @@ CRYPTO__::CRYPTO__(enum cryptoType ct, enum cryptoGraphic cg, enum contentsType 
 			unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
 			std::mt19937 g1(seed);
 			uint32_t u32Random = g1();
-			switch (ct)
+			switch (config.cryptoTypeMode)
 			{
 			case cryptoType::Encrypt:
 				while (fp.read((char*)(plain), sizeof(plain))) {
-					zuc.ZUC_Confidentiality(keyStr, u32Random, );
+					//zuc.ZUC_Confidentiality(keyStr, u32Random, );
 					fp.write((char*)cipher, sizeof(cipher));
 				}break;
 			case cryptoType::Decrypt:
 				// 解密 cipher.txt，并写入图片 flower1.jpg
 				while (fp.read((char*)cipher, sizeof(cipher))) {
-					sm4.SM4_Decrypt(keyStr, cipher, plain);
+					//sm4.SM4_Decrypt(keyStr, cipher, plain);
 					fp.write((char*)plain, sizeof(plain));
 				}break;
 			}
