@@ -1,6 +1,5 @@
-#include "tools.h"
-#include "sha256.h"
 #include "ecdsa.h"
+#include "tools.h"
 namespace crypto__ {
 	ECDSA::ECDSA()
 	{
@@ -251,7 +250,7 @@ namespace crypto__ {
 		mp_clear(&u1);
 		mp_clear(&u2);
 	}
-	inline void ECDSA::printECDSA(std::string& sh)
+	void ECDSA::printECDSA(std::string& sh)
 	{
 		std::unique_ptr<char[]> tempN(new char[800]());
 		std::unique_ptr<char[]> tempD(new char[800]());
@@ -361,7 +360,7 @@ namespace crypto__ {
 				printf("r 是:\n");
 				mp_to_radix(&r, tempR.get(), SIZE_MAX, &written, 10);
 				printf("%s\n", tempR.get());
-				if (!mp_cmp(&v, &r) == 0)cout << "接受签名";
+				if (mp_cmp(&v, &r) == 0)cout << "接受签名";
 			}
 		}
 	}
