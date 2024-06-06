@@ -40,12 +40,12 @@ void  RC4::permute_S()
 
 string RC4::create_key_stream(string text, string KeyStream)
 {
-    // Éú³ÉÃÜÔ¿Á÷
+    // ç”Ÿæˆå¯†é’¥æµ
     int i, j;
     int temp, t;
     i = j = 0;
     int textLength = text.length();
-    while (textLength--) {   //Éú³ÉÃÜÔ¿Á÷
+    while (textLength--) {   //ç”Ÿæˆå¯†é’¥æµ
         i = (i + 1) % 256;
         j = (j + S[i]) % 256;
         temp = S[i];
@@ -63,22 +63,22 @@ void RC4::Rc4EncryptText(string text, string KeyStream, string PlainText, string
     cout << this->init_Key() << endl;
     this->permute_S();
     KeyStream = create_key_stream(text, KeyStream);
-    cout << "============¿ªÊ¼¼ÓÃÜ============:\n ÃÜÎÄ£º" << endl;;
+    cout << "============å¼€å§‹åŠ å¯†============:\n å¯†æ–‡ï¼š" << endl;;
     ofstream out;
     out.open(strPath + "textcipher.txt", ios::trunc);
     for (uint32_t i = 0; i < KeyStream.length(); i++) {
-        CryptoText.push_back(char(KeyStream[i] ^ text[i])); //¼ÓÃÜ
+        CryptoText.push_back(char(KeyStream[i] ^ text[i])); //åŠ å¯†
         out << CryptoText[i];
     }
     out.close();
-    cout << "\n============¼ÓÃÜÍê³É============\n============¿ªÊ¼½âÃÜ============\nÃ÷ÎÄ£º" << endl;
+    cout << "\n============åŠ å¯†å®Œæˆ============\n============å¼€å§‹è§£å¯†============\næ˜æ–‡ï¼š" << endl;
     out.open(strPath + "textcipherencipher.txt", ios::trunc);
     for (uint32_t i = 0; i < KeyStream.length(); i++) {
-        PlainText.push_back(char(KeyStream[i] ^ CryptoText[i]));   //½âÃÜ
+        PlainText.push_back(char(KeyStream[i] ^ CryptoText[i]));   //è§£å¯†
         out << PlainText[i];
     }
     out.close();
-    cout << "\n============½âÃÜÍê³É============\n" << endl;
+    cout << "\n============è§£å¯†å®Œæˆ============\n" << endl;
     printf("\n");
 
 }

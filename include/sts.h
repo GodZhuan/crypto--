@@ -9,16 +9,16 @@
 
 
 #define BIT_LEN 800 
-#define KEY_LONG 256  //Ë½Ô¿±ÈÌØ³¤
-#define P_LONG 200    //ÓĞÏŞÓòP±ÈÌØ³¤
-#define EN_LONG 40    //Ò»´ÎÈ¡Ã÷ÎÄ×Ö½ÚÊı(x,20)(y,20)
+#define KEY_LONG 256  //ç§é’¥æ¯”ç‰¹é•¿
+#define P_LONG 200    //æœ‰é™åŸŸPæ¯”ç‰¹é•¿
+#define EN_LONG 40    //ä¸€æ¬¡å–æ˜æ–‡å­—èŠ‚æ•°(x,20)(y,20)
 
 class STS
 {
 public:
 	STS();
 	~STS();
-	//µÃµ½lon±ÈÌØ³¤ËØÊıp
+	//å¾—åˆ°lonæ¯”ç‰¹é•¿ç´ æ•°p
 	int GetPrime(mp_int* p, mp_int* a, int lon);
 	void get_primitive_root(mp_int* num, mp_int* root);
 private:

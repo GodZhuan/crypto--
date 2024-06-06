@@ -264,7 +264,7 @@ namespace crypto__ {
 		std::unique_ptr<char[]> tempS(new char[800]());
 		std::unique_ptr<char[]> tempS1(new char[800]());
 		std::unique_ptr<char[]> tempV(new char[800]());
-		cout << "ÇëÊäÈë´óËØÊıµÄÎ»Êı£º";
+		cout << "è¯·è¾“å…¥å¤§ç´ æ•°çš„ä½æ•°ï¼š";
 		cin >> lon;
 		sts.GetPrime(&p, &a, lon);
 		mp_init_copy(&p_1, &p);
@@ -277,7 +277,7 @@ namespace crypto__ {
 		mp_exptmod(&sA, &rB, &p, &K);
 
 
-		printf("»ùµãGµÄ½× ÊÇ:\n");
+		printf("åŸºç‚¹Gçš„é˜¶ æ˜¯:\n");
 		mp_to_radix(&n, tempN.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempN.get());
 		do {
@@ -285,7 +285,7 @@ namespace crypto__ {
 		} while (mp_cmp(&d, &n) != -1);
 
 
-		printf("Ë½Ô¿ d ÊÇ:\n");
+		printf("ç§é’¥ d æ˜¯:\n");
 		mp_to_radix(&d, tempD.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempD.get());
 
@@ -294,48 +294,48 @@ namespace crypto__ {
 		while (mp_cmp(&k, &n) == 1)
 			mp_div_2(&k, &k);
 
-		printf("Ëæ»úÊıkÊÇ:\n");
+		printf("éšæœºæ•°kæ˜¯:\n");
 		mp_to_radix(&k, tempK.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempK.get());
 
 		ecc.Ecc_points_mul(&PX, &PY, &GX, &GY, &d, &A, &P);
 		ecc.Ecc_points_mul(&X1, &Y1, &GX, &GY, &k, &A, &P);
-		printf("¹«Ô¿X×ø±êÊÇ:\n");
+		printf("å…¬é’¥Xåæ ‡æ˜¯:\n");
 		mp_to_radix(&PX, tempPX.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempPX.get());
 
-		printf("¹«Ô¿Y×ø±êÊÇ:\n");
+		printf("å…¬é’¥Yåæ ‡æ˜¯:\n");
 		mp_to_radix(&PY, tempPY.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempPY.get());
 
 		mp_mod(&X1, &n, &r);
 		if (mp_cmp_d(&r, 0) == 0)goto L;
-		printf("x1 mod nÊÇ:\n");
+		printf("x1 mod næ˜¯:\n");
 		mp_to_radix(&r, tempR.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempR.get());
 
 		ex_Eulid(&k, &n, &k1, &n1, &temp);
 
-		printf("k**-1ÊÇ:\n");
+		printf("k**-1æ˜¯:\n");
 		while (mp_cmp_d(&k1, 0) != 1)
 			mp_add(&k1, &n, &k1);
 		mp_to_radix(&k1, tempK1.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempK1.get());
 
 		mp_mulmod(&k, &k1, &n, &temp);
-		printf("k*k**-1 mod nÊÇ:\n");
+		printf("k*k**-1 mod næ˜¯:\n");
 		mp_to_radix(&temp, tempT.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempT.get());
 
 		mp_read_radix(&Hm, sh.c_str(), 10);
-		printf("SHAÊÇ:\n");
+		printf("SHAæ˜¯:\n");
 		mp_to_radix(&Hm, tempSHA.get(), SIZE_MAX, &written, 0x10);
 		printf("%s\n", tempSHA.get());
 
 		mp_mul(&d, &r, &temp);
 		mp_add(&Hm, &temp, &temp);
 		mp_mulmod(&k1, &temp, &n, &s);
-		printf("s ÊÇ:\n");
+		printf("s æ˜¯:\n");
 		mp_to_radix(&s, tempS.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempS.get());
 
@@ -343,7 +343,7 @@ namespace crypto__ {
 		ex_Eulid(&s, &n, &s1, &n1, &temp);
 
 		mp_mulmod(&s, &s1, &n, &temp);
-		printf("s*s**-1 mod nÊÇ:\n");
+		printf("s*s**-1 mod næ˜¯:\n");
 		mp_to_radix(&temp, tempS1.get(), SIZE_MAX, &written, 10);
 		printf("%s\n", tempS1.get());
 		if (mp_cmp(&r, &n) == -1 && mp_cmp_d(&r, 0) == 1) {
@@ -354,13 +354,13 @@ namespace crypto__ {
 				ecc.Ecc_points_mul(&u2X, &u2Y, &PX, &PY, &u2, &A, &P);
 				ecc.Two_points_add(&u1X, &u1Y, &u2X, &u2Y, &X2, &Y2, &A, zero, &P);
 				mp_mod(&X2, &n, &v);
-				printf("v ÊÇ:\n");
+				printf("v æ˜¯:\n");
 				mp_to_radix(&v, tempV.get(), SIZE_MAX, &written, 10);
 				printf("%s\n", tempV.get());
-				printf("r ÊÇ:\n");
+				printf("r æ˜¯:\n");
 				mp_to_radix(&r, tempR.get(), SIZE_MAX, &written, 10);
 				printf("%s\n", tempR.get());
-				if (mp_cmp(&v, &r) == 0)cout << "½ÓÊÜÇ©Ãû";
+				if (mp_cmp(&v, &r) == 0)cout << "æ¥å—ç­¾å";
 			}
 		}
 	}

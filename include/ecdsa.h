@@ -18,45 +18,45 @@ namespace crypto__ {
 		int lon;
 		size_t written;
 
-		mp_int p;//pÎª°²È«ËØÊı
-		mp_int a;//Éú³ÉÔª
+		mp_int p;//pä¸ºå®‰å…¨ç´ æ•°
+		mp_int a;//ç”Ÿæˆå…ƒ
 		mp_int p_1;//p-1
 
-		mp_int rA;//Ëæ»úÊırA
+		mp_int rA;//éšæœºæ•°rA
 		mp_int sA;//a**rA mod p
 
-		mp_int rB;//Ëæ»úÊırB
+		mp_int rB;//éšæœºæ•°rB
 		mp_int sB;//a**rB mod p
 
 		mp_int K;//sA**rB mod p
 
-		mp_int GX;//»ùµãGµÄx×ø±ê
-		mp_int GY;//»ùµãGµÄy×ø±ê
-		mp_int n;//»ùµãGµÄ½×
-		mp_int d;//Ë½ÓĞÃÜÔ¿
-		mp_int h;//hÊÇÍÖÔ²ÇúÏßÉÏËùÓĞµãµÄ¸öÊımÓënÏà³ıµÄÉÌµÄÕûÊı²¿·Ö
-		mp_int k;//Ëæ»úÊı(2 to n-2)
-		mp_int A;//ÇúÏßEpÏµÊıA
-		mp_int B;//ÇúÏßEpÏµÊıB
-		mp_int PX;//dGµÄx×ø±ê
-		mp_int PY;//dGµÄx×ø±ê
-		mp_int X1;//kGµÄx×ø±ê
-		mp_int Y1;//kGµÄy×ø±ê
-		mp_int u1X;//u1.GXµÄx×ø±ê
-		mp_int u1Y;//u1.GYµÄy×ø±ê
-		mp_int u2X;//u2.PXµÄx×ø±ê
-		mp_int u2Y;//u2.PYµÄy×ø±ê
-		mp_int X2;//u1.GX+u2.PXµÄx×ø±ê
-		mp_int Y2;//u2.PY+u2.PXµÄy×ø±ê
+		mp_int GX;//åŸºç‚¹Gçš„xåæ ‡
+		mp_int GY;//åŸºç‚¹Gçš„yåæ ‡
+		mp_int n;//åŸºç‚¹Gçš„é˜¶
+		mp_int d;//ç§æœ‰å¯†é’¥
+		mp_int h;//hæ˜¯æ¤­åœ†æ›²çº¿ä¸Šæ‰€æœ‰ç‚¹çš„ä¸ªæ•°mä¸nç›¸é™¤çš„å•†çš„æ•´æ•°éƒ¨åˆ†
+		mp_int k;//éšæœºæ•°(2 to n-2)
+		mp_int A;//æ›²çº¿Epç³»æ•°A
+		mp_int B;//æ›²çº¿Epç³»æ•°B
+		mp_int PX;//dGçš„xåæ ‡
+		mp_int PY;//dGçš„xåæ ‡
+		mp_int X1;//kGçš„xåæ ‡
+		mp_int Y1;//kGçš„yåæ ‡
+		mp_int u1X;//u1.GXçš„xåæ ‡
+		mp_int u1Y;//u1.GYçš„yåæ ‡
+		mp_int u2X;//u2.PXçš„xåæ ‡
+		mp_int u2Y;//u2.PYçš„yåæ ‡
+		mp_int X2;//u1.GX+u2.PXçš„xåæ ‡
+		mp_int Y2;//u2.PY+u2.PXçš„yåæ ‡
 		mp_int v;//x2 mod n
 		bool zero = false;
 
 		mp_int r;//x1 mod n
-		mp_int P;//FpÖĞµÄp(ÓĞÏŞÓòP)
+		mp_int P;//Fpä¸­çš„p(æœ‰é™åŸŸP)
 
-		mp_int k1;//kµÄÄæÔª
-		mp_int s1;//sµÄÄæÔª
-		mp_int n1;//nµÄÄæÔª
+		mp_int k1;//kçš„é€†å…ƒ
+		mp_int s1;//sçš„é€†å…ƒ
+		mp_int n1;//nçš„é€†å…ƒ
 		mp_int temp;
 		mp_int Hm;//H(m)
 		mp_int s;//k**-1(H(m)+dA*r) mod n

@@ -1,0 +1,55 @@
+{
+    find_program_gcc_arch_x86_64_plat_linux_checktoolcxx = {
+        gcc = "/usr/bin/gcc"
+    },
+    ["lib.detect.has_flags"] = {
+        ["linux_x86_64_/usr/bin/gcc_13.2.0-23_cxx_cxflags_-m64_-fdiagnostics-color=always"] = true,
+        ["linux_x86_64_/usr/bin/gcc_13.2.0-23_cxx__-m64_-fPIC"] = true,
+        ["linux_x86_64_/usr/bin/gcc_13.2.0-23_cxx_cxflags_-m64_-MMD -MF"] = true
+    },
+    ["detect.tools.gcc.has_cflags"] = {
+        ["/usr/bin/gcc_13.2.0-23"] = {
+            ["--target-help"] = true,
+            ["-print-sysroot"] = true,
+            ["-print-multi-os-directory"] = true,
+            ["-print-multi-lib"] = true,
+            ["-dumpversion"] = true,
+            ["-Xassembler"] = true,
+            ["-print-sysroot-headers-suffix"] = true,
+            ["-print-search-dirs"] = true,
+            ["-x"] = true,
+            ["-dumpmachine"] = true,
+            ["-print-multi-directory"] = true,
+            ["--help"] = true,
+            ["-Xlinker"] = true,
+            ["-Xpreprocessor"] = true,
+            ["--version"] = true,
+            ["-save-temps"] = true,
+            ["-o"] = true,
+            ["-E"] = true,
+            ["-pie"] = true,
+            ["-pipe"] = true,
+            ["-dumpspecs"] = true,
+            ["-S"] = true,
+            ["-print-multiarch"] = true,
+            ["-v"] = true,
+            ["-time"] = true,
+            ["-no-canonical-prefixes"] = true,
+            ["-pass-exit-codes"] = true,
+            ["--param"] = true,
+            ["-c"] = true,
+            ["-print-libgcc-file-name"] = true,
+            ["-shared"] = true,
+            ["-B"] = true
+        }
+    },
+    find_programver = {
+        ["/usr/bin/gcc"] = "13.2.0-23"
+    },
+    find_program = {
+        zig = false,
+        ["/usr/bin/gcc"] = "/usr/bin/gcc",
+        nim = false,
+        gcc = "/usr/bin/gcc"
+    }
+}

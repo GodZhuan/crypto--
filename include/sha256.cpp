@@ -2,8 +2,8 @@
 #include<iostream>
 #include <string>
 #include <fstream>
-/**SHA256º¯ÊıËùÊ¹ÓÃµÄ8¸ö32bit³õÊ¼»¯¹şÏ£Öµ
-		×ÔÈ»ÊıÇ°ÁùÊ®ËÄ¸öÖÊÊıµÄÁ¢·½¸ù·½¸ùµÄĞ¡Êı²¿·ÖÈ¡Ç°32bit
+/**SHA256å‡½æ•°æ‰€ä½¿ç”¨çš„8ä¸ª32bitåˆå§‹åŒ–å“ˆå¸Œå€¼
+		è‡ªç„¶æ•°å‰å…­åå››ä¸ªè´¨æ•°çš„ç«‹æ–¹æ ¹æ–¹æ ¹çš„å°æ•°éƒ¨åˆ†å–å‰32bit
 		*/
 uint32_t K[64] = {
 		0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
@@ -25,7 +25,7 @@ SHA256::~SHA256()
 {
 }
 
-//ÂÖº¯Êı
+//è½®å‡½æ•°
 void SHA256::Round(uint32_t a, uint32_t b, uint32_t c, uint32_t& d, uint32_t e, uint32_t f, uint32_t g, uint32_t& h, uint32_t k, uint32_t w)
 {
 	uint32_t t1 = h + Sigma1(e) + Ch(e, f, g) + k + w;
@@ -36,8 +36,8 @@ void SHA256::Round(uint32_t a, uint32_t b, uint32_t c, uint32_t& d, uint32_t e, 
 
 std::string SHA256::ShaFile(string path)
 {
-	/**SHA256º¯ÊıËùÊ¹ÓÃµÄ8¸ö32bit³õÊ¼»¯¹şÏ£Öµ
-	×ÔÈ»ÊıÇ°°Ë¸öÖÊÊıµÄÆ½·½¸ùµÄĞ¡Êı²¿·ÖÈ¡Ç°32bit
+	/**SHA256å‡½æ•°æ‰€ä½¿ç”¨çš„8ä¸ª32bitåˆå§‹åŒ–å“ˆå¸Œå€¼
+	è‡ªç„¶æ•°å‰å…«ä¸ªè´¨æ•°çš„å¹³æ–¹æ ¹çš„å°æ•°éƒ¨åˆ†å–å‰32bit
 	*/
 	static const uint32_t init[8] = { 0x6a09e667ul, 0xbb67ae85ul, 0x3c6ef372ul, 0xa54ff53aul, 0x510e527ful, 0x9b05688cul, 0x1f83d9abul, 0x5be0cd19ul };
 	uint32_t buf[8];
@@ -60,7 +60,7 @@ std::string SHA256::ShaFile(string path)
 	input.get()[i] = 0x80;
 	i = l - 1;
 	while ((length & 0xff) != 0) {
-		int b = length & 0xff;//µÍ°ËÎ»
+		int b = length & 0xff;//ä½å…«ä½
 		input.get()[i--] = (char)b;
 		length = length >> 8;
 	}
@@ -74,8 +74,8 @@ std::string SHA256::ShaFile(string path)
 
 string SHA256::ShaStr(string Str)
 {
-	/**SHA256º¯ÊıËùÊ¹ÓÃµÄ8¸ö32bit³õÊ¼»¯¹şÏ£Öµ
-		×ÔÈ»ÊıÇ°°Ë¸öÖÊÊıµÄÆ½·½¸ùµÄĞ¡Êı²¿·ÖÈ¡Ç°32bit
+	/**SHA256å‡½æ•°æ‰€ä½¿ç”¨çš„8ä¸ª32bitåˆå§‹åŒ–å“ˆå¸Œå€¼
+		è‡ªç„¶æ•°å‰å…«ä¸ªè´¨æ•°çš„å¹³æ–¹æ ¹çš„å°æ•°éƒ¨åˆ†å–å‰32bit
 		*/
 	static const uint32_t init[8] = { 0x6a09e667ul, 0xbb67ae85ul, 0x3c6ef372ul, 0xa54ff53aul, 0x510e527ful, 0x9b05688cul, 0x1f83d9abul, 0x5be0cd19ul };
 	uint32_t buf[8];
@@ -90,7 +90,7 @@ string SHA256::ShaStr(string Str)
 	input.get()[i] = 0x80;
 	i = l - 1;
 	while ((length & 0xff) != 0) {
-		int b = length & 0xff;//µÍ°ËÎ»
+		int b = length & 0xff;//ä½å…«ä½
 		input[i--] = (char)b;
 		length = length >> 8;
 	}
@@ -101,7 +101,7 @@ string SHA256::ShaStr(string Str)
 		shaStr += std::to_string(buf[i]);
 	return shaStr;
 }
-// SHA-256ËùĞèÒª×öµÄ64´ÎÂÖº¯Êı 
+// SHA-256æ‰€éœ€è¦åšçš„64æ¬¡è½®å‡½æ•° 
 void  SHA256::Transform(uint32_t* s, const uint8_t* chunk, size_t blocks)
 {
 	while (blocks--) {

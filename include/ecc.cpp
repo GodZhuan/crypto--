@@ -48,17 +48,17 @@ ECC::~ECC()
 {
 	mp_clear(&GX);
 	mp_clear(&GY);
-	mp_clear(&K);//Ë½ÓĞÃÜÔ¿
+	mp_clear(&K);//ç§æœ‰å¯†é’¥
 	mp_clear(&A);
 	mp_clear(&B);
 	mp_clear(&QX);
 	mp_clear(&QY);
-	mp_clear(&P);//FpÖĞµÄp(ÓĞÏŞÓòP)
+	mp_clear(&P);//Fpä¸­çš„p(æœ‰é™åŸŸP)
 }
 
 void ECC::BuildParameters(void)
 {
-	printf("ÊÇ·ñÉú³ÉĞÂµÄÍÖÔ²ÇúÏß²ÎÊı?\n");
+	printf("æ˜¯å¦ç”Ÿæˆæ–°çš„æ¤­åœ†æ›²çº¿å‚æ•°?\n");
 
 	GetPrime(&P, P_LONG);
 	GetPrime(&A, 30);
@@ -71,45 +71,45 @@ void ECC::PrintParameters(void)
 {
 	char*t= new char[800]();
 	size_t written;
-	printf("ÍÖÔ²ÇúÏßµÄ²ÎÊıÈçÏÂ(ÒÔÊ®½øÖÆÏÔÊ¾):\n");
-	printf("ÓĞÏŞÓò P ÊÇ:\n");
+	printf("æ¤­åœ†æ›²çº¿çš„å‚æ•°å¦‚ä¸‹(ä»¥åè¿›åˆ¶æ˜¾ç¤º):\n");
+	printf("æœ‰é™åŸŸ P æ˜¯:\n");
 	
 	mp_to_radix(&P, t, SIZE_MAX, &written, 10);
 	temp = t;
 	printf("%s\n", temp.c_str());
 
-	printf("ÇúÏß²ÎÊı A ÊÇ:\n");
+	printf("æ›²çº¿å‚æ•° A æ˜¯:\n");
 	mp_to_radix(&A, t, SIZE_MAX, &written, 10);
 	tempA = t;
 	printf("%s\n", tempA.c_str());
 
-	printf("ÇúÏß²ÎÊı B ÊÇ:\n");
+	printf("æ›²çº¿å‚æ•° B æ˜¯:\n");
 	mp_to_radix(&B, t, SIZE_MAX, &written, 10);
 	tempB = t;
 	printf("%s\n", tempB.c_str());
 	
-	printf("ÇúÏßGµãX×ø±êÊÇ:\n");
+	printf("æ›²çº¿Gç‚¹Xåæ ‡æ˜¯:\n");
 	mp_to_radix(&GX, t, SIZE_MAX, &written, 10);
 	tempGX = t;
 	printf("%s\n", tempGX.c_str());
 	
-	printf("ÇúÏßGµãY×ø±êÊÇ:\n");
+	printf("æ›²çº¿Gç‚¹Yåæ ‡æ˜¯:\n");
 	mp_to_radix(&GY, t, SIZE_MAX, &written, 10);
 	tempGY = t;
 	printf("%s\n", tempGY.c_str());
 
-	printf("Ë½Ô¿ K ÊÇ:\n");
+	printf("ç§é’¥ K æ˜¯:\n");
 	mp_to_radix(&K, t, SIZE_MAX, &written, 10);
 	tempK = t;
 	printf("%s\n", tempK.c_str());
 		
 	
-	printf("¹«Ô¿X×ø±êÊÇ:\n");
+	printf("å…¬é’¥Xåæ ‡æ˜¯:\n");
 	mp_to_radix(&QX, t, SIZE_MAX, &written, 10);
 	tempQX = t;
 	printf("%s\n", tempQX.c_str());
 	
-	printf("¹«Ô¿Y×ø±êÊÇ:\n");
+	printf("å…¬é’¥Yåæ ‡æ˜¯:\n");
 	mp_to_radix(&QY, t, SIZE_MAX, &written, 10);
 	tempQY = t;
 	printf("%s\n", tempQY.c_str());
@@ -161,7 +161,7 @@ void ECC::Get_B_X_Y(mp_int* x1, mp_int* y1, mp_int* b, mp_int* a, mp_int* p)
 
 	do
 	{
-		//4a3+27b2¡Ù0 (mod p)
+		//4a3+27b2â‰ 0 (mod p)
 		GetPrime(b, 40);
 		mp_expt_u32(a, 3, &temp1);
 		mp_sqr(b, &temp2);
@@ -171,7 +171,7 @@ void ECC::Get_B_X_Y(mp_int* x1, mp_int* y1, mp_int* b, mp_int* a, mp_int* p)
 		mp_mod(&temp5, p, &temp);
 	} while (!mp_cmp(&temp, &compare));
 
-	//y2=x3+ax+b,Ëæ»ú²úÉúX×ø±ê,¸ù¾İX×ø±ê¼ÆËãY×ø±ê
+	//y2=x3+ax+b,éšæœºäº§ç”ŸXåæ ‡,æ ¹æ®Xåæ ‡è®¡ç®—Yåæ ‡
 	GetPrime(x1, 30);
 	mp_expt_u32(x1, 3, &temp6);
 	mp_mul(a, x1, &temp7);
@@ -247,7 +247,7 @@ bool ECC::Ecc_points_mul(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int*
 	if (zero)
 	{
 		cout << "It is Zero_Unit!";
-		return false;//Èç¹ûQÎªÁã´ÓĞÂ²úÉúD
+		return false;//å¦‚æœQä¸ºé›¶ä»æ–°äº§ç”ŸD
 	}
 
 	mp_copy(&X3, qx);
@@ -267,7 +267,7 @@ bool ECC::Ecc_points_mul(mp_int* qx, mp_int* qy, mp_int* px, mp_int* py, mp_int*
 	return true;
 }
 
-//Á½µã¼Ó
+//ä¸¤ç‚¹åŠ 
 int ECC::Two_points_add(mp_int* x1, mp_int* y1, mp_int* x2, mp_int* y2, mp_int* x3, mp_int* y3, mp_int* a, bool zero, mp_int* p)
 {
 	mp_int x2x1;
@@ -389,7 +389,7 @@ L:
 
 }
 
-//¶ş½øÖÆ´æ´¢ÃÜÎÄ
+//äºŒè¿›åˆ¶å­˜å‚¨å¯†æ–‡
 int ECC::chmistore(mp_int* a, FILE* fp)
 {
 
@@ -418,7 +418,7 @@ int ECC::chmistore(mp_int* a, FILE* fp)
 }
 
 
-//°Ñ¶ÁÈ¡µÄ×Ö·û´æÈëmp_intĞÍÊı
+//æŠŠè¯»å–çš„å­—ç¬¦å­˜å…¥mp_intå‹æ•°
 int ECC::putin(mp_int* a, char* ch, int chlong)
 {
 	mp_digit* temp, yy;
@@ -456,7 +456,7 @@ int ECC::putin(mp_int* a, char* ch, int chlong)
 		*temp <<= (mp_digit)CHAR_BIT;
 		*temp |= (mp_digit)(ch[i - 3] & 255);
 		*temp <<= (mp_digit)CHAR_BIT;
-		*temp-- |= (mp_digit)(ch[i - 4] & 255); //´æ·Å±»ÇĞ·ÖµÄ×Ö·ûµÄµÍËÄÎ»
+		*temp-- |= (mp_digit)(ch[i - 4] & 255); //å­˜æ”¾è¢«åˆ‡åˆ†çš„å­—ç¬¦çš„ä½å››ä½
 
 
 		for (j = chlong - 1; j >= i; j--)
@@ -465,13 +465,13 @@ int ECC::putin(mp_int* a, char* ch, int chlong)
 			*temp <<= (mp_digit)CHAR_BIT;
 		}
 		*temp >>= (mp_digit)4;
-		*temp |= (mp_digit)((ch[i - 1] & 255) >> 4);  //´æ·Å±»ÇĞ·ÖµÄ×Ö·ûµÄ¸ßËÄÎ»
+		*temp |= (mp_digit)((ch[i - 1] & 255) >> 4);  //å­˜æ”¾è¢«åˆ‡åˆ†çš„å­—ç¬¦çš„é«˜å››ä½
 
 		a->used = 2;
 		return MP_OKAY;
 	}
 
-	//ÒÔ7¸ö×Ö·ûÎªµ¥ÔªÑ­»·£¬°ÑÆß¸ö×Ö·û·ÅÈëµÄmp_int µÄÁ½¸öµ¥ÔªÖĞ
+	//ä»¥7ä¸ªå­—ç¬¦ä¸ºå•å…ƒå¾ªç¯ï¼ŒæŠŠä¸ƒä¸ªå­—ç¬¦æ”¾å…¥çš„mp_int çš„ä¸¤ä¸ªå•å…ƒä¸­
 	for (j = 0; j < chlong / 7; j++)
 	{
 		i += 7;
@@ -481,9 +481,9 @@ int ECC::putin(mp_int* a, char* ch, int chlong)
 		*temp <<= (mp_digit)CHAR_BIT;
 		*temp |= (mp_digit)(ch[i - 3] & 255);
 		*temp <<= (mp_digit)4;
-		*temp-- |= (mp_digit)((ch[i - 4] & 255) >> 4);    //´æ·Å±»ÇĞ·ÖµÄ×Ö·ûµÄ¸ßËÄÎ»
+		*temp-- |= (mp_digit)((ch[i - 4] & 255) >> 4);    //å­˜æ”¾è¢«åˆ‡åˆ†çš„å­—ç¬¦çš„é«˜å››ä½
 
-		*temp |= (mp_digit)(ch[i - 4] & yy);      //´æ·Å±»ÇĞ·ÖµÄ×Ö·ûµÄµÍËÄÎ»
+		*temp |= (mp_digit)(ch[i - 4] & yy);      //å­˜æ”¾è¢«åˆ‡åˆ†çš„å­—ç¬¦çš„ä½å››ä½
 		*temp <<= (mp_digit)CHAR_BIT;
 		*temp |= (mp_digit)(ch[i - 5] & 255);
 		*temp <<= (mp_digit)CHAR_BIT;
@@ -495,9 +495,9 @@ int ECC::putin(mp_int* a, char* ch, int chlong)
 
 	}
 
-	if ((chlong >= 7) && (chlong % 7 != 0))        //Ê£Óà×Ö·ûµÄ´æ·Å
+	if ((chlong >= 7) && (chlong % 7 != 0))        //å‰©ä½™å­—ç¬¦çš„å­˜æ”¾
 	{
-		if (chlong % 7 < 4)           //Ê£Óà×Ö·ûÉÙÓà4¸öÊ±£¬Ö»ĞèÒ»¸ömp_digitµ¥Ôª´æ·Å
+		if (chlong % 7 < 4)           //å‰©ä½™å­—ç¬¦å°‘ä½™4ä¸ªæ—¶ï¼Œåªéœ€ä¸€ä¸ªmp_digitå•å…ƒå­˜æ”¾
 		{
 			for (j = chlong - 1; j >= i; j--)
 			{
@@ -508,7 +508,7 @@ int ECC::putin(mp_int* a, char* ch, int chlong)
 			a->used = chlong * 2 / 7 + 1;
 		}
 		else
-		{                       //Ê£Óà×Ö·û²»Ğ¡ÓÚ4¸öÊ±£¬ĞèÁ½¸ömp_digitµ¥Ôª´æ·Å
+		{                       //å‰©ä½™å­—ç¬¦ä¸å°äº4ä¸ªæ—¶ï¼Œéœ€ä¸¤ä¸ªmp_digitå•å…ƒå­˜æ”¾
 			i += 4;
 			*temp |= (mp_digit)(ch[i - 1] & yy);
 			*temp <<= (mp_digit)CHAR_BIT;
@@ -516,7 +516,7 @@ int ECC::putin(mp_int* a, char* ch, int chlong)
 			*temp <<= (mp_digit)CHAR_BIT;
 			*temp |= (mp_digit)(ch[i - 3] & 255);
 			*temp <<= (mp_digit)CHAR_BIT;
-			*temp++ |= (mp_digit)(ch[i - 4] & 255); //´æ·Å±»ÇĞ·ÖµÄ×Ö·ûµÄµÍËÄÎ»
+			*temp++ |= (mp_digit)(ch[i - 4] & 255); //å­˜æ”¾è¢«åˆ‡åˆ†çš„å­—ç¬¦çš„ä½å››ä½
 
 
 			for (j = chlong - 1; j >= i; j--)
@@ -525,7 +525,7 @@ int ECC::putin(mp_int* a, char* ch, int chlong)
 				*temp <<= (mp_digit)CHAR_BIT;
 			}
 			*temp >>= (mp_digit)4;
-			*temp |= (mp_digit)((ch[i - 1] & 255) >> 4);  //´æ·Å±»ÇĞ·ÖµÄ×Ö·ûµÄ¸ßËÄÎ»
+			*temp |= (mp_digit)((ch[i - 1] & 255) >> 4);  //å­˜æ”¾è¢«åˆ‡åˆ†çš„å­—ç¬¦çš„é«˜å››ä½
 
 			a->used = chlong * 2 / 7 + 2;
 		}
@@ -565,19 +565,19 @@ void ECC::Ecc_encipher(char* inPath, string outPath)
 
 	GetPrime(&r, 100);
 
-	//´ò¿ªÒª¼ÓÃÜÎÄ¼ş
+	//æ‰“å¼€è¦åŠ å¯†æ–‡ä»¶
 	if (fopen_s(&fp, inPath, "rb"))
 	{
 		printf("can not open the file!");
 		exit(1);
 	}
 
-	uint32_t FileLong = 0;//ÎÄ¼ş×Ö·û³¤¶È
-	char ChTem;//ÁÙÊ±×Ö·û±ä
-	int Frequency = 0;//È¡Ã÷ÎÄ×Ö½ÚÊıµÄ´ÎÊı
-	int Residue = 0;//È¡Ã÷ÎÄ×Ö½ÚºóµÄÊ£Óà²¿·Ö
+	uint32_t FileLong = 0;//æ–‡ä»¶å­—ç¬¦é•¿åº¦
+	char ChTem;//ä¸´æ—¶å­—ç¬¦å˜
+	int Frequency = 0;//å–æ˜æ–‡å­—èŠ‚æ•°çš„æ¬¡æ•°
+	int Residue = 0;//å–æ˜æ–‡å­—èŠ‚åçš„å‰©ä½™éƒ¨åˆ†
 
-	while (!feof(fp))//ÕÒÎÄ¼ş×Ö·û³¤¶È
+	while (!feof(fp))//æ‰¾æ–‡ä»¶å­—ç¬¦é•¿åº¦
 	{
 		ChTem = fgetc(fp);
 		FileLong++;
@@ -591,49 +591,49 @@ void ECC::Ecc_encipher(char* inPath, string outPath)
 	int enlongtemp = EN_LONG / 2;
 
 
-	//´ò¿ª±£´æÃÜÎÄÎÄ¼ş
+	//æ‰“å¼€ä¿å­˜å¯†æ–‡æ–‡ä»¶
 	if (fopen_s(&fq, outPath.c_str(), "wb"))
 	{
 		printf("can not open the file!\n");
 		exit(1);
 	}
 
-	printf("\n¿ªÊ¼¼ÓÃÜ...\n");
+	printf("\nå¼€å§‹åŠ å¯†...\n");
 
 
 	rewind(fp);
 	for (i = 0; i < Frequency; i++)
 	{
 
-		fread(miwenx, 1, enlongtemp, fp);//¶ÁÈë×Ö·û´®£¬EN_LONGµÄÒ»°ë
+		fread(miwenx, 1, enlongtemp, fp);//è¯»å…¥å­—ç¬¦ä¸²ï¼ŒEN_LONGçš„ä¸€åŠ
 		miwenx[enlongtemp] = char(255);
 
-		fread(miweny, 1, enlongtemp, fp);//¶ÁÈë×Ö·û´®£¬EN_LONGµÄÒ»°ë
+		fread(miweny, 1, enlongtemp, fp);//è¯»å…¥å­—ç¬¦ä¸²ï¼ŒEN_LONGçš„ä¸€åŠ
 		miweny[enlongtemp] = char(255);
 
-		putin(&mx, miwenx, enlongtemp + 1);//ÎÄ¼ş´æÈë         
-		putin(&my, miweny, enlongtemp + 1);//ÎÄ¼ş´æÈë
+		putin(&mx, miwenx, enlongtemp + 1);//æ–‡ä»¶å­˜å…¥         
+		putin(&my, miweny, enlongtemp + 1);//æ–‡ä»¶å­˜å…¥
 
-		Ecc_points_mul(&c2x, &c2y, &GX, &GY, &r, &A, &P);//¼ÓÃÜ
+		Ecc_points_mul(&c2x, &c2y, &GX, &GY, &r, &A, &P);//åŠ å¯†
 		Ecc_points_mul(&tempx, &tempy, &QX, &QY, &r, &A, &P);
 		Two_points_add(&mx, &my, &tempx, &tempy, &c1x, &c1y, &A, zero, &P);
 
-		//±£´æÃÜÎÄ      
+		//ä¿å­˜å¯†æ–‡      
 		chmistore(&c1x, fq);
 		chmistore(&c1y, fq);
 		chmistore(&c2x, fq);
 		chmistore(&c2y, fq);
 
 	}
-	//Ê£Óà×Ö·û´¦Àí
+	//å‰©ä½™å­—ç¬¦å¤„ç†
 	if (Residue > 0)
 	{
 		if (Residue <= enlongtemp)
 		{
-			fread(miwenx, 1, Residue, fp);//¶ÁÈë×Ö·û´®
+			fread(miwenx, 1, Residue, fp);//è¯»å…¥å­—ç¬¦ä¸²
 			miwenx[Residue] = char(255);
 
-			putin(&mx, miwenx, Residue + 1);//ÎÄ¼ş´æÈë 
+			putin(&mx, miwenx, Residue + 1);//æ–‡ä»¶å­˜å…¥ 
 
 			mp_zero(&my);
 
@@ -641,19 +641,19 @@ void ECC::Ecc_encipher(char* inPath, string outPath)
 		else
 		{
 
-			fread(miwenx, 1, enlongtemp, fp);//¶ÁÈë×Ö·û´®
+			fread(miwenx, 1, enlongtemp, fp);//è¯»å…¥å­—ç¬¦ä¸²
 			miwenx[enlongtemp] = char(255);
 
 
-			fread(miweny, 1, Residue - enlongtemp, fp);//¶ÁÈë×Ö·û´®
+			fread(miweny, 1, Residue - enlongtemp, fp);//è¯»å…¥å­—ç¬¦ä¸²
 			miweny[Residue - enlongtemp] = char(255);
 
-			putin(&mx, miwenx, enlongtemp + 1);//ÎÄ¼ş´æÈë 
+			putin(&mx, miwenx, enlongtemp + 1);//æ–‡ä»¶å­˜å…¥ 
 
-			putin(&my, miweny, Residue - enlongtemp + 1);//ÎÄ¼ş´æÈë 
+			putin(&my, miweny, Residue - enlongtemp + 1);//æ–‡ä»¶å­˜å…¥ 
 		}
 
-		Ecc_points_mul(&c2x, &c2y, &GX, &GY, &r, &A, &P);//¼ÓÃÜ
+		Ecc_points_mul(&c2x, &c2y, &GX, &GY, &r, &A, &P);//åŠ å¯†
 
 		Ecc_points_mul(&tempx, &tempy, &QX, &QY, &r, &A, &P);
 
@@ -661,7 +661,7 @@ void ECC::Ecc_encipher(char* inPath, string outPath)
 		Two_points_add(&mx, &my, &tempx, &tempy, &c1x, &c1y, &A, zero, &P);
 
 
-		//±£´æÃÜÎÄ      
+		//ä¿å­˜å¯†æ–‡      
 		chmistore(&c1x, fq);
 
 		chmistore(&c1y, fq);
@@ -672,9 +672,9 @@ void ECC::Ecc_encipher(char* inPath, string outPath)
 	}
 
 
-	cout << "\nok!¼ÓÃÜÍê±Ï!" << endl;
-	cout << "ÃÜÎÄÒÔ¶ş½øÖÆ±£´æ" << endl;
-	cout << "ÃÜÎÄ´æ·ÅÂ·¾¶Îª  " << outPath << endl;
+	cout << "\nok!åŠ å¯†å®Œæ¯•!" << endl;
+	cout << "å¯†æ–‡ä»¥äºŒè¿›åˆ¶ä¿å­˜" << endl;
+	cout << "å¯†æ–‡å­˜æ”¾è·¯å¾„ä¸º  " << outPath << endl;
 
 
 	fclose(fq);
@@ -726,7 +726,7 @@ void ECC::Ecc_loadKey(string inPath)
 }
 
 
-//È¡ÃÜÎÄ
+//å–å¯†æ–‡
 
 int ECC::miwendraw(mp_int* a, char* ch, int chlong)
 {
@@ -760,7 +760,7 @@ int ECC::miwendraw(mp_int* a, char* ch, int chlong)
 	return MP_OKAY;
 }
 
-//ÊµÏÖ½«mp_intÊıaÖĞµÄ±ÈÌØ´®»¹Ô­Îª×Ö·û´®²¢¸³¸ø×Ö·û´®ch£º
+//å®ç°å°†mp_intæ•°aä¸­çš„æ¯”ç‰¹ä¸²è¿˜åŸä¸ºå­—ç¬¦ä¸²å¹¶èµ‹ç»™å­—ç¬¦ä¸²chï¼š
 int ECC::chdraw(mp_int* a, char* ch)
 {
 	int i, j;
@@ -768,10 +768,10 @@ int ECC::chdraw(mp_int* a, char* ch)
 
 	temp = a->dp;
 	i = 0;
-	yy = (mp_digit)255;  //ÓÃÓÚÎ»ÓëÔËËã£¬È¡°ËÎ»±ÈÌØ´®
-	xx = (mp_digit)15;  //ÓÃÓÚÎ»ÓëÔËËã£¬È¡ËÄÎ»±ÈÌØ´®
+	yy = (mp_digit)255;  //ç”¨äºä½ä¸è¿ç®—ï¼Œå–å…«ä½æ¯”ç‰¹ä¸²
+	xx = (mp_digit)15;  //ç”¨äºä½ä¸è¿ç®—ï¼Œå–å››ä½æ¯”ç‰¹ä¸²
 
-	for (j = 0; j < a->used / 2; j++)  //ÒÔÁ½¸öµ¥ÔªÎªÑ­»·£¬°ÑÁ½¸öµ¥ÔªµÄ±ÈÌØ´®¸³¸ø7¸ö×Ö·û
+	for (j = 0; j < a->used / 2; j++)  //ä»¥ä¸¤ä¸ªå•å…ƒä¸ºå¾ªç¯ï¼ŒæŠŠä¸¤ä¸ªå•å…ƒçš„æ¯”ç‰¹ä¸²èµ‹ç»™7ä¸ªå­—ç¬¦
 	{
 		i += 7;
 		ch[i - 4] = (char)(*++temp & xx);
@@ -786,7 +786,7 @@ int ECC::chdraw(mp_int* a, char* ch)
 		ch[i - 4] += (char)((*temp++ >> (mp_digit)24)& xx);
 		temp++;
 	}
-	if (a->used % 2 != 0)  //Ê£ÓÚÒ»¸öµ¥ÔªµÄ´¦Àí
+	if (a->used % 2 != 0)  //å‰©äºä¸€ä¸ªå•å…ƒçš„å¤„ç†
 	{
 		ch[i++] = (char)(*temp & yy);
 		ch[i++] = (char)((*temp >> (mp_digit)8)& yy);
@@ -826,14 +826,14 @@ void ECC::Ecc_decipher(char* inPath, string outPath) {
 
 
 	//char filehead[60], filefoot[20], filename[85] = { 0 };
-	//cout << "ÇëÊäÈëÄúÒª½âÃÜµÄÎÄ¼şµÄ´æ·ÅÂ·¾¶ºÍÎÄ¼şÃû(Èç:  c:\\000\\´óÕûÊıÔËËã  ):" << endl;
+	//cout << "è¯·è¾“å…¥æ‚¨è¦è§£å¯†çš„æ–‡ä»¶çš„å­˜æ”¾è·¯å¾„å’Œæ–‡ä»¶å(å¦‚:  c:\\000\\å¤§æ•´æ•°è¿ç®—  ):" << endl;
 	//cin >> filehead;
-	//cout << "ÇëÊäÈëÄúÒª½âÃÜµÄÎÄ¼şµÄÀ©Õ¹Ãû(Èç:  .doc  ):" << endl;
+	//cout << "è¯·è¾“å…¥æ‚¨è¦è§£å¯†çš„æ–‡ä»¶çš„æ‰©å±•å(å¦‚:  .doc  ):" << endl;
 	//cin >> filefoot;
 	//strcpy_s(filename, filehead);
 	//strcat_s(filename, filefoot);
 
-	//printf("\n¿ªÊ¼½âÃÜ\n");
+	//printf("\nå¼€å§‹è§£å¯†\n");
 
 	if (fopen_s(&fp, inPath, "rb"))
 	{
@@ -841,10 +841,10 @@ void ECC::Ecc_decipher(char* inPath, string outPath) {
 		exit(1);
 	}
 
-	////´ò¿ª±£´æ½âÃÜ½á¹ûÎÄ¼ş
+	////æ‰“å¼€ä¿å­˜è§£å¯†ç»“æœæ–‡ä»¶
 	//char filemi[80];
 	//strcpy_s(filemi, filehead);
-	//strcat_s(filemi, "½âÃÜ");
+	//strcat_s(filemi, "è§£å¯†");
 	//strcat_s(filemi, filefoot);
 
 	if ((fopen_s(&fq,outPath.c_str(), "wb")))
@@ -915,10 +915,10 @@ void ECC::Ecc_decipher(char* inPath, string outPath) {
 		Two_points_add(&c1x, &c1y, &tempx, &temp, &mx, &my, &A, zero, &P);
 
 		int chtem;
-		chtem = chdraw(&mx, stemp);//´ÓmingÖĞÈ¡³ö×Ö·û´®
+		chtem = chdraw(&mx, stemp);//ä»mingä¸­å–å‡ºå­—ç¬¦ä¸²
 
 
-		//±£´æ½âÃÜ½á¹û
+		//ä¿å­˜è§£å¯†ç»“æœ
 
 		for (int kk = 0; kk < chtem; kk++)
 		{
@@ -926,10 +926,10 @@ void ECC::Ecc_decipher(char* inPath, string outPath) {
 
 		}
 
-		chtem = chdraw(&my, stemp);//´ÓmingÖĞÈ¡³ö×Ö·û´®
+		chtem = chdraw(&my, stemp);//ä»mingä¸­å–å‡ºå­—ç¬¦ä¸²
 
 
-		 //±£´æ½âÃÜ½á¹û
+		 //ä¿å­˜è§£å¯†ç»“æœ
 		for (int kk = 0; kk < chtem; kk++)
 		{
 			fprintf(fq, "%c", stemp[kk]);
@@ -939,8 +939,8 @@ void ECC::Ecc_decipher(char* inPath, string outPath) {
 
 	}
 
-	cout << "\nok!½âÃÜÍê±Ï!" << endl;
-	cout << "½âÃÜºóµÄÎÄ×Ö´æ·ÅÂ·¾¶Îª  " << outPath << endl;
+	cout << "\nok!è§£å¯†å®Œæ¯•!" << endl;
+	cout << "è§£å¯†åçš„æ–‡å­—å­˜æ”¾è·¯å¾„ä¸º  " << outPath << endl;
 
 	fclose(fq);
 	fclose(fp);

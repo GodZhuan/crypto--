@@ -7,8 +7,8 @@ public:
 	RC4();
 	~RC4();
 public:
-	char T[256];    //ÏòÁ¿T
-	int Key[256];   //Ëæ»úÉú³ÉµÄÃÜÔ¿
+	char T[256];    //å‘é‡T
+	int Key[256];   //éšæœºç”Ÿæˆçš„å¯†é’¥
 	int S[256];
 public:
 	int* init_Key();

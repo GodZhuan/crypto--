@@ -1,8 +1,8 @@
 #include"tools.h"
 namespace crypto__ {
 	/**
-	 *  ½«Ò»¸öchar×Ö·ûÊı×é×ª»¯Îª¶ş½øÖÆ
-	 *  ´æµ½Ò»¸ö Byte Êı×éÖĞ
+	 *  å°†ä¸€ä¸ªcharå­—ç¬¦æ•°ç»„è½¬åŒ–ä¸ºäºŒè¿›åˆ¶
+	 *  å­˜åˆ°ä¸€ä¸ª Byte æ•°ç»„ä¸­
 	 */
 	void charToByte(uint8_t out[4][4], std::string& s)
 	{
@@ -18,7 +18,7 @@ namespace crypto__ {
 		return len;
 	}
 
-	//Éú³ÉÖ¸¶¨×Ö³¤µÄËæ»ú×Ö·û´®
+	//ç”ŸæˆæŒ‡å®šå­—é•¿çš„éšæœºå­—ç¬¦ä¸²
 	std::string GetRandList(int len)
 	{
 		char strRandomList[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '!', '@', '#', '$', '%', '&', '*', '_' };
@@ -27,7 +27,7 @@ namespace crypto__ {
 		std::uniform_int_distribution<unsigned> u(0, 69);
 		for (int i = 0; i < len; i++)
 		{
-			pwd += strRandomList[u(e)];//Ëæ»úÈ¡strRandomList µÄÏîÖµ
+			pwd += strRandomList[u(e)];//éšæœºå–strRandomList çš„é¡¹å€¼
 		}
 		return pwd;
 	}
