@@ -1,0 +1,106 @@
+{
+    errdata = "\27[1msrc/crypto--.cpp:260:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  260 |     mp_sub_d(&p, \27[0;32m1\27[0m, &p_1);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~ ~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:262:7: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  262 |       mp_rand(&x, lon);\27[0m\
+      | \27[0;1;32m      ^~~~~~~ ~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:264:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  264 |     mp_exptmod(&a, &x, &p, &y);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~~~ ~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:266:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  266 |     mp_to_radix(&y, tempY.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:269:7: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  269 |       mp_rand(&k, lon / \27[0;32m26\27[0m);\27[0m\
+      | \27[0;1;32m      ^~~~~~~ ~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:270:7: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  270 |       mp_gcd(&k, &p_1, &r);\27[0m\
+      | \27[0;1;32m      ^~~~~~ ~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:273:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  273 |     mp_exptmod(&a, &k, &p, &r);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~~~ ~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:275:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  275 |     mp_to_radix(&r, tempR.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:278:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  278 |     mp_read_radix(&sha, str.c_str(), \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:280:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  280 |     mp_to_radix(&sha, tempSHA.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m0x10\27[0m);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:282:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  282 |     mp_mul(&x, &r, &s);\27[0m\
+      | \27[0;1;32m    ^~~~~~ ~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:283:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  283 |     mp_sub(&sha, &s, &s);\27[0m\
+      | \27[0;1;32m    ^~~~~~ ~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:286:7: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  286 |       mp_add(&a1, &p_1, &a1);\27[0m\
+      | \27[0;1;32m      ^~~~~~ ~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:288:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  288 |     mp_to_radix(&a1, tempA1.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:290:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  290 |     mp_mulmod(&k, &a1, &p_1, &temp3);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:292:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  292 |     mp_to_radix(&a1, tempT.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:298:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  298 |     mp_init(&s);\27[0m\
+      | \27[0;1;32m    ^~~~~~~ ~~\
+\27[0m\27[1msrc/crypto--.cpp:300:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  300 |     mp_read_radix(&s, a.c_str(), \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:303:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  303 |     mp_to_radix(&s, tempSHA, (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m0x10\27[0m);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:382:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1menumeration value 'Hash' not handled in switch [-Wswitch]\27[0m\
+  382 |       \27[0;34mswitch\27[0m (config.cryptoTypeMode) {\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:415:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1menumeration value 'Hash' not handled in switch [-Wswitch]\27[0m\
+  415 |       \27[0;34mswitch\27[0m (config.cryptoTypeMode) {\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:214:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  214 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the p. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:217:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  217 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the a. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:220:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  220 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the p_1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:223:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  223 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the x. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:226:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  226 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the y. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:229:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  229 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the a. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:232:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  232 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the k. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:235:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  235 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the r. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:238:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  238 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the s. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:241:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  241 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the sha. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:244:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  244 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the a1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:247:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  247 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the b1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:250:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  250 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the temp3. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m34 warnings generated.\
+"
+}

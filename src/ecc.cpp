@@ -63,42 +63,44 @@ void ECC::PrintParameters(void) {
   printf("椭圆曲线的参数如下(以十进制显示):\n");
   printf("有限域 P 是:\n");
 
-  mp_to_radix(&P, t, SIZE_MAX, &written, 10);
-  temp = t;
-  printf("%s\n", temp.c_str());
+  mp_err ret = mp_to_radix(&P, t, SIZE_MAX, &written, 10);
+  if (ret == 0) { /* no error */
+    temp = t;
+    printf("%s\n", temp.c_str());
+  }
 
   printf("曲线参数 A 是:\n");
-  mp_to_radix(&A, t, SIZE_MAX, &written, 10);
+  ret = mp_to_radix(&A, t, SIZE_MAX, &written, 10);
   tempA = t;
   printf("%s\n", tempA.c_str());
 
   printf("曲线参数 B 是:\n");
-  mp_to_radix(&B, t, SIZE_MAX, &written, 10);
+  ret = mp_to_radix(&B, t, SIZE_MAX, &written, 10);
   tempB = t;
   printf("%s\n", tempB.c_str());
 
   printf("曲线G点X坐标是:\n");
-  mp_to_radix(&GX, t, SIZE_MAX, &written, 10);
+  ret = mp_to_radix(&GX, t, SIZE_MAX, &written, 10);
   tempGX = t;
   printf("%s\n", tempGX.c_str());
 
   printf("曲线G点Y坐标是:\n");
-  mp_to_radix(&GY, t, SIZE_MAX, &written, 10);
+  ret = mp_to_radix(&GY, t, SIZE_MAX, &written, 10);
   tempGY = t;
   printf("%s\n", tempGY.c_str());
 
   printf("私钥 K 是:\n");
-  mp_to_radix(&K, t, SIZE_MAX, &written, 10);
+  ret = mp_to_radix(&K, t, SIZE_MAX, &written, 10);
   tempK = t;
   printf("%s\n", tempK.c_str());
 
   printf("公钥X坐标是:\n");
-  mp_to_radix(&QX, t, SIZE_MAX, &written, 10);
+  ret = mp_to_radix(&QX, t, SIZE_MAX, &written, 10);
   tempQX = t;
   printf("%s\n", tempQX.c_str());
 
   printf("公钥Y坐标是:\n");
-  mp_to_radix(&QY, t, SIZE_MAX, &written, 10);
+  ret = mp_to_radix(&QY, t, SIZE_MAX, &written, 10);
   tempQY = t;
   printf("%s\n", tempQY.c_str());
 }
@@ -112,8 +114,8 @@ std::string ECC::Decrypt(const std::string &cipher, const std::string &key) {
 }
 
 int ECC::GetPrime(mp_int *m, int lon) {
-  mp_prime_rand(m, 10, lon, (rand() & 1) ? 0 : MP_PRIME_2MSB_ON);
-  return MP_OKAY;
+  mp_err ret = mp_prime_rand(m, 10, lon, (rand() & 1) ? 0 : MP_PRIME_2MSB_ON);
+  return ret;
 }
 
 void ECC::Get_B_X_Y(mp_int *x1, mp_int *y1, mp_int *b, mp_int *a, mp_int *p) {
@@ -129,37 +131,37 @@ void ECC::Get_B_X_Y(mp_int *x1, mp_int *y1, mp_int *b, mp_int *a, mp_int *p) {
   mp_int temp7;
   mp_int temp8;
 
-  mp_init_ul(&compare, 0);
-  mp_init(&tempx);
-  mp_init(&tempy);
-  mp_init(&temp);
-  mp_init(&temp1);
-  mp_init(&temp2);
-  mp_init(&temp3);
-  mp_init(&temp4);
-  mp_init(&temp5);
-  mp_init(&temp6);
-  mp_init(&temp7);
-  mp_init(&temp8);
+  mp_err ret = mp_init_ul(&compare, 0);
+  ret = mp_init(&tempx);
+  ret = mp_init(&tempy);
+  ret = mp_init(&temp);
+  ret = mp_init(&temp1);
+  ret = mp_init(&temp2);
+  ret = mp_init(&temp3);
+  ret = mp_init(&temp4);
+  ret = mp_init(&temp5);
+  ret = mp_init(&temp6);
+  ret = mp_init(&temp7);
+  ret = mp_init(&temp8);
 
   do {
     // 4a3+27b2≠0 (mod p)
     GetPrime(b, 40);
-    mp_expt_u32(a, 3, &temp1);
-    mp_sqr(b, &temp2);
-    mp_mul_d(&temp1, 4, &temp3);
-    mp_mul_d(&temp2, 27, &temp4);
-    mp_add(&temp3, &temp4, &temp5);
-    mp_mod(&temp5, p, &temp);
+    ret = mp_expt_u32(a, 3, &temp1);
+    ret = mp_sqr(b, &temp2);
+    ret = mp_mul_d(&temp1, 4, &temp3);
+    ret = mp_mul_d(&temp2, 27, &temp4);
+    ret = mp_add(&temp3, &temp4, &temp5);
+    ret = mp_mod(&temp5, p, &temp);
   } while (!mp_cmp(&temp, &compare));
 
   // y2=x3+ax+b,随机产生X坐标,根据X坐标计算Y坐标
   GetPrime(x1, 30);
-  mp_expt_u32(x1, 3, &temp6);
-  mp_mul(a, x1, &temp7);
-  mp_add(&temp6, &temp7, &temp8);
-  mp_add(&temp8, b, &tempx);
-  mp_sqrt(&tempx, y1);
+  ret = mp_expt_u32(x1, 3, &temp6);
+  ret = mp_mul(a, x1, &temp7);
+  ret = mp_add(&temp6, &temp7, &temp8);
+  ret = mp_add(&temp8, b, &tempx);
+  ret = mp_sqrt(&tempx, y1);
 
   mp_clear(&tempx);
   mp_clear(&tempy);
@@ -188,33 +190,33 @@ bool ECC::Ecc_points_mul(mp_int *qx, mp_int *qy, mp_int *px, mp_int *py,
   char Bt_array[800] = {0};
   char cm = '1';
 
-  mp_to_radix(d, Bt_array, SIZE_MAX, &written, 2);
+  mp_err ret = mp_to_radix(d, Bt_array, SIZE_MAX, &written, 2);
 
-  mp_init_ul(&X3, 0);
-  mp_init_ul(&Y3, 0);
-  mp_init_copy(&X1, px);
-  mp_init_copy(&X2, px);
-  mp_init_copy(&XX1, px);
-  mp_init_copy(&Y1, py);
-  mp_init_copy(&Y2, py);
-  mp_init_copy(&YY1, py);
+  ret = mp_init_ul(&X3, 0);
+  ret = mp_init_ul(&Y3, 0);
+  ret = mp_init_copy(&X1, px);
+  ret = mp_init_copy(&X2, px);
+  ret = mp_init_copy(&XX1, px);
+  ret = mp_init_copy(&Y1, py);
+  ret = mp_init_copy(&Y2, py);
+  ret = mp_init_copy(&YY1, py);
 
-  mp_init_copy(&A, a);
-  mp_init_copy(&P, p);
+  ret = mp_init_copy(&A, a);
+  ret = mp_init_copy(&P, p);
 
   for (i = 1; i <= KEY_LONG - 1; i++) {
-    mp_copy(&X2, &X1);
-    mp_copy(&Y2, &Y1);
+    ret = mp_copy(&X2, &X1);
+    ret = mp_copy(&Y2, &Y1);
     Two_points_add(&X1, &Y1, &X2, &Y2, &X3, &Y3, &A, zero, &P);
-    mp_copy(&X3, &X2);
-    mp_copy(&Y3, &Y2);
+    ret = mp_copy(&X3, &X2);
+    ret = mp_copy(&Y3, &Y2);
     if (Bt_array[i] == cm) {
 
-      mp_copy(&XX1, &X1);
-      mp_copy(&YY1, &Y1);
+      ret = mp_copy(&XX1, &X1);
+      ret = mp_copy(&YY1, &Y1);
       Two_points_add(&X1, &Y1, &X2, &Y2, &X3, &Y3, &A, zero, &P);
-      mp_copy(&X3, &X2);
-      mp_copy(&Y3, &Y2);
+      ret = mp_copy(&X3, &X2);
+      ret = mp_copy(&Y3, &Y2);
     }
   }
 
@@ -223,8 +225,8 @@ bool ECC::Ecc_points_mul(mp_int *qx, mp_int *qy, mp_int *px, mp_int *py,
     return false; // 如果Q为零从新产生D
   }
 
-  mp_copy(&X3, qx);
-  mp_copy(&Y3, qy);
+  ret = mp_copy(&X3, qx);
+  ret = mp_copy(&Y3, qy);
 
   mp_clear(&X1);
   mp_clear(&Y1);
@@ -261,58 +263,58 @@ int ECC::Two_points_add(mp_int *x1, mp_int *y1, mp_int *x2, mp_int *y2,
   mp_int temp9;
   mp_int temp10;
 
-  mp_init(&x2x1);
-  mp_init(&y2y1);
-  mp_init(&tempk);
-  mp_init(&tempy);
-  mp_init(&tempzero);
-  mp_init(&k);
-  mp_init(&temp1);
-  mp_init(&temp2);
-  mp_init_set(&temp3, 2);
-  mp_init(&temp4);
-  mp_init(&temp5);
-  mp_init(&temp6);
-  mp_init(&temp7);
-  mp_init(&temp8);
-  mp_init(&temp9);
-  mp_init(&temp10);
+  mp_err ret = mp_init(&x2x1);
+  ret = mp_init(&y2y1);
+  ret = mp_init(&tempk);
+  ret = mp_init(&tempy);
+  ret = mp_init(&tempzero);
+  ret = mp_init(&k);
+  ret = mp_init(&temp1);
+  ret = mp_init(&temp2);
+  ret = mp_init_set(&temp3, 2);
+  ret = mp_init(&temp4);
+  ret = mp_init(&temp5);
+  ret = mp_init(&temp6);
+  ret = mp_init(&temp7);
+  ret = mp_init(&temp8);
+  ret = mp_init(&temp9);
+  ret = mp_init(&temp10);
 
   if (zero) {
-    mp_copy(x1, x3);
-    mp_copy(y1, y3);
+    ret = mp_copy(x1, x3);
+    ret = mp_copy(y1, y3);
     zero = false;
     goto L;
   }
   mp_zero(&tempzero);
-  mp_sub(x2, x1, &x2x1);
+  ret = mp_sub(x2, x1, &x2x1);
   if (mp_cmp(&x2x1, &tempzero) == -1) {
 
-    mp_add(&x2x1, p, &temp1);
+    ret = mp_add(&x2x1, p, &temp1);
     mp_zero(&x2x1);
-    mp_copy(&temp1, &x2x1);
+    ret = mp_copy(&temp1, &x2x1);
   }
-  mp_sub(y2, y1, &y2y1);
+  ret = mp_sub(y2, y1, &y2y1);
   if (mp_cmp(&y2y1, &tempzero) == -1) {
 
-    mp_add(&y2y1, p, &temp2);
+    ret = mp_add(&y2y1, p, &temp2);
     mp_zero(&y2y1);
-    mp_copy(&temp2, &y2y1);
+    ret = mp_copy(&temp2, &y2y1);
   }
   if (mp_cmp(&x2x1, &tempzero) != 0) {
 
-    mp_invmod(&x2x1, p, &tempk);
+    ret = mp_invmod(&x2x1, p, &tempk);
 
-    mp_mulmod(&y2y1, &tempk, p, &k);
+    ret = mp_mulmod(&y2y1, &tempk, p, &k);
   } else {
     if (mp_cmp(&y2y1, &tempzero) == 0) {
 
-      mp_mulmod(&temp3, y1, p, &tempy);
-      mp_invmod(&tempy, p, &tempk);
-      mp_sqr(x1, &temp4);
-      mp_mul_d(&temp4, 3, &temp5);
-      mp_add(&temp5, a, &temp6);
-      mp_mulmod(&temp6, &tempk, p, &k);
+      ret = mp_mulmod(&temp3, y1, p, &tempy);
+      ret = mp_invmod(&tempy, p, &tempk);
+      ret = mp_sqr(x1, &temp4);
+      ret = mp_mul_d(&temp4, 3, &temp5);
+      ret = mp_add(&temp5, a, &temp6);
+      ret = mp_mulmod(&temp6, &tempk, p, &k);
 
     } else {
       zero = true;
@@ -320,13 +322,13 @@ int ECC::Two_points_add(mp_int *x1, mp_int *y1, mp_int *x2, mp_int *y2,
     }
   }
 
-  mp_sqr(&k, &temp7);
-  mp_sub(&temp7, x1, &temp8);
-  mp_submod(&temp8, x2, p, x3);
+  ret = mp_sqr(&k, &temp7);
+  ret = mp_sub(&temp7, x1, &temp8);
+  ret = mp_submod(&temp8, x2, p, x3);
 
-  mp_sub(x1, x3, &temp9);
-  mp_mul(&temp9, &k, &temp10);
-  mp_submod(&temp10, y1, p, y3);
+  ret = mp_sub(x1, x3, &temp9);
+  ret = mp_mul(&temp9, &k, &temp10);
+  ret = mp_submod(&temp10, y1, p, y3);
 
 L:
 
@@ -491,15 +493,15 @@ void ECC::Ecc_encipher(char *inPath, string outPath) {
   char miweny[280] = {0};
   char stemp[650] = {0};
 
-  mp_init(&mx);
-  mp_init(&my);
-  mp_init(&c1x);
-  mp_init(&c1y);
-  mp_init(&c2x);
-  mp_init(&c2y);
-  mp_init(&r);
-  mp_init(&tempx);
-  mp_init(&tempy);
+  mp_err ret = mp_init(&mx);
+  ret = mp_init(&my);
+  ret = mp_init(&c1x);
+  ret = mp_init(&c1y);
+  ret = mp_init(&c2x);
+  ret = mp_init(&c2y);
+  ret = mp_init(&r);
+  ret = mp_init(&tempx);
+  ret = mp_init(&tempy);
 
   GetPrime(&r, 100);
   FILE *fp = fopen(inPath, "rb");
@@ -638,9 +640,9 @@ void ECC::Ecc_loadKey(string inPath) {
     ifile.getline(temp, 800);
     ifile.close();
   }
-  mp_read_radix(&K, tempK, 10);
-  mp_read_radix(&A, tempA, 10);
-  mp_read_radix(&P, temp, 10);
+  mp_err ret = mp_read_radix(&K, tempK, 10);
+  ret = mp_read_radix(&A, tempA, 10);
+  ret = mp_read_radix(&P, temp, 10);
 }
 
 // 取密文
@@ -720,18 +722,18 @@ void ECC::Ecc_decipher(char *inPath, string outPath) {
   mp_int mx, my;
   mp_int temp;
 
-  mp_init(&temp);
-  mp_init(&c1x);
-  mp_init(&c1y);
-  mp_init(&c2x);
-  mp_init(&c2y);
-  mp_init(&tempx);
-  mp_init(&tempy);
-  mp_init(&mx);
-  mp_init(&my);
+  mp_err ret = mp_init(&temp);
+  ret = mp_init(&c1x);
+  ret = mp_init(&c1y);
+  ret = mp_init(&c2x);
+  ret = mp_init(&c2y);
+  ret = mp_init(&tempx);
+  ret = mp_init(&tempy);
+  ret = mp_init(&mx);
+  ret = mp_init(&my);
 
   mp_int tempzero;
-  mp_init(&tempzero);
+  ret = mp_init(&tempzero);
 
   int i;
   char stemp[700] = {0};
@@ -820,7 +822,7 @@ void ECC::Ecc_decipher(char *inPath, string outPath) {
 
     Ecc_points_mul(&tempx, &tempy, &c2x, &c2y, &K, &A, &P);
 
-    mp_neg(&tempy, &temp);
+    ret = mp_neg(&tempy, &temp);
     Two_points_add(&c1x, &c1y, &tempx, &temp, &mx, &my, &A, zero, &P);
 
     int chtem;

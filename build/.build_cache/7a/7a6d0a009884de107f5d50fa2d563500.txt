@@ -1,0 +1,223 @@
+{
+    errdata = "\27[1msrc/ecdsa.cpp:8:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+    8 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the Hm. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:11:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   11 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the s. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:14:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   14 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the p. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:17:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   17 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the a. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:20:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   20 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the rA. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:23:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   23 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the sA. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:26:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   26 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the rB. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:29:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   29 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the sB. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:32:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   32 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the K. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:35:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   35 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the GX. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:38:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   38 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the GY. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:41:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   41 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the n. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:44:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   44 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the h. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:47:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   47 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the d. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:50:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   50 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the k. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:53:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   53 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the A. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:56:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   56 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the B. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:59:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   59 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the PX. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:62:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   62 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the PY. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:65:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   65 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the X1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:68:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   68 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the Y1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:71:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   71 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the u1X. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:74:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   74 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the u1Y. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:77:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   77 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the u2X. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:80:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   80 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the u2Y. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:83:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   83 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the X2. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:86:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   86 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the Y2. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:89:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   89 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the v. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:92:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   92 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the r. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:95:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   95 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the P. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:98:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+   98 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the k1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:101:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  101 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the s1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:104:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  104 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the n1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:107:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  107 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the temp. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:110:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  110 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the u1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:113:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  113 |       \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the u2. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:117:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  117 |       \27[0;34mthrow\27[0m(\27[0;32m\"mp_read_radix failed: \\\"%s\\\"\\n\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:120:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  120 |       \27[0;34mthrow\27[0m(\27[0;32m\"mp_read_radix failed: \\\"%s\\\"\\n\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:123:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  123 |       \27[0;34mthrow\27[0m(\27[0;32m\"mp_read_radix failed: \\\"%s\\\"\\n\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:126:13: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  126 |       \27[0;34mthrow\27[0m(\27[0;32m\"mp_read_radix failed: \\\"%s\\\"\\n\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:187:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  187 |   mp_init_copy(&p_1, &p);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~~ ~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:188:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  188 |   mp_sub_d(&p_1, \27[0;32m2\27[0m, &p_1);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~ ~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:191:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  191 |     mp_rand(&rA, lon);\27[0m\
+      | \27[0;1;32m    ^~~~~~~ ~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:194:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  194 |     mp_rand(&rB, lon);\27[0m\
+      | \27[0;1;32m    ^~~~~~~ ~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:196:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  196 |   mp_exptmod(&a, &rA, &p, &sA);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~ ~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:197:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  197 |   mp_exptmod(&a, &rB, &p, &sB);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~ ~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:198:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  198 |   mp_exptmod(&sA, &rB, &p, &K);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~ ~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:201:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  201 |   mp_to_radix(&n, tempN.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:208:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  208 |   mp_to_radix(&d, tempD.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:212:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  212 |   mp_rand(&k, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~ ~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:214:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  214 |     mp_div_2(&k, &k);\27[0m\
+      | \27[0;1;32m    ^~~~~~~~ ~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:217:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  217 |   mp_to_radix(&k, tempK.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:223:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  223 |   mp_to_radix(&PX, tempPX.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:227:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  227 |   mp_to_radix(&PY, tempPY.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:230:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  230 |   mp_mod(&X1, &n, &r);\27[0m\
+      | \27[0;1;32m  ^~~~~~ ~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:234:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  234 |   mp_to_radix(&r, tempR.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:241:5: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  241 |     mp_add(&k1, &n, &k1);\27[0m\
+      | \27[0;1;32m    ^~~~~~ ~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:242:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  242 |   mp_to_radix(&k1, tempK1.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:245:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  245 |   mp_mulmod(&k, &k1, &n, &temp);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~ ~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:247:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  247 |   mp_to_radix(&temp, tempT.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:250:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  250 |   mp_read_radix(&Hm, sh.c_str(), \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:252:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  252 |   mp_to_radix(&Hm, tempSHA.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m0x10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:255:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  255 |   mp_mul(&d, &r, &temp);\27[0m\
+      | \27[0;1;32m  ^~~~~~ ~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:256:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  256 |   mp_add(&Hm, &temp, &temp);\27[0m\
+      | \27[0;1;32m  ^~~~~~ ~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:257:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  257 |   mp_mulmod(&k1, &temp, &n, &s);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~ ~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:259:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  259 |   mp_to_radix(&s, tempS.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:266:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  266 |   mp_mulmod(&s, &s1, &n, &temp);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~ ~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:268:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  268 |   mp_to_radix(&temp, tempS1.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:272:7: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  272 |       mp_mulmod(&Hm, &s1, &n, &u1);\27[0m\
+      | \27[0;1;32m      ^~~~~~~~~ ~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:273:7: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  273 |       mp_mulmod(&r, &s1, &n, &u2);\27[0m\
+      | \27[0;1;32m      ^~~~~~~~~ ~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:277:7: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  277 |       mp_mod(&X2, &n, &v);\27[0m\
+      | \27[0;1;32m      ^~~~~~ ~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:279:7: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  279 |       mp_to_radix(&v, tempV.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m      ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/ecdsa.cpp:282:7: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  282 |       mp_to_radix(&r, tempR.get(), (\27[0;32m18446744073709551615UL\27[0m), &written, \27[0;32m10\27[0m);\27[0m\
+      | \27[0;1;32m      ^~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m73 warnings generated.\
+"
+}

@@ -1,0 +1,31 @@
+{
+    errdata = "\27[1msrc/tools.cpp:39:4: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   39 |    mp_copy(temp3, a);\27[0m\
+      | \27[0;1;32m   ^~~~~~~ ~~~~~~~~\
+\27[0m\27[1msrc/tools.cpp:44:4: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   44 |    mp_init(&temp1);\27[0m\
+      | \27[0;1;32m   ^~~~~~~ ~~~~~~\
+\27[0m\27[1msrc/tools.cpp:45:4: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   45 |    mp_init(&temp2);\27[0m\
+      | \27[0;1;32m   ^~~~~~~ ~~~~~~\
+\27[0m\27[1msrc/tools.cpp:46:4: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   46 |    mp_mod(a, b, &temp1);\27[0m\
+      | \27[0;1;32m   ^~~~~~ ~~~~~~~~~~~~\
+\27[0m\27[1msrc/tools.cpp:48:4: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   48 |    mp_copy(a1, &temp1);\27[0m\
+      | \27[0;1;32m   ^~~~~~~ ~~~~~~~~~~\
+\27[0m\27[1msrc/tools.cpp:49:4: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   49 |    mp_copy(b1, a1);\27[0m\
+      | \27[0;1;32m   ^~~~~~~ ~~~~~~\
+\27[0m\27[1msrc/tools.cpp:50:4: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   50 |    mp_div(a, b, temp3, &temp2);\27[0m\
+      | \27[0;1;32m   ^~~~~~ ~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/tools.cpp:51:4: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   51 |    mp_mul(temp3, b1, temp3);\27[0m\
+      | \27[0;1;32m   ^~~~~~ ~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/tools.cpp:52:4: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   52 |    mp_sub(&temp1, temp3, b1);\27[0m\
+      | \27[0;1;32m   ^~~~~~ ~~~~~~~~~~~~~~~~~\
+\27[0m9 warnings generated.\
+"
+}

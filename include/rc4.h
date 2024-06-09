@@ -1,5 +1,6 @@
 #ifndef _RC4_H_
 #define _RC4_H_
+#include "sha256.h"
 using std::string;
 class RC4
 {

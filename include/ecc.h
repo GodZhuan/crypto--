@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
-#include "tommath.h"
+#include <tommath.h>
 #include <time.h>
 using namespace std;
 
@@ -37,7 +37,6 @@ constexpr auto BIT_LEN = 800 ;
 constexpr auto KEY_LONG = 256;  //私钥比特长;
 constexpr auto P_LONG = 200;    //有限域P比特长;
 constexpr auto EN_LONG = 40;    //一次取明文字节数(x,20)(y,20);
-constexpr auto CHAR_BIT = sizeof(char) * 8;
 
 class ECC
 {

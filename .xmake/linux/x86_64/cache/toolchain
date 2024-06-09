@@ -1,22 +1,30 @@
 {
+    llvm_arch_x86_64_plat_linux = {
+        plat = "linux",
+        cross = "",
+        __global = true,
+        sdkdir = "/usr/local",
+        bindir = "/usr/local/bin",
+        arch = "x86_64"
+    },
     ["tool_target_crypto--_linux_x86_64_cxx"] = {
+        toolname = "clang",
+        program = "/usr/local/bin/clang",
         toolchain_info = {
-            plat = "linux",
-            name = "gcc",
+            name = "llvm",
+            cachekey = "llvm_arch_x86_64_plat_linux",
             arch = "x86_64",
-            cachekey = "gcc_arch_x86_64_plat_linux"
-        },
-        program = "/usr/bin/gcc",
-        toolname = "gcc"
+            plat = "linux"
+        }
     },
     ["tool_target_crypto--_linux_x86_64_ld"] = {
+        toolname = "clangxx",
+        program = "/usr/local/bin/clang++",
         toolchain_info = {
-            plat = "linux",
-            name = "gcc",
+            name = "llvm",
+            cachekey = "llvm_arch_x86_64_plat_linux",
             arch = "x86_64",
-            cachekey = "gcc_arch_x86_64_plat_linux"
-        },
-        program = "/usr/bin/g++",
-        toolname = "gxx"
+            plat = "linux"
+        }
     }
 }

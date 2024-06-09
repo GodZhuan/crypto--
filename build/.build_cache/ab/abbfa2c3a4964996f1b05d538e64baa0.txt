@@ -1,0 +1,28 @@
+{
+    errdata = "\27[1msrc/sts.cpp:13:2: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   13 |  mp_prime_rand(p, \27[0;32m10\27[0m, lon, (rand() & \27[0;32m1\27[0m) ? \27[0;32m0\27[0m : \27[0;32m0x0008\27[0m | \27[0;32m0x0002\27[0m);\27[0m\
+      | \27[0;1;32m ^~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/sts.cpp:23:2: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   23 |  mp_init_set(&param1, \27[0;32m2\27[0m);\27[0m\
+      | \27[0;1;32m ^~~~~~~~~~~ ~~~~~~~~~~\
+\27[0m\27[1msrc/sts.cpp:24:2: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   24 |  mp_init_multi(&temp, &param2, \27[0;32m__null\27[0m);\27[0m\
+      | \27[0;1;32m ^~~~~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/sts.cpp:26:2: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   26 |  mp_sub_d(num, \27[0;32m1\27[0m, &param2);\27[0m\
+      | \27[0;1;32m ^~~~~~~~ ~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/sts.cpp:27:2: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   27 |  mp_div_2(&param2, &param2);\27[0m\
+      | \27[0;1;32m ^~~~~~~~ ~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/sts.cpp:30:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   30 |   mp_exptmod(root, &param1, num, &temp);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/sts.cpp:33:4: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   33 |    mp_exptmod(root, &param2, num, &temp);\27[0m\
+      | \27[0;1;32m   ^~~~~~~~~~ ~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/sts.cpp:39:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+   39 |   mp_add_d(root, \27[0;32m1\27[0m, root);\27[0m\
+      | \27[0;1;32m  ^~~~~~~~ ~~~~~~~~~~~~~\
+\27[0m8 warnings generated.\
+"
+}

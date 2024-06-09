@@ -1,5 +1,4 @@
 #include "../include/crypto--.h"
-#include "../include/aes.h"
 #include "../include/ecc.h"
 #include "../include/ecdsa.h"
 #include "../include/fileproc.h"
@@ -11,7 +10,6 @@
 #include "../include/zuc.h"
 #include <chrono>
 #include <filesystem>
-#include <fstream>
 #include <iostream>
 #include <stdlib.h>
 using namespace crypto__;
@@ -21,72 +19,95 @@ namespace fs = std::filesystem;
 mp_err err;
 
 int main(int argc, char *argv[]) {
-  if (argc < 4)
+  if (argc < 2) {
+    std::cerr << "Usage: " << argv[0] << " aes|des|...\n";
     return 1;
-  // 选择处理文件或者是消息
-  if (!strcmp(argv[1], "-f"))
-    config.contentsTypeMode = contentsType::File;
-  else if (!strcmp(argv[1], "-m"))
-    config.contentsTypeMode = contentsType::Message;
-
-  // 选择加密或者是解密或者是哈希
-  if (!strcmp(argv[2], "-e"))
-    config.cryptoTypeMode = cryptoType::Encrypt;
-  else if (!strcmp(argv[2], "-d"))
-    config.cryptoTypeMode = cryptoType::Decrypt;
-  else if (!strcmp(argv[2], "-h"))
-    config.cryptoTypeMode = cryptoType::Hash;
-
-  switch (config.cryptoTypeMode) {
-  case cryptoType::Hash: {
-    if (!strcmp(argv[3], "sha256"))
-      config.cryptoGraphicMode = cryptoGraphic::SHA256;
-    else if (!strcmp(argv[3], "zuc"))
-      config.cryptoGraphicMode = cryptoGraphic::ZUC;
-  } break;
-  case cryptoType::Encrypt:
-  case cryptoType::Decrypt: {
-    // 选择算法
-    if (!strcmp(argv[3], "aes"))
-      config.cryptoGraphicMode = cryptoGraphic::AES;
-    else if (!strcmp(argv[3], "ecc"))
-      config.cryptoGraphicMode = cryptoGraphic::ECC;
-    else if (!strcmp(argv[3], "ecdsa"))
-      config.cryptoGraphicMode = cryptoGraphic::ECDSA;
-    else if (!strcmp(argv[3], "ElGamal"))
-      config.cryptoGraphicMode = cryptoGraphic::ElGamal;
-    else if (!strcmp(argv[3], "rc4"))
-      config.cryptoGraphicMode = cryptoGraphic::RC4;
-    else if (!strcmp(argv[3], "sm3"))
-      config.cryptoGraphicMode = cryptoGraphic::SM3;
-    else if (!strcmp(argv[3], "sm4"))
-      config.cryptoGraphicMode = cryptoGraphic::SM4;
-    else if (!strcmp(argv[3], "zuc"))
-      config.cryptoGraphicMode = cryptoGraphic::ZUC;
-  } break;
   }
-  CRYPTO__ c;
+
+  // 选择处理文件或者是消息
+  for (auto index = 1; index < argc; index++) {
+    if (!strcmp(argv[index], "-f")) {
+      config.contentsTypeMode = contentsType::File;
+      index++;
+      config.inText = argv[index];
+    } else if (!strcmp(argv[index], "-m")) {
+      config.contentsTypeMode = contentsType::Message;
+      index++;
+      config.inText = argv[index];
+    }
+    // 选择加密或者是解密或者是哈希
+    if (!strcmp(argv[index], "-e")) {
+      config.cryptoTypeMode = cryptoType::Encrypt;
+      index++;
+      // 选择算法
+      if (!strcmp(argv[index], "aes")) {
+        config.cryptoGraphicMode = cryptoGraphic::AES;
+      } else if (!strcmp(argv[index], "ecc")) {
+        config.cryptoGraphicMode = cryptoGraphic::ECC;
+      } else if (!strcmp(argv[index], "ecdsa")) {
+        config.cryptoGraphicMode = cryptoGraphic::ECDSA;
+      } else if (!strcmp(argv[index], "ElGamal")) {
+        config.cryptoGraphicMode = cryptoGraphic::ElGamal;
+      } else if (!strcmp(argv[index], "rc4")) {
+        config.cryptoGraphicMode = cryptoGraphic::RC4;
+      } else if (!strcmp(argv[index], "sm3")) {
+        config.cryptoGraphicMode = cryptoGraphic::SM3;
+      } else if (!strcmp(argv[index], "sm4")) {
+        config.cryptoGraphicMode = cryptoGraphic::SM4;
+      } else if (!strcmp(argv[index], "zuc")) {
+        config.cryptoGraphicMode = cryptoGraphic::ZUC;
+      }
+    } else if (!strcmp(argv[index], "-d")) {
+      config.cryptoTypeMode = cryptoType::Decrypt;
+      index++;
+      // 选择算法
+      if (!strcmp(argv[index], "aes")) {
+        config.cryptoGraphicMode = cryptoGraphic::AES;
+      } else if (!strcmp(argv[index], "ecc")) {
+        config.cryptoGraphicMode = cryptoGraphic::ECC;
+      } else if (!strcmp(argv[index], "ecdsa")) {
+        config.cryptoGraphicMode = cryptoGraphic::ECDSA;
+      } else if (!strcmp(argv[index], "ElGamal")) {
+        config.cryptoGraphicMode = cryptoGraphic::ElGamal;
+      } else if (!strcmp(argv[index], "rc4")) {
+        config.cryptoGraphicMode = cryptoGraphic::RC4;
+      } else if (!strcmp(argv[index], "sm3")) {
+        config.cryptoGraphicMode = cryptoGraphic::SM3;
+      } else if (!strcmp(argv[index], "sm4")) {
+        config.cryptoGraphicMode = cryptoGraphic::SM4;
+      } else if (!strcmp(argv[index], "zuc")) {
+        config.cryptoGraphicMode = cryptoGraphic::ZUC;
+      }
+    } else if (!strcmp(argv[index], "-h")) {
+      config.cryptoTypeMode = cryptoType::Hash;
+      index++;
+      if (!strcmp(argv[index], "sha256")) {
+        config.cryptoGraphicMode = cryptoGraphic::SHA256;
+      } else if (!strcmp(argv[index], "zuc")) {
+        config.cryptoGraphicMode = cryptoGraphic::ZUC;
+      }
+    }
+    CRYPTO__ c;
+  }
 }
 
 CRYPTO__::CRYPTO__() {
   SHA256 sha256;
   int ret;
-  std::string szFullPath, dirPath, fileName, ext, msg;
+  std::string dirPath, fileName, ext, msg;
   fs::path fullPath;
   switch (config.contentsTypeMode) {
   case contentsType::File: {
-    cout << "请输入要计算文件的位置" << endl;
-    cin >> szFullPath;
-    fullPath = szFullPath;
+    fullPath = config.inText;
     dirPath = fullPath.parent_path();
-	fileName = fullPath.filename();
-	ext = fullPath.stem();
+    fileName = fullPath.filename();
+    ext = fullPath.stem();
     switch (config.cryptoTypeMode) {
     case cryptoType::Encrypt: {
-		fullPath = dirPath + fileName + "cipher.txt";
+      fullPath = dirPath + fileName + "cipher.txt";
     } break;
     case cryptoType::Decrypt: {
-		fullPath = dirPath + fileName + "invcipher" + ext;
+      fullPath = dirPath + fileName + "invcipher" + ext;
     } break;
     case cryptoType::Hash:
       break;
@@ -94,14 +115,13 @@ CRYPTO__::CRYPTO__() {
 
   } break;
   case contentsType::Message: {
+    msg = config.inText;
     switch (config.cryptoTypeMode) {
     case cryptoType::Encrypt:
-      cout << "请输入要加密消息:" << endl;
-      cin >> msg;
       break;
     case cryptoType::Decrypt:
-      cout << "请输入要解密消息:" << endl;
-      cin >> msg;
+      break;
+    case cryptoType::Hash:
       break;
     }
   } break;
@@ -112,13 +132,15 @@ CRYPTO__::CRYPTO__() {
     string keyStr;
     cout << "请输入密钥：";
     cin >> keyStr;
-    FileProc fp(szFullPath, fullPath);
+    FileProc fp(config.inText, fullPath);
     switch (config.cryptoTypeMode) {
     case cryptoType::Encrypt:
       encrypt(fp, keyStr, 16);
       break;
     case cryptoType::Decrypt:
       decrypt(fp, keyStr, 16);
+      break;
+    case cryptoType::Hash:
       break;
     }
   } break;
@@ -140,21 +162,23 @@ CRYPTO__::CRYPTO__() {
 
       printf("\n---------------------------------------------------------------"
              "---------\n");
-      e.Ecc_encipher(szFullPath.data(), fullPath); // 加密
+      e.Ecc_encipher(config.inText.data(), fullPath); // 加密
       break;
     case cryptoType::Decrypt:
       printf("\n---------------------------------------------------------------"
              "---------\n");
       e.Ecc_loadKey(dirPath);
-      e.Ecc_decipher(szFullPath.data(), fullPath); // 解密
+      e.Ecc_decipher(config.inText.data(), fullPath); // 解密
 
+      break;
+    case cryptoType::Hash:
       break;
     }
 
   } break;
   case cryptoGraphic::ECDSA: {
     ECDSA ecdsa;
-    ecdsa.printECDSA(sha256.ShaFile(szFullPath));
+    ecdsa.printECDSA(sha256.ShaFile(config.inText));
   } break;
   case cryptoGraphic::ElGamal: {
     ECC ecc;
@@ -175,6 +199,7 @@ CRYPTO__::CRYPTO__() {
     mp_int a1;  // k的逆元
     mp_int b1;  // p-1的逆元
     mp_int temp3;
+    mp_err err;
 
     std::unique_ptr<char[]> tempY(new char[800]());
     std::unique_ptr<char[]> tempR(new char[800]());
@@ -230,50 +255,51 @@ CRYPTO__::CRYPTO__() {
     cout << "请输入大素数的位数：";
     cin >> lon;
     sts.GetPrime(&p, &a, lon);
-    mp_sub_d(&p, 1, &p_1);
+    err = mp_sub_d(&p, 1, &p_1);
     do {
       mp_rand(&x, lon);
     } while (mp_cmp(&x, &p_1) != -1 && mp_cmp_d(&x, 1) != 1); // 1<=x<p-1
-    mp_exptmod(&a, &x, &p, &y);
+    err = mp_exptmod(&a, &x, &p, &y);
     printf("y是:\n");
-    mp_to_radix(&y, tempY.get(), SIZE_MAX, &written, 10);
+    err = mp_to_radix(&y, tempY.get(), SIZE_MAX, &written, 10);
     printf("%s\n", tempY.get());
     do {
-      mp_rand(&k, lon / 26);
-      mp_gcd(&k, &p_1, &r); // 互素
+      err = mp_rand(&k, lon / 26);
+      err = mp_gcd(&k, &p_1, &r); // 互素
     } while (mp_cmp(&k, &p_1) != -1 || mp_cmp_d(&k, 1) != 1 ||
              mp_cmp_d(&r, 1) != 0); // 1<=k<p-1且k与p-1互素
-    mp_exptmod(&a, &k, &p, &r);
+    err = mp_exptmod(&a, &k, &p, &r);
     printf("a**k mod p是:\n");
-    mp_to_radix(&r, tempR.get(), SIZE_MAX, &written, 10);
+    err = mp_to_radix(&r, tempR.get(), SIZE_MAX, &written, 10);
     printf("%s\n", tempR.get());
-    string str = sha256.ShaFile(szFullPath);
-    mp_read_radix(&sha, str.c_str(), 10);
+    string str = sha256.ShaFile(config.inText);
+    err = mp_read_radix(&sha, str.c_str(), 10);
     printf("SHA是:\n");
-    mp_to_radix(&sha, tempSHA.get(), SIZE_MAX, &written, 0x10);
+    err = mp_to_radix(&sha, tempSHA.get(), SIZE_MAX, &written, 0x10);
     printf("%s\n", tempSHA.get());
-    mp_mul(&x, &r, &s);
-    mp_sub(&sha, &s, &s);
+    err = mp_mul(&x, &r, &s);
+    err = mp_sub(&sha, &s, &s);
     ex_Eulid(&k, &p_1, &a1, &b1, &temp3);
     while (mp_cmp_d(&a1, 0) != 1)
-      mp_add(&a1, &p_1, &a1);
+      err = mp_add(&a1, &p_1, &a1);
     printf("k**-1是:\n");
-    mp_to_radix(&a1, tempA1.get(), SIZE_MAX, &written, 10);
+    err = mp_to_radix(&a1, tempA1.get(), SIZE_MAX, &written, 10);
     printf("%s\n", tempA1.get());
-    mp_mulmod(&k, &a1, &p_1, &temp3);
+    err = mp_mulmod(&k, &a1, &p_1, &temp3);
     printf("k*k**-1 mod p是:\n");
-    mp_to_radix(&a1, tempT.get(), SIZE_MAX, &written, 10);
+    err = mp_to_radix(&a1, tempT.get(), SIZE_MAX, &written, 10);
     printf("%s\n", tempT.get());
   } break;
   case cryptoGraphic::SHA256: {
     mp_int s;
+    mp_err err;
     size_t written;
-    mp_init(&s);
-    string a = sha256.ShaFile(szFullPath);
-    mp_read_radix(&s, a.c_str(), 10);
+    err = mp_init(&s);
+    string a = sha256.ShaFile(config.inText);
+    err = mp_read_radix(&s, a.c_str(), 10);
     char tempSHA[800] = {0};
     printf("SHA是:\n");
-    mp_to_radix(&s, tempSHA, SIZE_MAX, &written, 0x10);
+    err = mp_to_radix(&s, tempSHA, SIZE_MAX, &written, 0x10);
     printf("%s\n", tempSHA);
 
   } break;
@@ -332,7 +358,7 @@ CRYPTO__::CRYPTO__() {
     // }break;
   case cryptoGraphic::SM3: {
     SM3 sm3;
-    FileProc fp(szFullPath, fullPath);
+    FileProc fp(config.inText, fullPath);
     uint8_t hash[32];
     sm3.SM3_HASH256(fp, hash);
     for (auto i = 0; i < sizeof(hash); i++) {
@@ -351,7 +377,7 @@ CRYPTO__::CRYPTO__() {
     cin >> key;
     if (key.size() == 16) {
       keyStr = (uint8_t *)key.c_str();
-      FileProc fp(szFullPath, fullPath);
+      FileProc fp(config.inText, fullPath);
       switch (config.cryptoTypeMode) {
       case cryptoType::Encrypt:
         while (fp.read((char *)(plain), sizeof(plain))) {
@@ -365,6 +391,8 @@ CRYPTO__::CRYPTO__() {
           sm4.SM4_Decrypt(keyStr, cipher, plain);
           fp.write((char *)plain, sizeof(plain));
         }
+        break;
+      case cryptoType::Hash:
         break;
       }
     }
@@ -380,7 +408,7 @@ CRYPTO__::CRYPTO__() {
     cin >> key;
     if (key.size() == 16) {
       keyStr = (uint8_t *)key.c_str();
-      FileProc fp(szFullPath, fullPath);
+      FileProc fp(config.inText, fullPath);
       unsigned seed =
           std::chrono::system_clock::now().time_since_epoch().count();
       std::mt19937 g1(seed);
@@ -398,6 +426,8 @@ CRYPTO__::CRYPTO__() {
           // sm4.SM4_Decrypt(keyStr, cipher, plain);
           fp.write((char *)plain, sizeof(plain));
         }
+        break;
+      case cryptoType::Hash:
         break;
       }
     }

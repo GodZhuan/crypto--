@@ -1,26 +1,10 @@
 {
     cmdlines = {
+        "xmake run",
+        "xmake run",
         "xmake ",
+        "xmake run",
         "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake ",
-        "xmake "
+        "xmake run"
     }
 }
