@@ -1,0 +1,55 @@
+{
+    errdata = "\27[01m\27[Ksrc/crypto--.cpp:\27[m\27[K In constructor ‘\27[01m\27[Kcrypto__::CRYPTO__::\27[01;32m\27[KCRYPTO__\27[m\27[K()\27[m\27[K’:\
+\27[01m\27[Ksrc/crypto--.cpp:233:13:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_sub_d\27[m\27[K(const mp_int*, mp_digit, mp_int*)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  233 |     \27[01;35m\27[Kmp_sub_d(&p, 1, &p_1)\27[m\27[K;\
+      |     \27[01;35m\27[K~~~~~~~~^~~~~~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:235:14:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_rand\27[m\27[K(mp_int*, int)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  235 |       \27[01;35m\27[Kmp_rand(&x, lon)\27[m\27[K;\
+      |       \27[01;35m\27[K~~~~~~~^~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:237:15:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_exptmod\27[m\27[K(const mp_int*, const mp_int*, const mp_int*, mp_int*)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  237 |     \27[01;35m\27[Kmp_exptmod(&a, &x, &p, &y)\27[m\27[K;\
+      |     \27[01;35m\27[K~~~~~~~~~~^~~~~~~~~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:239:16:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_to_radix\27[m\27[K(const mp_int*, char*, size_t, size_t*, int)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  239 |     mp_to_radix(&y, tempY.get(), SIZE_MAX, &written, 10);\
+\27[01m\27[Ksrc/crypto--.cpp:242:14:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_rand\27[m\27[K(mp_int*, int)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  242 |       \27[01;35m\27[Kmp_rand(&k, lon / 26)\27[m\27[K;\
+      |       \27[01;35m\27[K~~~~~~~^~~~~~~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:243:13:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_gcd\27[m\27[K(const mp_int*, const mp_int*, mp_int*)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  243 |       \27[01;35m\27[Kmp_gcd(&k, &p_1, &r)\27[m\27[K; // 互素\
+      |       \27[01;35m\27[K~~~~~~^~~~~~~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:246:15:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_exptmod\27[m\27[K(const mp_int*, const mp_int*, const mp_int*, mp_int*)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  246 |     \27[01;35m\27[Kmp_exptmod(&a, &k, &p, &r)\27[m\27[K;\
+      |     \27[01;35m\27[K~~~~~~~~~~^~~~~~~~~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:248:16:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_to_radix\27[m\27[K(const mp_int*, char*, size_t, size_t*, int)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  248 |     mp_to_radix(&r, tempR.get(), SIZE_MAX, &written, 10);\
+\27[01m\27[Ksrc/crypto--.cpp:251:18:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_read_radix\27[m\27[K(mp_int*, const char*, int)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  251 |     \27[01;35m\27[Kmp_read_radix(&sha, str.c_str(), 10)\27[m\27[K;\
+      |     \27[01;35m\27[K~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:253:16:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_to_radix\27[m\27[K(const mp_int*, char*, size_t, size_t*, int)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  253 |     mp_to_radix(&sha, tempSHA.get(), SIZE_MAX, &written, 0x10);\
+\27[01m\27[Ksrc/crypto--.cpp:255:11:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_mul\27[m\27[K(const mp_int*, const mp_int*, mp_int*)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  255 |     \27[01;35m\27[Kmp_mul(&x, &r, &s)\27[m\27[K;\
+      |     \27[01;35m\27[K~~~~~~^~~~~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:256:11:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_sub\27[m\27[K(const mp_int*, const mp_int*, mp_int*)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  256 |     \27[01;35m\27[Kmp_sub(&sha, &s, &s)\27[m\27[K;\
+      |     \27[01;35m\27[K~~~~~~^~~~~~~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:259:13:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_add\27[m\27[K(const mp_int*, const mp_int*, mp_int*)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  259 |       \27[01;35m\27[Kmp_add(&a1, &p_1, &a1)\27[m\27[K;\
+      |       \27[01;35m\27[K~~~~~~^~~~~~~~~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:261:16:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_to_radix\27[m\27[K(const mp_int*, char*, size_t, size_t*, int)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  261 |     mp_to_radix(&a1, tempA1.get(), SIZE_MAX, &written, 10);\
+\27[01m\27[Ksrc/crypto--.cpp:263:14:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_mulmod\27[m\27[K(const mp_int*, const mp_int*, const mp_int*, mp_int*)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  263 |     \27[01;35m\27[Kmp_mulmod(&k, &a1, &p_1, &temp3)\27[m\27[K;\
+      |     \27[01;35m\27[K~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:265:16:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_to_radix\27[m\27[K(const mp_int*, char*, size_t, size_t*, int)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  265 |     mp_to_radix(&a1, tempT.get(), SIZE_MAX, &written, 10);\
+\27[01m\27[Ksrc/crypto--.cpp:271:12:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_init\27[m\27[K(mp_int*)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  271 |     \27[01;35m\27[Kmp_init(&s)\27[m\27[K;\
+      |     \27[01;35m\27[K~~~~~~~^~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:273:18:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_read_radix\27[m\27[K(mp_int*, const char*, int)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  273 |     \27[01;35m\27[Kmp_read_radix(&s, a.c_str(), 10)\27[m\27[K;\
+      |     \27[01;35m\27[K~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~\27[m\27[K\
+\27[01m\27[Ksrc/crypto--.cpp:276:16:\27[m\27[K \27[01;35m\27[Kwarning: \27[m\27[Kignoring return value of ‘\27[01m\27[Kmp_err\27[01;32m\27[K mp_to_radix\27[m\27[K(const mp_int*, char*, size_t, size_t*, int)\27[m\27[K’ declared with attribute ‘\27[01m\27[Kwarn_unused_result\27[m\27[K’ [\27[01;35m\27[K-Wunused-result\27[m\27[K]\
+  276 |     mp_to_radix(&s, tempSHA, SIZE_MAX, &written, 0x10);\
+"
+}

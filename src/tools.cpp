@@ -1,4 +1,4 @@
-#include"tools.h"
+#include"../include/tools.h"
 namespace crypto__ {
 	/**
 	 *  将一个char字符数组转化为二进制

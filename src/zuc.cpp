@@ -1,4 +1,4 @@
-﻿#include "zuc.h"
+﻿#include "../include/zuc.h"
 namespace crypto__ {
 	uint32_t ZUC::AddMod(uint32_t a, uint32_t b)
 	{

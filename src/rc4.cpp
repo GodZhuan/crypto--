@@ -1,3 +1,4 @@
+#include <cstdint>
 #define _CRT_RAND_S  
 #include <stdlib.h>  
 #include<iostream>
@@ -5,17 +6,17 @@
 #include<bitset>
 #include<time.h>
 #include<string>
-#include "rc4.h"
+#include "../include/rc4.h"
 using namespace std;
 const char* WordList = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
 int* RC4::init_Key() {
     int index;
     uint32_t number;
-    rand_s(&number);
+    rand_r(&number);
     int keylen = int(double(number) / double(RAND_MAX) * 256);
     for (int i = 0; i < keylen; i++) {
-        rand_s(&number);
+        rand_r(&number);
         index = int(double(number) / double(RAND_MAX) * 63);
         Key[i] = WordList[index];
     }

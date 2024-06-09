@@ -2,6 +2,7 @@
 #define SHA256_H_
 
 #include "tommath.h"
+#include <cstring>
 #include<iostream>
 #include <string>
 #include <fstream>

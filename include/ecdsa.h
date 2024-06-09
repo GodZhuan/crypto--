@@ -68,7 +68,7 @@ namespace crypto__ {
 	public:
 		ECDSA();
 		~ECDSA();
-		void printECDSA(std::string& sh);
+		void printECDSA(const std::string& sh);
 	};
 }
 #endif // !_ECDSA_H_

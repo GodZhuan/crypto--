@@ -1,5 +1,9 @@
 #ifndef _CRYPTO__H_
 #define _CRYPTO__H_
+#include "aes.h"
+#include "fileproc.h"
+#include <algorithm>
+#include <cstring>
 namespace crypto__ {
 	enum class cryptoType {
 		Encrypt = 1, Decrypt, Hash
@@ -23,7 +27,7 @@ namespace crypto__ {
 		~CRYPTO__()
 		{
 		}
-		void encrypt(FileProc& fp, string& keyStr,size_t keyLen) {
+		void encrypt(FileProc& fp, std::string& keyStr,size_t keyLen) {
 			if (keyStr.size() == keyLen) {
 				switch (config.cryptoGraphicMode)
 				{
@@ -54,7 +58,7 @@ namespace crypto__ {
 				}
 			}
 		}
-		void decrypt(FileProc& fp, string& keyStr, size_t keyLen) {
+		void decrypt(FileProc& fp, std::string& keyStr, size_t keyLen) {
 			if (keyStr.size() == keyLen) {
 				switch (config.cryptoGraphicMode)
 				{

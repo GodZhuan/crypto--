@@ -1,4 +1,4 @@
-#include "sm4.h"
+#include "../include/sm4.h"
 namespace crypto__ {
 	void SM4::SM4_KeySchedule(uint8_t MK[], uint32_t rk[])
 	{

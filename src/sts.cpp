@@ -1,4 +1,4 @@
-#include"sts.h"
+#include"../include/sts.h"
 
 STS::STS()
 {

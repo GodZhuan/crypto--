@@ -5,13 +5,13 @@
 #include<time.h>
 #include <random>
 namespace crypto__ {
-	//Ñ­»·×óÒÆnÎ»
+	//å¾ªç¯å·¦ç§»nä½
 	inline uint32_t rotl32(uint32_t buf, int n) {
 		return (buf << n) | (buf >> (32 - n));
 	}
 
 	/**
-	* ½«Êı×éÖĞµÄÔªËØÑ­»·×óÒÆstepÎ»
+	* å°†æ•°ç»„ä¸­çš„å…ƒç´ å¾ªç¯å·¦ç§»stepä½
 	*/
 	static void leftLoop4int(uint8_t array[4], int step) {
 		uint8_t temp[4];
@@ -26,14 +26,14 @@ namespace crypto__ {
 		}
 	}
 	/**
-	 *  ½«Ò»¸öchar×Ö·ûÊı×é×ª»¯Îª¶ş½øÖÆ
-	 *  ´æµ½Ò»¸ö Byte Êı×éÖĞ
+	 *  å°†ä¸€ä¸ªcharå­—ç¬¦æ•°ç»„è½¬åŒ–ä¸ºäºŒè¿›åˆ¶
+	 *  å­˜åˆ°ä¸€ä¸ª Byte æ•°ç»„ä¸­
 	 */
 	void charToByte(uint8_t out[4][4], std::string& s);
 
 	int myrng(uint8_t* dst, int len, void* dat);
 
-	//Éú³ÉÖ¸¶¨×Ö³¤µÄËæ»ú×Ö·û´®
+	//ç”ŸæˆæŒ‡å®šå­—é•¿çš„éšæœºå­—ç¬¦ä¸²
 	std::string GetRandList(int len);
 
 	void ex_Eulid(mp_int* a, mp_int* b, mp_int* a1, mp_int* b1, mp_int* temp3);

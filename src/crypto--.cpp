@@ -140,13 +140,13 @@ CRYPTO__::CRYPTO__() {
 
       printf("\n---------------------------------------------------------------"
              "---------\n");
-      e.Ecc_encipher(szFullPath, fullPath); // 加密
+      e.Ecc_encipher(szFullPath.data(), fullPath); // 加密
       break;
     case cryptoType::Decrypt:
       printf("\n---------------------------------------------------------------"
              "---------\n");
       e.Ecc_loadKey(dirPath);
-      e.Ecc_decipher(szFullPath, fullPath); // 解密
+      e.Ecc_decipher(szFullPath.data(), fullPath); // 解密
 
       break;
     }

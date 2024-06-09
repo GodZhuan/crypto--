@@ -1,4 +1,4 @@
-#include "sm3.h"
+#include "../include/sm3.h"
 namespace crypto__ {
 	void SM3::BiToW(uint32_t Bi[], uint32_t W[])
 	{

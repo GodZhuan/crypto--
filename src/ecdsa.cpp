@@ -1,5 +1,6 @@
-#include "ecdsa.h"
-#include "tools.h"
+#include "../include/ecdsa.h"
+#include "../include/tools.h"
+#include <memory>
 namespace crypto__ {
 	ECDSA::ECDSA()
 	{
@@ -250,20 +251,20 @@ namespace crypto__ {
 		mp_clear(&u1);
 		mp_clear(&u2);
 	}
-	void ECDSA::printECDSA(std::string& sh)
+	void ECDSA::printECDSA(const std::string& sh)
 	{
-		std::unique_ptr<char[]> tempN(new char[800]());
-		std::unique_ptr<char[]> tempD(new char[800]());
-		std::unique_ptr<char[]> tempK(new char[800]());
-		std::unique_ptr<char[]> tempPX(new char[800]());
-		std::unique_ptr<char[]> tempPY(new char[800]());
-		std::unique_ptr<char[]> tempR(new char[800]());
-		std::unique_ptr<char[]> tempK1(new char[800]());
-		std::unique_ptr<char[]> tempT(new char[800]());
-		std::unique_ptr<char[]> tempSHA(new char[800]());
-		std::unique_ptr<char[]> tempS(new char[800]());
-		std::unique_ptr<char[]> tempS1(new char[800]());
-		std::unique_ptr<char[]> tempV(new char[800]());
+		std::unique_ptr<char[]> tempN(std::make_unique<char[]>(800));
+		std::unique_ptr<char[]> tempD(std::make_unique<char[]>(800));
+		std::unique_ptr<char[]> tempK(std::make_unique<char[]>(800));
+		std::unique_ptr<char[]> tempPX(std::make_unique<char[]>(800));
+		std::unique_ptr<char[]> tempPY(std::make_unique<char[]>(800));
+		std::unique_ptr<char[]> tempR(std::make_unique<char[]>(800));
+		std::unique_ptr<char[]> tempK1(std::make_unique<char[]>(800));
+		std::unique_ptr<char[]> tempT(std::make_unique<char[]>(800));
+		std::unique_ptr<char[]> tempSHA(std::make_unique<char[]>(800));
+		std::unique_ptr<char[]> tempS(std::make_unique<char[]>(800));
+		std::unique_ptr<char[]> tempS1(std::make_unique<char[]>(800));
+		std::unique_ptr<char[]> tempV(std::make_unique<char[]>(800));
 		cout << "请输入大素数的位数：";
 		cin >> lon;
 		sts.GetPrime(&p, &a, lon);
