@@ -1,0 +1,61 @@
+[
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/ecdsa.cpp.o", "src/ecdsa.cpp"],
+  "file": "src/ecdsa.cpp"
+},
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/des.cpp.o", "src/des.cpp"],
+  "file": "src/des.cpp"
+},
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/sm3.cpp.o", "src/sm3.cpp"],
+  "file": "src/sm3.cpp"
+},
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/aes.cpp.o", "src/aes.cpp"],
+  "file": "src/aes.cpp"
+},
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/sm4.cpp.o", "src/sm4.cpp"],
+  "file": "src/sm4.cpp"
+},
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/zuc.cpp.o", "src/zuc.cpp"],
+  "file": "src/zuc.cpp"
+},
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/crypto--.cpp.o", "src/crypto--.cpp"],
+  "file": "src/crypto--.cpp"
+},
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/tools.cpp.o", "src/tools.cpp"],
+  "file": "src/tools.cpp"
+},
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/rc4.cpp.o", "src/rc4.cpp"],
+  "file": "src/rc4.cpp"
+},
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/sha256.cpp.o", "src/sha256.cpp"],
+  "file": "src/sha256.cpp"
+},
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/ecc.cpp.o", "src/ecc.cpp"],
+  "file": "src/ecc.cpp"
+},
+{
+  "directory": "/home/blgbin/crypto--",
+  "arguments": ["/usr/local/bin/clang", "-c", "-Qunused-arguments", "-m64", "-std=c++23", "-o", "build/.objs/crypto--/linux/x86_64/release/src/sts.cpp.o", "src/sts.cpp"],
+  "file": "src/sts.cpp"
+}]
