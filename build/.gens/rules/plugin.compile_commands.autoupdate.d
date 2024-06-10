@@ -1,0 +1,34 @@
+{
+    files = {
+        "/home/blgbin/crypto--/xmake.lua",
+        "/home/blgbin/crypto--/.xmake/linux/x86_64/xmake.conf"
+    },
+    values = {
+        "include/aes.h",
+        "include/crypto--.h",
+        "include/des.h",
+        "include/ecc.h",
+        "include/ecdsa.h",
+        "include/fileproc.h",
+        "include/rc4.h",
+        "include/sha256.h",
+        "include/sm3.h",
+        "include/sm4.h",
+        "include/stdbool.h",
+        "include/sts.h",
+        "include/tools.h",
+        "include/zuc.h",
+        "src/aes.cpp",
+        "src/crypto--.cpp",
+        "src/des.cpp",
+        "src/ecc.cpp",
+        "src/ecdsa.cpp",
+        "src/rc4.cpp",
+        "src/sha256.cpp",
+        "src/sm3.cpp",
+        "src/sm4.cpp",
+        "src/sts.cpp",
+        "src/tools.cpp",
+        "src/zuc.cpp"
+    }
+}

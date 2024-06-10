@@ -10,27 +10,33 @@
 #include "../include/zuc.h"
 #include <chrono>
 #include <filesystem>
+#include <format>
 #include <iostream>
 #include <stdlib.h>
 using namespace crypto__;
 using std::cin;
 using std::cout;
 namespace fs = std::filesystem;
-mp_err err;
 
 int main(int argc, char *argv[]) {
   if (argc < 2) {
     std::cerr << "Usage: " << argv[0] << " aes|des|...\n";
     return 1;
   }
+  if (strcmp(argv[1], "test") == 0) {
+    config.contentsTypeMode = contentsType::File;
+    config.cryptoTypeMode = cryptoType::Encrypt;
+    config.cryptoGraphicMode = cryptoGraphic::AES;
+    config.inText = "../tests/demo.txt";
+  }
 
   // 选择处理文件或者是消息
   for (auto index = 1; index < argc; index++) {
-    if (!strcmp(argv[index], "-f")) {
+    if (strcmp(argv[index], "-f") == 0) {
       config.contentsTypeMode = contentsType::File;
       index++;
       config.inText = argv[index];
-    } else if (!strcmp(argv[index], "-m")) {
+    } else if (strcmp(argv[index], "-m") == 0) {
       config.contentsTypeMode = contentsType::Message;
       index++;
       config.inText = argv[index];
@@ -40,61 +46,64 @@ int main(int argc, char *argv[]) {
       config.cryptoTypeMode = cryptoType::Encrypt;
       index++;
       // 选择算法
-      if (!strcmp(argv[index], "aes")) {
+      if (strcmp(argv[index], "aes") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::AES;
-      } else if (!strcmp(argv[index], "ecc")) {
+      } else if (strcmp(argv[index], "ecc") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::ECC;
-      } else if (!strcmp(argv[index], "ecdsa")) {
+      } else if (strcmp(argv[index], "ecdsa") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::ECDSA;
-      } else if (!strcmp(argv[index], "ElGamal")) {
+      } else if (strcmp(argv[index], "ElGamal") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::ElGamal;
-      } else if (!strcmp(argv[index], "rc4")) {
+      } else if (strcmp(argv[index], "rc4") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::RC4;
-      } else if (!strcmp(argv[index], "sm3")) {
+      } else if (strcmp(argv[index], "sm3") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::SM3;
-      } else if (!strcmp(argv[index], "sm4")) {
+      } else if (strcmp(argv[index], "sm4") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::SM4;
-      } else if (!strcmp(argv[index], "zuc")) {
+      } else if (strcmp(argv[index], "zuc") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::ZUC;
       }
-    } else if (!strcmp(argv[index], "-d")) {
+    } else if (strcmp(argv[index], "-d") == 0) {
       config.cryptoTypeMode = cryptoType::Decrypt;
       index++;
       // 选择算法
-      if (!strcmp(argv[index], "aes")) {
+      if (strcmp(argv[index], "aes") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::AES;
-      } else if (!strcmp(argv[index], "ecc")) {
+      } else if (strcmp(argv[index], "ecc") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::ECC;
-      } else if (!strcmp(argv[index], "ecdsa")) {
+      } else if (strcmp(argv[index], "ecdsa") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::ECDSA;
-      } else if (!strcmp(argv[index], "ElGamal")) {
+      } else if (strcmp(argv[index], "ElGamal") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::ElGamal;
-      } else if (!strcmp(argv[index], "rc4")) {
+      } else if (strcmp(argv[index], "rc4") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::RC4;
-      } else if (!strcmp(argv[index], "sm3")) {
+      } else if (strcmp(argv[index], "sm3") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::SM3;
-      } else if (!strcmp(argv[index], "sm4")) {
+      } else if (strcmp(argv[index], "sm4") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::SM4;
-      } else if (!strcmp(argv[index], "zuc")) {
+      } else if (strcmp(argv[index], "zuc") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::ZUC;
       }
-    } else if (!strcmp(argv[index], "-h")) {
+    } else if (strcmp(argv[index], "-h") == 0) {
       config.cryptoTypeMode = cryptoType::Hash;
       index++;
-      if (!strcmp(argv[index], "sha256")) {
+      if (strcmp(argv[index], "sha256") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::SHA256;
-      } else if (!strcmp(argv[index], "zuc")) {
+      } else if (strcmp(argv[index], "zuc") == 0) {
         config.cryptoGraphicMode = cryptoGraphic::ZUC;
       }
     }
-    CRYPTO__ c;
   }
+  CRYPTO__ c;
 }
 
 CRYPTO__::CRYPTO__() {
   SHA256 sha256;
   int ret;
-  std::string dirPath, fileName, ext, msg;
+  std::string dirPath;
+  std::string fileName;
+  std::string ext;
+  std::string msg;
   fs::path fullPath;
   switch (config.contentsTypeMode) {
   case contentsType::File: {
@@ -160,13 +169,15 @@ CRYPTO__::CRYPTO__() {
       // 传入密钥和密钥文件所在文件夹
       e.Ecc_saveKey(dirPath);
 
-      printf("\n---------------------------------------------------------------"
-             "---------\n");
+      cout
+          << "\n---------------------------------------------------------------"
+             "---------\n";
       e.Ecc_encipher(config.inText.data(), fullPath); // 加密
       break;
     case cryptoType::Decrypt:
-      printf("\n---------------------------------------------------------------"
-             "---------\n");
+      cout
+          << "\n---------------------------------------------------------------"
+             "---------\n";
       e.Ecc_loadKey(dirPath);
       e.Ecc_decipher(config.inText.data(), fullPath); // 解密
 
@@ -184,7 +195,7 @@ CRYPTO__::CRYPTO__() {
     ECC ecc;
     STS sts;
 
-    int lon;
+    int lon = 0;
     string path; // 消息m的路径
     size_t written;
     mp_int p;   // p为安全素数
@@ -199,7 +210,7 @@ CRYPTO__::CRYPTO__() {
     mp_int a1;  // k的逆元
     mp_int b1;  // p-1的逆元
     mp_int temp3;
-    mp_err err;
+    mp_err err = MP_OKAY;
 
     std::unique_ptr<char[]> tempY(new char[800]());
     std::unique_ptr<char[]> tempR(new char[800]());
@@ -208,44 +219,57 @@ CRYPTO__::CRYPTO__() {
     std::unique_ptr<char[]> tempT(new char[800]());
 
     try {
-      if ((err = mp_init(&p)) != MP_OKAY) {
-        throw("Error initializing the p. %s", mp_error_to_string(err));
+      if ((err = mp_init(&p)); err != MP_OKAY) {
+        cerr << (format("Error initializing the p. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&a)) != MP_OKAY) {
-        throw("Error initializing the a. %s", mp_error_to_string(err));
+      if ((err = mp_init(&a)); err != MP_OKAY) {
+        cerr << (format("Error initializing the a. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&p_1)) != MP_OKAY) {
-        throw("Error initializing the p_1. %s", mp_error_to_string(err));
+      if ((err = mp_init(&p_1)); err != MP_OKAY) {
+        cerr << (format("Error initializing the p_1. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&x)) != MP_OKAY) {
-        throw("Error initializing the x. %s", mp_error_to_string(err));
+      if ((err = mp_init(&x)); err != MP_OKAY) {
+        cerr << (format("Error initializing the x. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&y)) != MP_OKAY) {
-        throw("Error initializing the y. %s", mp_error_to_string(err));
+      if ((err = mp_init(&y)); err != MP_OKAY) {
+        cerr << (format("Error initializing the y. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&a)) != MP_OKAY) {
-        throw("Error initializing the a. %s", mp_error_to_string(err));
+      if ((err = mp_init(&a)); err != MP_OKAY) {
+        cerr << (format("Error initializing the a. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&k)) != MP_OKAY) {
-        throw("Error initializing the k. %s", mp_error_to_string(err));
+      if ((err = mp_init(&k)); err != MP_OKAY) {
+        cerr << (format("Error initializing the k. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&r)) != MP_OKAY) {
-        throw("Error initializing the r. %s", mp_error_to_string(err));
+      if ((err = mp_init(&r)); err != MP_OKAY) {
+        cerr << (format("Error initializing the r. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&s)) != MP_OKAY) {
-        throw("Error initializing the s. %s", mp_error_to_string(err));
+      if ((err = mp_init(&s)); err != MP_OKAY) {
+        cerr << (format("Error initializing the s. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&sha)) != MP_OKAY) {
-        throw("Error initializing the sha. %s", mp_error_to_string(err));
+      if ((err = mp_init(&sha)); err != MP_OKAY) {
+        cerr << (format("Error initializing the sha. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&a1)) != MP_OKAY) {
-        throw("Error initializing the a1. %s", mp_error_to_string(err));
+      if ((err = mp_init(&a1)); err != MP_OKAY) {
+        cerr << (format("Error initializing the a1. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&b1)) != MP_OKAY) {
-        throw("Error initializing the b1. %s", mp_error_to_string(err));
+      if ((err = mp_init(&b1)); err != MP_OKAY) {
+        cerr << (format("Error initializing the b1. {}",
+                        mp_error_to_string(err)));
       }
-      if ((err = mp_init(&temp3)) != MP_OKAY) {
-        throw("Error initializing the temp3. %s", mp_error_to_string(err));
+      if ((err = mp_init(&temp3)); err != MP_OKAY) {
+        cerr << (format("Error initializing the temp3. {}",
+                        mp_error_to_string(err)));
       }
 
     } catch (const char *init_err) {
@@ -257,50 +281,57 @@ CRYPTO__::CRYPTO__() {
     sts.GetPrime(&p, &a, lon);
     err = mp_sub_d(&p, 1, &p_1);
     do {
-      mp_rand(&x, lon);
-    } while (mp_cmp(&x, &p_1) != -1 && mp_cmp_d(&x, 1) != 1); // 1<=x<p-1
+      err = mp_rand(&x, lon);
+    } while (err == MP_OKAY && mp_cmp(&x, &p_1) != -1 &&
+             mp_cmp_d(&x, 1) != 1); // 1<=x<p-1
+
     err = mp_exptmod(&a, &x, &p, &y);
-    printf("y是:\n");
     err = mp_to_radix(&y, tempY.get(), SIZE_MAX, &written, 10);
-    printf("%s\n", tempY.get());
+    cout << (format("y是:\n{}\n", tempY.get()));
+
     do {
       err = mp_rand(&k, lon / 26);
-      err = mp_gcd(&k, &p_1, &r); // 互素
-    } while (mp_cmp(&k, &p_1) != -1 || mp_cmp_d(&k, 1) != 1 ||
-             mp_cmp_d(&r, 1) != 0); // 1<=k<p-1且k与p-1互素
+      if (err == MP_OKAY) {
+        err = mp_gcd(&k, &p_1, &r); // 互素
+      }
+    } while (err == MP_OKAY &&
+             (mp_cmp(&k, &p_1) != -1 || mp_cmp_d(&k, 1) != 1 ||
+              mp_cmp_d(&r, 1) != 0)); // 1<=k<p-1且k与p-1互素
     err = mp_exptmod(&a, &k, &p, &r);
-    printf("a**k mod p是:\n");
     err = mp_to_radix(&r, tempR.get(), SIZE_MAX, &written, 10);
-    printf("%s\n", tempR.get());
+    cout << (format("a**k mod p是:\n{}\n", tempR.get()));
+
     string str = sha256.ShaFile(config.inText);
     err = mp_read_radix(&sha, str.c_str(), 10);
-    printf("SHA是:\n");
+
     err = mp_to_radix(&sha, tempSHA.get(), SIZE_MAX, &written, 0x10);
-    printf("%s\n", tempSHA.get());
+    cout << (format("SHA是:\n{}\n", tempSHA.get()));
+
     err = mp_mul(&x, &r, &s);
     err = mp_sub(&sha, &s, &s);
     ex_Eulid(&k, &p_1, &a1, &b1, &temp3);
-    while (mp_cmp_d(&a1, 0) != 1)
+    while (mp_cmp_d(&a1, 0) != 1 && err == MP_OKAY) {
       err = mp_add(&a1, &p_1, &a1);
-    printf("k**-1是:\n");
+    }
+
     err = mp_to_radix(&a1, tempA1.get(), SIZE_MAX, &written, 10);
-    printf("%s\n", tempA1.get());
+    cout << (format("k**-1是:\n{}\n", tempA1.get()));
+
     err = mp_mulmod(&k, &a1, &p_1, &temp3);
-    printf("k*k**-1 mod p是:\n");
     err = mp_to_radix(&a1, tempT.get(), SIZE_MAX, &written, 10);
-    printf("%s\n", tempT.get());
+    cout << (format("k*k**-1 mod p是:\n{}\n", tempT.get()));
   } break;
   case cryptoGraphic::SHA256: {
     mp_int s;
-    mp_err err;
-    size_t written;
-    err = mp_init(&s);
+    size_t written = 0;
+    mp_err err = mp_init(&s);
     string a = sha256.ShaFile(config.inText);
-    err = mp_read_radix(&s, a.c_str(), 10);
+    if (err == MP_OKAY) {
+      err = mp_read_radix(&s, a.c_str(), 10);
+    }
     char tempSHA[800] = {0};
-    printf("SHA是:\n");
     err = mp_to_radix(&s, tempSHA, SIZE_MAX, &written, 0x10);
-    printf("%s\n", tempSHA);
+    cout << (format("SHA是:\n{}\n", tempSHA));
 
   } break;
   case cryptoGraphic::RC4: {
@@ -361,18 +392,19 @@ CRYPTO__::CRYPTO__() {
     FileProc fp(config.inText, fullPath);
     uint8_t hash[32];
     sm3.SM3_HASH256(fp, hash);
-    for (auto i = 0; i < sizeof(hash); i++) {
-      printf("%x", hash[i]);
+    for (unsigned char &i : hash) {
+      cout << (format("{}", i));
     }
 
   } break;
   case cryptoGraphic::SM4: {
     SM4 sm4;
     string key;
-    uint8_t *keyStr, plain[16] = {0},
-                     cipher[16] = {
-                         0,
-                     };
+    uint8_t *keyStr;
+    uint8_t plain[16] = {0};
+    uint8_t cipher[16] = {
+        0,
+    };
     cout << "请输入密钥：";
     cin >> key;
     if (key.size() == 16) {
@@ -380,14 +412,14 @@ CRYPTO__::CRYPTO__() {
       FileProc fp(config.inText, fullPath);
       switch (config.cryptoTypeMode) {
       case cryptoType::Encrypt:
-        while (fp.read((char *)(plain), sizeof(plain))) {
+        while (fp.read(reinterpret_cast<char *>(plain), sizeof(plain)) != 0) {
           sm4.SM4_Encrypt(keyStr, plain, cipher);
           fp.write((char *)cipher, sizeof(cipher));
         }
         break;
       case cryptoType::Decrypt:
         // 解密 cipher.txt，并写入图片 flower1.jpg
-        while (fp.read((char *)cipher, sizeof(cipher))) {
+        while (fp.read((char *)cipher, sizeof(cipher)) != 0) {
           sm4.SM4_Decrypt(keyStr, cipher, plain);
           fp.write((char *)plain, sizeof(plain));
         }
@@ -400,10 +432,11 @@ CRYPTO__::CRYPTO__() {
   case cryptoGraphic::ZUC: {
     ZUC zuc;
     string key;
-    uint8_t *keyStr, plain[16] = {0},
-                     cipher[16] = {
-                         0,
-                     };
+    uint8_t *keyStr = nullptr;
+    uint8_t plain[16] = {0};
+    uint8_t cipher[16] = {
+        0,
+    };
     cout << "请输入密钥：";
     cin >> key;
     if (key.size() == 16) {
@@ -415,14 +448,14 @@ CRYPTO__::CRYPTO__() {
       uint32_t u32Random = g1();
       switch (config.cryptoTypeMode) {
       case cryptoType::Encrypt:
-        while (fp.read((char *)(plain), sizeof(plain))) {
+        while (fp.read((char *)(plain), sizeof(plain)) != 0) {
           // zuc.ZUC_Confidentiality(keyStr, u32Random, );
           fp.write((char *)cipher, sizeof(cipher));
         }
         break;
       case cryptoType::Decrypt:
         // 解密 cipher.txt，并写入图片 flower1.jpg
-        while (fp.read((char *)cipher, sizeof(cipher))) {
+        while (fp.read((char *)cipher, sizeof(cipher)) != 0) {
           // sm4.SM4_Decrypt(keyStr, cipher, plain);
           fp.write((char *)plain, sizeof(plain));
         }

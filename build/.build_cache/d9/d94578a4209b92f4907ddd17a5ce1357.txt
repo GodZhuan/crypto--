@@ -1,0 +1,10 @@
+{
+    errdata = "\27[1msrc/crypto--.cpp:282:7: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  282 |       mp_rand(&x, lon);\27[0m\
+      | \27[0;1;32m      ^~~~~~~ ~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:389:16: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  389 |       cout << (\27[0;32m\"%x\"\27[0m, hash[i]);\27[0m\
+      | \27[0;1;32m               ^~~~\
+\27[0m2 warnings generated.\
+"
+}
