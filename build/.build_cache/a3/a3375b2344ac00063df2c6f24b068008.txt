@@ -1,0 +1,11 @@
+{
+    errdata = "In file included from src/des.cpp:1:\
+\27[1msrc/../include/des.h:56:68: \27[0m\27[0;1;35mwarning: \27[0m\27[1mvolatile-qualified parameter type 'volatile bool[48]' is deprecated [-Wdeprecated-volatile]\27[0m\
+   56 |  \27[0;34mvoid\27[0m PC2_Transform(\27[0;34mconst\27[0m \27[0;34mbool\27[0m PC1bitStr[PC_1_SIZE], \27[0;34mvolatile\27[0m \27[0;34mbool\27[0m subKey[SUBKEY_LENGHT]);\27[0m\
+      | \27[0;1;32m                                                                   ^\
+\27[0m\27[1msrc/des.cpp:234:39: \27[0m\27[0;1;35mwarning: \27[0m\27[1mvolatile-qualified parameter type 'volatile bool[48]' is deprecated [-Wdeprecated-volatile]\27[0m\
+  234 |                         \27[0;34mvolatile\27[0m \27[0;34mbool\27[0m subKey[SUBKEY_LENGHT]) {\27[0m\
+      | \27[0;1;32m                                      ^\
+\27[0m2 warnings generated.\
+"
+}

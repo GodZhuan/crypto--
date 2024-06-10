@@ -1,13 +1,14 @@
 #include "../include/aes.h"
-#include "string.h"
+#include <algorithm>
+#include <cstring>
 namespace crypto__ {
 AES::AES(uint8_t *key) {
-  memcpy(Sbox, sBox, 256);
-  memcpy(InvSbox, invsBox, 256);
+  std::copy(sBox,sBox+256,Sbox);
+  std::copy(invsBox,invsBox+256,InvSbox);
   KeyExpansion(key, w);
 }
 
-AES::~AES() {}
+AES::~AES() = default;
 
 uint8_t *AES::Cipher(uint8_t *input) {
   uint8_t state[4][4];

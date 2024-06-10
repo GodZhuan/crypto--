@@ -1,0 +1,46 @@
+{
+    errdata = "\27[1msrc/crypto--.cpp:260:7: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+  260 |       mp_rand(&x, lon);\27[0m\
+      | \27[0;1;32m      ^~~~~~~ ~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:212:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  212 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the p. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:215:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  215 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the a. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:218:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  218 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the p_1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:221:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  221 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the x. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:224:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  224 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the y. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:227:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  227 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the a. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:230:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  230 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the k. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:233:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  233 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the r. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:236:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  236 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the s. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:239:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  239 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the sha. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:242:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  242 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the a1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:245:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  245 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the b1. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m\27[1msrc/crypto--.cpp:248:15: \27[0m\27[0;1;35mwarning: \27[0m\27[1mleft operand of comma operator has no effect [-Wunused-value]\27[0m\
+  248 |         \27[0;34mthrow\27[0m(\27[0;32m\"Error initializing the temp3. %s\"\27[0m, mp_error_to_string(err));\27[0m\
+      | \27[0;1;32m              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m14 warnings generated.\
+"
+}

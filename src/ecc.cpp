@@ -1,37 +1,57 @@
 #include "../include/ecc.h"
 #include <cstddef>
+#include <format>
+#include <iostream>
+#include <tommath.h>
 
 ECC::ECC() {
-  if ((err = mp_init(&GX)) != MP_OKAY) {
-    printf("Error initializing the GX. %s", mp_error_to_string(err));
+
+  mp_err err = MP_OKAY;
+  if (err = mp_init(&GX);err != MP_OKAY) {
+    cerr << (std::format("Error initializing the GX. {}",
+                         mp_error_to_string(err)));
     return;
   }
-  if ((err = mp_init(&GY)) != MP_OKAY) {
-    printf("Error initializing the GY. %s", mp_error_to_string(err));
+  
+  if (err = mp_init(&GY);err != MP_OKAY) {
+    cerr << (std::format("Error initializing the GY. {}",
+                         mp_error_to_string(err)));
     return;
   }
-  if ((err = mp_init(&K)) != MP_OKAY) {
-    printf("Error initializing the K. %s", mp_error_to_string(err));
+  
+  if (err = mp_init(&K);err != MP_OKAY) {
+    cerr << (std::format("Error initializing the K. {}",
+                         mp_error_to_string(err)));
     return;
   }
-  if ((err = mp_init(&A)) != MP_OKAY) {
-    printf("Error initializing the A. %s", mp_error_to_string(err));
+  
+  if (err = mp_init(&A);err != MP_OKAY) {
+    cerr << (std::format("Error initializing the A. {}",
+                         mp_error_to_string(err)));
     return;
   }
-  if ((err = mp_init(&B)) != MP_OKAY) {
-    printf("Error initializing the B. %s", mp_error_to_string(err));
+  
+  if (err = mp_init(&B);err != MP_OKAY) {
+    cerr << (std::format("Error initializing the B. {}",
+                         mp_error_to_string(err)));
     return;
   }
-  if ((err = mp_init(&QX)) != MP_OKAY) {
-    printf("Error initializing the QX. %s", mp_error_to_string(err));
+  
+  if (err = mp_init(&QX);err != MP_OKAY) {
+    cerr << (std::format("Error initializing the QX. {}",
+                         mp_error_to_string(err)));
     return;
   }
-  if ((err = mp_init(&QY)) != MP_OKAY) {
-    printf("Error initializing the QY. %s", mp_error_to_string(err));
+  
+  if (err = mp_init(&QY);err != MP_OKAY) {
+    cerr << (std::format("Error initializing the QY. {}",
+                         mp_error_to_string(err)));
     return;
   }
-  if ((err = mp_init(&P)) != MP_OKAY) {
-    printf("Error initializing the P. %s", mp_error_to_string(err));
+  
+  if (err = mp_init(&P);err != MP_OKAY) {
+    cerr << (std::format("Error initializing the P. {}",
+                         mp_error_to_string(err)));
     return;
   }
 }
@@ -59,50 +79,42 @@ void ECC::BuildParameters(void) {
 
 void ECC::PrintParameters(void) {
   char *t = new char[800]();
-  size_t written;
-  printf("椭圆曲线的参数如下(以十进制显示):\n");
-  printf("有限域 P 是:\n");
+  size_t written = 0;
 
   mp_err ret = mp_to_radix(&P, t, SIZE_MAX, &written, 10);
   if (ret == 0) { /* no error */
     temp = t;
-    printf("%s\n", temp.c_str());
+    cout<<format("椭圆曲线的参数如下(以十进制显示):\n有限域 P 是:\n{}\n",temp);
   }
 
-  printf("曲线参数 A 是:\n");
+  
   ret = mp_to_radix(&A, t, SIZE_MAX, &written, 10);
   tempA = t;
-  printf("%s\n", tempA.c_str());
+  cout<<format("曲线参数 A 是:\n{}\n",tempA);
 
-  printf("曲线参数 B 是:\n");
   ret = mp_to_radix(&B, t, SIZE_MAX, &written, 10);
   tempB = t;
-  printf("%s\n", tempB.c_str());
+  cout<<format("曲线参数 B 是:\n{}\n",tempB);
 
-  printf("曲线G点X坐标是:\n");
   ret = mp_to_radix(&GX, t, SIZE_MAX, &written, 10);
   tempGX = t;
-  printf("%s\n", tempGX.c_str());
+  cout<<format("曲线G点X坐标是:\n{}\n",tempGX);
 
-  printf("曲线G点Y坐标是:\n");
   ret = mp_to_radix(&GY, t, SIZE_MAX, &written, 10);
   tempGY = t;
-  printf("%s\n", tempGY.c_str());
+  cout<<format("曲线G点Y坐标是:\n{}\n",tempGY);
 
-  printf("私钥 K 是:\n");
   ret = mp_to_radix(&K, t, SIZE_MAX, &written, 10);
   tempK = t;
-  printf("%s\n", tempK.c_str());
+  cout<<format("私钥 K 是:\n{}\n",tempK);
 
-  printf("公钥X坐标是:\n");
   ret = mp_to_radix(&QX, t, SIZE_MAX, &written, 10);
   tempQX = t;
-  printf("%s\n", tempQX.c_str());
+  cout<<format("公钥X坐标是:\n{}\n",tempQX);
 
-  printf("公钥Y坐标是:\n");
   ret = mp_to_radix(&QY, t, SIZE_MAX, &written, 10);
   tempQY = t;
-  printf("%s\n", tempQY.c_str());
+  cout<<format("公钥Y坐标是:\n{}\n",tempQY);
 }
 
 std::string ECC::Encrypt(const std::string &plain, const std::string &key) {
@@ -119,7 +131,8 @@ int ECC::GetPrime(mp_int *m, int lon) {
 }
 
 void ECC::Get_B_X_Y(mp_int *x1, mp_int *y1, mp_int *b, mp_int *a, mp_int *p) {
-  mp_int tempx, tempy;
+  mp_int tempx;
+  mp_int tempy;
   mp_int temp;
   mp_int compare;
   mp_int temp1;

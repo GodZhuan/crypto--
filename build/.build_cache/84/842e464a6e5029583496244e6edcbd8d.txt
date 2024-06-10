@@ -1,0 +1,9 @@
+{
+    errdata = "\27[1msrc/sts.cpp:8:3: \27[0m\27[0;1;35mwarning: \27[0m\27[1mignoring return value of function declared with 'warn_unused_result' attribute [-Wunused-result]\27[0m\
+    8 |   mp_prime_rand(p, \27[0;32m10\27[0m, lon,\27[0m\
+      | \27[0;1;32m  ^~~~~~~~~~~~~ ~~~~~~~~~~~\
+\27[0m    9 |                 (rand() & \27[0;32m1\27[0m) ? \27[0;32m0\27[0m : \27[0;32m0x0008\27[0m | \27[0;32m0x0002\27[0m);\27[0m\
+      | \27[0;1;32m                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\
+\27[0m1 warning generated.\
+"
+}

@@ -1,7 +1,9 @@
 #include "../include/sm4.h"
 namespace crypto__ {
 void SM4::SM4_KeySchedule(uint8_t MK[], uint32_t rk[]) {
-  uint32_t tmp, buf, K[36];
+  uint32_t tmp = 0;
+  uint32_t buf = 0;
+  uint32_t K[36];
   int i;
   for (i = 0; i < 4; i++) {
     K[i] = SM4_FK[i] ^ ((MK[4 * i] << 24) | (MK[4 * i + 1] << 16) |
@@ -20,7 +22,10 @@ void SM4::SM4_KeySchedule(uint8_t MK[], uint32_t rk[]) {
 }
 
 void SM4::SM4_Encrypt(uint8_t MK[], uint8_t PlainText[], uint8_t CipherText[]) {
-  uint32_t rk[32], X[36], tmp, buf;
+  uint32_t rk[32];
+  uint32_t X[36];
+  uint32_t tmp = 0;
+  uint32_t buf = 0;
   int i, j;
   SM4_KeySchedule(MK, rk);
   for (j = 0; j < 4; j++) {

@@ -21,31 +21,31 @@ uint32_t ZUC::L2(uint32_t X) {
 }
 
 uint8_t ZUC::BitValue(uint32_t M[], uint32_t i) {
-  int j, k;
-  j = i >> 5;
-  k = i & 0x1f;
-  if (M[j] & (0x1 << (31 - k)))
+  auto j = i >> 5;
+  auto k = i & 0x1f;
+  if ((M[j] & (0x1 << (31 - k))) != 0U) {
     return 1;
-  else
-    return 0;
+  }
+  return 0;
 }
 
 uint32_t ZUC::GetWord(uint32_t k[],
                       uint32_t i) // 获取字串中的从第i个比特值开始的字
 {
-  int j, m;
-  uint32_t word;
-  j = i >> 5;
-  m = i & 0x1f;
-  if (m == 0)
+  uint32_t word = 0;
+  auto j = i >> 5;
+  auto m = i & 0x1f;
+  if (m == 0) {
     word = k[j];
-  else
+  } else {
     word = (k[j] << m) | (k[j + 1] >> (32 - m));
+  }
   return word;
 }
 
 void ZUC::LFSRWithInitMode(uint32_t LFSR_S[], uint32_t u) {
-  uint32_t v = LFSR_S[0], i;
+  uint32_t v = LFSR_S[0];
+  uint32_t i = 0;
   v = AddMod(v, PowMod(LFSR_S[15], 15));
   v = AddMod(v, PowMod(LFSR_S[13], 17));
   v = AddMod(v, PowMod(LFSR_S[10], 21));
@@ -122,7 +122,7 @@ void ZUC::ZUC_Init(uint8_t k[], uint8_t iv[], uint32_t LFSR_S[],
   }
   F_R[0] = 0x00; // R1
   F_R[1] = 0x00; // R2
-  while (count)  // 32 times
+  while (count != 0U)  // 32 times
   {
     uint32_t W;
     BR(LFSR_S, BR_X); // BitReconstruction

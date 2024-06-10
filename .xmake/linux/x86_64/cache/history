@@ -5,6 +5,13 @@
         "xmake ",
         "xmake run",
         "xmake ",
-        "xmake run"
+        "xmake run",
+        "xmake build crypto--",
+        "xmake run crypto--",
+        "xmake run crypto--",
+        "xmake build crypto--",
+        "xmake build crypto--",
+        "xmake run crypto-- -f /home/blgbin/crypto--/tests/text1.txt -e aes",
+        "xmake l /home/blgbin/.vscode-server/extensions/tboox.xmake-vscode-2.3.5/assets/explorer.lua"
     }
 }

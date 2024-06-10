@@ -1,30 +1,30 @@
 {
+    ["tool_target_crypto--_linux_x86_64_ld"] = {
+        toolname = "clangxx",
+        toolchain_info = {
+            plat = "linux",
+            arch = "x86_64",
+            name = "llvm",
+            cachekey = "llvm_arch_x86_64_plat_linux"
+        },
+        program = "/usr/local/bin/clang++"
+    },
     llvm_arch_x86_64_plat_linux = {
-        plat = "linux",
-        cross = "",
-        __global = true,
-        sdkdir = "/usr/local",
+        arch = "x86_64",
         bindir = "/usr/local/bin",
-        arch = "x86_64"
+        sdkdir = "/usr/local",
+        __global = true,
+        cross = "",
+        plat = "linux"
     },
     ["tool_target_crypto--_linux_x86_64_cxx"] = {
         toolname = "clang",
-        program = "/usr/local/bin/clang",
         toolchain_info = {
-            name = "llvm",
-            cachekey = "llvm_arch_x86_64_plat_linux",
+            plat = "linux",
             arch = "x86_64",
-            plat = "linux"
-        }
-    },
-    ["tool_target_crypto--_linux_x86_64_ld"] = {
-        toolname = "clangxx",
-        program = "/usr/local/bin/clang++",
-        toolchain_info = {
             name = "llvm",
-            cachekey = "llvm_arch_x86_64_plat_linux",
-            arch = "x86_64",
-            plat = "linux"
-        }
+            cachekey = "llvm_arch_x86_64_plat_linux"
+        },
+        program = "/usr/local/bin/clang"
     }
 }
