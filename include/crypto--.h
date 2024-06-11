@@ -2,9 +2,9 @@
 #define _CRYPTO__H_
 #include "aes.h"
 #include "fileproc.h"
-#include <algorithm>
 #include <cstring>
 #include <string>
+#include <unordered_map>
 namespace crypto__ {
 enum class cryptoType { Encrypt = 1, Decrypt, Hash };
 enum class contentsType { File = 1, Message };
@@ -25,6 +25,19 @@ static struct config {
   cryptoGraphic cryptoGraphicMode;
   std::string inText;
 } config;
+
+const static std::unordered_map<std::string, cryptoGraphic> cryptoMap = {
+    {"aes", cryptoGraphic::AES},
+    {"ecc", cryptoGraphic::ECC},
+    {"ecdsa", cryptoGraphic::ECDSA},
+    {"ElGamal", cryptoGraphic::ElGamal},
+    {"rc4", cryptoGraphic::RC4},
+    {"sm3", cryptoGraphic::SM3},
+    {"sm4", cryptoGraphic::SM4},
+    {"zuc", cryptoGraphic::ZUC},
+    {"sha256", cryptoGraphic::SHA256}
+};
+
 class CRYPTO__ {
 public:
   CRYPTO__();

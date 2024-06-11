@@ -9,10 +9,10 @@
 #include "../include/tools.h"
 #include "../include/zuc.h"
 #include <chrono>
+#include <cstdlib>
 #include <filesystem>
 #include <format>
 #include <iostream>
-#include <stdlib.h>
 using namespace crypto__;
 using std::cin;
 using std::cout;
@@ -23,7 +23,8 @@ int main(int argc, char *argv[]) {
     std::cerr << "Usage: " << argv[0] << " aes|des|...\n";
     return 1;
   }
-  if (strcmp(argv[1], "test") == 0) {
+  auto *argvTemp = argv[1];
+  if (strcmp(argvTemp, "test") == 0) {
     config.contentsTypeMode = contentsType::File;
     config.cryptoTypeMode = cryptoType::Encrypt;
     config.cryptoGraphicMode = cryptoGraphic::AES;
@@ -32,65 +33,48 @@ int main(int argc, char *argv[]) {
 
   // 选择处理文件或者是消息
   for (auto index = 1; index < argc; index++) {
-    if (strcmp(argv[index], "-f") == 0) {
+    auto *argvTemp = argv[index];
+    if (strcmp(argvTemp, "-f") == 0) {
       config.contentsTypeMode = contentsType::File;
       index++;
-      config.inText = argv[index];
-    } else if (strcmp(argv[index], "-m") == 0) {
+      config.inText = argvTemp;
+    } else if (strcmp(argvTemp, "-m") == 0) {
       config.contentsTypeMode = contentsType::Message;
       index++;
-      config.inText = argv[index];
+      config.inText = argvTemp;
     }
     // 选择加密或者是解密或者是哈希
-    if (!strcmp(argv[index], "-e")) {
+    if (strcmp(argvTemp, "-e") == 0) {
       config.cryptoTypeMode = cryptoType::Encrypt;
       index++;
+      argvTemp = argv[index];
       // 选择算法
-      if (strcmp(argv[index], "aes") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::AES;
-      } else if (strcmp(argv[index], "ecc") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::ECC;
-      } else if (strcmp(argv[index], "ecdsa") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::ECDSA;
-      } else if (strcmp(argv[index], "ElGamal") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::ElGamal;
-      } else if (strcmp(argv[index], "rc4") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::RC4;
-      } else if (strcmp(argv[index], "sm3") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::SM3;
-      } else if (strcmp(argv[index], "sm4") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::SM4;
-      } else if (strcmp(argv[index], "zuc") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::ZUC;
+      if (index < argc && cryptoMap.find(argvTemp) != cryptoMap.end()) {
+        config.cryptoGraphicMode = cryptoMap.at(argvTemp);
+      } else {
+        std::cerr << "Error: -d requires a valid decryption algorithm.\n";
+        return 1;
       }
-    } else if (strcmp(argv[index], "-d") == 0) {
+    } else if (strcmp(argvTemp, "-d") == 0) {
       config.cryptoTypeMode = cryptoType::Decrypt;
-      index++;
+      ++index;
+      argvTemp = argv[index];
       // 选择算法
-      if (strcmp(argv[index], "aes") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::AES;
-      } else if (strcmp(argv[index], "ecc") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::ECC;
-      } else if (strcmp(argv[index], "ecdsa") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::ECDSA;
-      } else if (strcmp(argv[index], "ElGamal") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::ElGamal;
-      } else if (strcmp(argv[index], "rc4") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::RC4;
-      } else if (strcmp(argv[index], "sm3") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::SM3;
-      } else if (strcmp(argv[index], "sm4") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::SM4;
-      } else if (strcmp(argv[index], "zuc") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::ZUC;
+      if (index < argc && cryptoMap.find(argvTemp) != cryptoMap.end()) {
+        config.cryptoGraphicMode = cryptoMap.at(argvTemp);
+      } else {
+        std::cerr << "Error: -d requires a valid decryption algorithm.\n";
+        return 1;
       }
-    } else if (strcmp(argv[index], "-h") == 0) {
+    } else if (strcmp(argvTemp, "-h") == 0) {
       config.cryptoTypeMode = cryptoType::Hash;
       index++;
-      if (strcmp(argv[index], "sha256") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::SHA256;
-      } else if (strcmp(argv[index], "zuc") == 0) {
-        config.cryptoGraphicMode = cryptoGraphic::ZUC;
+      argvTemp = argv[index];
+      if (index < argc && cryptoMap.find(argvTemp) != cryptoMap.end()) {
+        config.cryptoGraphicMode = cryptoMap.at(argvTemp);
+      } else {
+        std::cerr << "Error: -d requires a valid decryption algorithm.\n";
+        return 1;
       }
     }
   }

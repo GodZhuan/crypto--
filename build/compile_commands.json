@@ -1,0 +1,74 @@
+[
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/ecdsa.cpp.o -c /home/blgbin/crypto--/src/ecdsa.cpp",
+  "file": "/home/blgbin/crypto--/src/ecdsa.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/ecdsa.cpp.o"
+},
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/des.cpp.o -c /home/blgbin/crypto--/src/des.cpp",
+  "file": "/home/blgbin/crypto--/src/des.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/des.cpp.o"
+},
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/sm3.cpp.o -c /home/blgbin/crypto--/src/sm3.cpp",
+  "file": "/home/blgbin/crypto--/src/sm3.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/sm3.cpp.o"
+},
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/aes.cpp.o -c /home/blgbin/crypto--/src/aes.cpp",
+  "file": "/home/blgbin/crypto--/src/aes.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/aes.cpp.o"
+},
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/sm4.cpp.o -c /home/blgbin/crypto--/src/sm4.cpp",
+  "file": "/home/blgbin/crypto--/src/sm4.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/sm4.cpp.o"
+},
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/zuc.cpp.o -c /home/blgbin/crypto--/src/zuc.cpp",
+  "file": "/home/blgbin/crypto--/src/zuc.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/zuc.cpp.o"
+},
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/crypto--.cpp.o -c /home/blgbin/crypto--/src/crypto--.cpp",
+  "file": "/home/blgbin/crypto--/src/crypto--.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/crypto--.cpp.o"
+},
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/tools.cpp.o -c /home/blgbin/crypto--/src/tools.cpp",
+  "file": "/home/blgbin/crypto--/src/tools.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/tools.cpp.o"
+},
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/rc4.cpp.o -c /home/blgbin/crypto--/src/rc4.cpp",
+  "file": "/home/blgbin/crypto--/src/rc4.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/rc4.cpp.o"
+},
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/sha256.cpp.o -c /home/blgbin/crypto--/src/sha256.cpp",
+  "file": "/home/blgbin/crypto--/src/sha256.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/sha256.cpp.o"
+},
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/ecc.cpp.o -c /home/blgbin/crypto--/src/ecc.cpp",
+  "file": "/home/blgbin/crypto--/src/ecc.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/ecc.cpp.o"
+},
+{
+  "directory": "/home/blgbin/crypto--/build",
+  "command": "/usr/local/bin/clang++ -g -std=c++23 -m64 -o CMakeFiles/crypto--.dir/src/sts.cpp.o -c /home/blgbin/crypto--/src/sts.cpp",
+  "file": "/home/blgbin/crypto--/src/sts.cpp",
+  "output": "CMakeFiles/crypto--.dir/src/sts.cpp.o"
+}
+]
